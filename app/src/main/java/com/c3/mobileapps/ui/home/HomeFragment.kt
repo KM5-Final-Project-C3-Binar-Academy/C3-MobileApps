@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
         listCategory.add(CategoryCourse("2","Product Management","R.id.apa"))
         listCategory.add(CategoryCourse("3","Web Development","R.id.apa"))
         listCategory.add(CategoryCourse("4","Android Development","R.id.apa"))
+        listCategory.add(CategoryCourse("5","AI Development","R.id.apa"))
 
         val adapter = CategoryCourseAdapter(listCategory)
         binding.rvCategoryCourse.adapter = adapter
