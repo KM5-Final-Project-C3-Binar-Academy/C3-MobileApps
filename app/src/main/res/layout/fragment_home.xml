@@ -6,9 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
 
+
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_category_course"
@@ -20,6 +23,11 @@
             tools:listitem="@layout/category_course_item"/>
     </androidx.core.widget.NestedScrollView>
 
+    <Button
+        android:id="@+id/tvCategoryAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lihat Semua Kategori!" />
 
 
 </FrameLayout>

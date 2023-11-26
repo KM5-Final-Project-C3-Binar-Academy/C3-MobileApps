@@ -1,14 +1,17 @@
 package com.c3.mobileapps.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.CategoryCourseAdapter
 import com.c3.mobileapps.data.remote.model.response.course.CategoryCourse
 import com.c3.mobileapps.databinding.FragmentHomeBinding
+import com.c3.mobileapps.ui.home.viewAll.ViewAllCourseFragment
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -34,6 +37,15 @@ class HomeFragment : Fragment() {
         val adapter = CategoryCourseAdapter(listCategory)
         binding.rvCategoryCourse.adapter = adapter
         binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
+        binding.tvCategoryAll.setOnClickListener {
+            val viewAllFragment = ViewAllCourseFragment()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, viewAllFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+
+            Log.d("Mencoba Fragment", "Tertekan!")
+        }
     }
 
 }
