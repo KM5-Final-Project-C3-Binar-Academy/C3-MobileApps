@@ -7,14 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.c3.mobileapps.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.CategoryCourseAdapter
-import com.c3.mobileapps.data.remote.model.response.course.CategoryCourse
+import com.c3.mobileapps.adapters.PopulerCourseAdapter
+import com.c3.mobileapps.data.remote.model.response.course.Category
+import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentHomeBinding
-import com.c3.mobileapps.ui.home.viewAll.ViewAllCourseFragment
+import com.c3.mobileapps.utils.Status
+import com.google.gson.Gson
+import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private val homeViewModel: HomeViewModel by inject()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,26 +31,54 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listCategory = mutableListOf<CategoryCourse>()
+        homeViewModel.getAllCategory().observe(viewLifecycleOwner){
+            when (it.status){
+                Status.SUCCESS -> {
+                    Log.e("Cek Data", Gson().toJson(it.data))
+                    val response = it.data?.data
 
-        listCategory.add(CategoryCourse("1","UI/UX Design","R.id.apa"))
-        listCategory.add(CategoryCourse("2","Product Management","R.id.apa"))
-        listCategory.add(CategoryCourse("3","Web Development","R.id.apa"))
-        listCategory.add(CategoryCourse("4","Android Development","R.id.apa"))
-        listCategory.add(CategoryCourse("5","AI Development","R.id.apa"))
+                    val listCategory: List<Category> = response.orEmpty().filterNotNull()
+                    val adapter = CategoryCourseAdapter(listCategory)
+                    binding.rvCategoryCourse.adapter = adapter
+                    binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
 
-        val adapter = CategoryCourseAdapter(listCategory)
-        binding.rvCategoryCourse.adapter = adapter
-        binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
-        binding.tvCategoryAll.setOnClickListener {
-            val viewAllFragment = ViewAllCourseFragment()
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, viewAllFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+                }
+                Status.ERROR -> {
 
-            Log.d("Mencoba Fragment", "Tertekan!")
+                }
+                Status.LOADING -> {
+
+                }
+            }
         }
+
+        homeViewModel.getAllCourse().observe(viewLifecycleOwner){
+            when (it.status){
+                Status.SUCCESS -> {
+                    Log.e("Cek Data", Gson().toJson(it.data))
+                    val response = it.data?.data
+
+                    val listCourse: List<Course> = response.orEmpty().filterNotNull()
+                    val adapter = PopulerCourseAdapter(listCourse)
+                    binding.rvPopulerCourse.adapter = adapter
+                    binding.rvPopulerCourse.layoutManager = LinearLayoutManager(
+                        requireActivity(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+
+                }
+                Status.ERROR -> {
+
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        }
+
+
+
     }
 
 }
