@@ -1,6 +1,7 @@
 package com.c3.mobileapps.data.remote.model.response.course
 
 import com.c3.mobileapps.R
+import com.c3.mobileapps.data.remote.model.response.course.ListKelas
 
 object Kelas {
     val kelas:List<Any>
