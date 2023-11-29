@@ -1,19 +1,48 @@
 package com.c3.mobileapps.ui.course
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.c3.mobileapps.data.repository.CourseRepository
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.c3.mobileapps.data.database.courseDB.TbCourse
+import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
+import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class CourseViewModel(private val courseRep: CourseRepository): ViewModel() {
+class CourseViewModel(private val repository: DataRepository): ViewModel() {
 
-    fun getAllCourse() = liveData(Dispatchers.IO) {
+    val readMenu: LiveData<List<TbCourse>> = repository.local.readCourse().asLiveData()
+    private fun insertMenu(tbCourse: TbCourse) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertCourse(tbCourse)
+    }
+
+    private var _listCourse: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
+    val listCourse: LiveData<Resource<CourseResponse>> get() = _listCourse
+    fun getListCourse() = viewModelScope.launch {
+        getAllCourse()
+    }
+
+    private suspend fun getAllCourse() {
         try {
-            emit(Resource.success( courseRep.getCourse()))
+            val responses = repository.remote.getCourse()
+            _listCourse.value = Resource.success(responses)
+
+            val listCourse = _listCourse.value!!.data
+            if (listCourse != null) {
+                offlineMenu(listCourse)
+            }
+
         } catch (exception: Exception) {
-            emit(Resource.error(null,exception.message ?: "Error Occurred!"))
+            _listCourse.value = Resource.error( null,  exception.message ?: "Error Occurred!")
         }
+    }
+
+    private fun offlineMenu(courseResponse: CourseResponse) {
+        val course = TbCourse(courseResponse)
+        insertMenu(course)
     }
 
 

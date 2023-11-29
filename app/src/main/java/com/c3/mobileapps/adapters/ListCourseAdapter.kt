@@ -3,16 +3,18 @@ package com.c3.mobileapps.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Course
+import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.databinding.ItemKelasBinding
+import com.c3.mobileapps.utils.CourseDiffUtil
 
 
+class ListCourseAdapter(private var data :List<Course>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-class ListCourseAdapter(private var data: List<Course>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             ItemKelasBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,6 +27,13 @@ class ListCourseAdapter(private var data: List<Course>) :
     }
 
     override fun getItemCount(): Int = data.size
+
+    fun setData(courseResponse: CourseResponse) {
+        val diffUtil = CourseDiffUtil(data, courseResponse.data)
+        val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
+        data = courseResponse.data
+        diffUtilResult.dispatchUpdatesTo(this)
+    }
 
     class CourseHolder(private val binding: ItemKelasBinding) :
         RecyclerView.ViewHolder(binding.root) {

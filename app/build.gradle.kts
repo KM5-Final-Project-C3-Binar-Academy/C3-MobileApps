@@ -4,6 +4,7 @@ plugins {
 	id ("androidx.navigation.safeargs")
 	id ("kotlin-parcelize")
 	id ("kotlin-kapt")
+	id("com.google.devtools.ksp")
 }
 
 android {
@@ -73,7 +74,7 @@ dependencies {
 
 	/* Room */
 	implementation ("androidx.room:room-runtime:2.6.0")
-	kapt("androidx.room:room-compiler:2.6.0")
+	ksp("androidx.room:room-compiler:2.5.0")
 	implementation ("androidx.room:room-ktx:2.6.0")
 
 	/* LiveData ViewModel */
