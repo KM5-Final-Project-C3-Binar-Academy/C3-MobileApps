@@ -1,19 +1,17 @@
 package com.c3.mobileapps.adapters
 
-import android.annotation.SuppressLint
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.c3.mobileapps.R
-import com.c3.mobileapps.data.listCourses.CoursesData
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemKelasBinding
-import com.c3.mobileapps.ui.course.CourseFragment
 
 
-class ListCourseAdapter(private val context: CourseFragment,
-                        private var data: List<CoursesData?>) :
+
+class ListCourseAdapter(private var data: List<Course>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -21,29 +19,17 @@ class ListCourseAdapter(private val context: CourseFragment,
         return CourseHolder(binding)
     }
 
-
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewCourseHolder = holder as CourseHolder
-        viewCourseHolder.bindContent(data[position] as CoursesData)
-
-        Glide.with(context)
-            .load(data[position]?.image)
-            .into(holder.image)
+        viewCourseHolder.bindContent(data[position])
     }
 
     override fun getItemCount(): Int = data.size
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(datalist: List<CoursesData?>){
-        this.data = datalist
-        notifyDataSetChanged()
-    }
 
     class CourseHolder(private val binding: ItemKelasBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val image: ImageView = itemView.findViewById(R.id.imageView)
-        fun bindContent(listKelas: CoursesData) {
+        fun bindContent(listKelas: Course) {
             binding.tvNamaKelas.text = listKelas.name
             binding.tvCategory.text = listKelas.courseCategory?.name
             binding.tvAuthor.text = listKelas.author
@@ -51,6 +37,11 @@ class ListCourseAdapter(private val context: CourseFragment,
             binding.tvRating.text = listKelas.rating.toString()
             binding.tvDurasi.text = "?"
             binding.tvJumlahModul.text = "?"
+
+            Glide.with(binding.root.context)
+                .load(listKelas.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.imageView)
         }
 
     }

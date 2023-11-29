@@ -2,15 +2,15 @@ package com.c3.mobileapps.ui.course
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.c3.mobileapps.data.remote.model.APIService
-import com.c3.mobileapps.util.Resource
+import com.c3.mobileapps.data.repository.CourseRepository
+import com.c3.mobileapps.utils.Resource
 import kotlinx.coroutines.Dispatchers
 
-class CourseViewModel(private val apiService: APIService): ViewModel() {
+class CourseViewModel(private val courseRep: CourseRepository): ViewModel() {
 
-    fun getAllCategory() = liveData(Dispatchers.IO) {
+    fun getAllCourse() = liveData(Dispatchers.IO) {
         try {
-            emit(Resource.success( apiService.getCourses()))
+            emit(Resource.success( courseRep.getCourse()))
         } catch (exception: Exception) {
             emit(Resource.error(null,exception.message ?: "Error Occurred!"))
         }

@@ -2,6 +2,7 @@ package com.c3.mobileapps.di
 
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.CourseRepository
+import com.c3.mobileapps.ui.course.CourseViewModel
 import com.c3.mobileapps.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -22,5 +23,6 @@ object KoinModule {
     val viewModelModule
         get() = module {
             viewModel { HomeViewModel(get()) }
+            viewModel { CourseViewModel(get())}
         }
 }
