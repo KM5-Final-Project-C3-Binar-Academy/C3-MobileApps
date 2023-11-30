@@ -3,6 +3,7 @@ plugins {
 	id("org.jetbrains.kotlin.android")
 	id ("androidx.navigation.safeargs")
 	id ("kotlin-parcelize")
+	id ("kotlin-kapt")
 }
 
 android {
@@ -54,4 +55,29 @@ dependencies {
 	/* Navigation */
 	implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
 	implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+
+	/* Retrofit */
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+	/* Gson */
+	implementation("com.google.code.gson:gson:2.10.1")
+
+	/* Glide */
+	implementation("com.github.bumptech.glide:glide:4.16.0")
+
+	/* koin */
+	implementation ("io.insert-koin:koin-android:3.5.0")
+	implementation ("io.insert-koin:koin-android-compat:3.5.0")
+
+	/* Room */
+	implementation ("androidx.room:room-runtime:2.6.0")
+	kapt("androidx.room:room-compiler:2.6.0")
+	implementation ("androidx.room:room-ktx:2.6.0")
+
+	/* LiveData ViewModel */
+	implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+	implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+	implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 }

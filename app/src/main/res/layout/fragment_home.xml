@@ -69,8 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_category_course"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -136,6 +135,44 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/see_all_pop_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Semua"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_category_course" />
+
+            <HorizontalScrollView
+                android:id="@+id/hsv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/see_all_pop_course">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/category_chip_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:chipSpacing="8dp"
+                    app:singleLine="true" />
+            </HorizontalScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_populer_course"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hsv"
+                app:spanCount="2"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_kelas" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.core.widget.NestedScrollView>
