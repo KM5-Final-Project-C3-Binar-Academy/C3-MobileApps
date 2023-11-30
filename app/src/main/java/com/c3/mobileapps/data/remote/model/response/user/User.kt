@@ -1,8 +1,11 @@
 package com.c3.mobileapps.data.remote.model.response.user
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class User(
     @SerializedName("admin")
     var admin: Boolean?,
@@ -20,4 +23,4 @@ data class User(
     var phoneNumber: String?,
     @SerializedName("updatedAt")
     var updatedAt: String?
-)
+): Parcelable

@@ -78,7 +78,6 @@
             android:checkable="true"
             android:checked="true"
             android:clickable="true"
-
             android:text="All"
             app:layout_constraintEnd_toStartOf="@id/cpKelasPremium"
             app:layout_constraintStart_toStartOf="parent"

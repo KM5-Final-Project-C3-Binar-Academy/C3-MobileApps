@@ -6,6 +6,7 @@ import com.c3.mobileapps.data.repository.CourseRepository
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.data.repository.RoomRepository
 import com.c3.mobileapps.ui.course.CourseViewModel
+import com.c3.mobileapps.ui.detailCourse.DetailCourseViewModel
 import com.c3.mobileapps.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -35,5 +36,6 @@ object KoinModule {
         get() = module {
             viewModel { HomeViewModel(get()) }
             viewModel { CourseViewModel(get())}
+            viewModel { DetailCourseViewModel()}
         }
 }

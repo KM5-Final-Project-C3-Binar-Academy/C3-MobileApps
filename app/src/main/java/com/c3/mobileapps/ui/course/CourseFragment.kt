@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentCourseBinding
@@ -132,7 +135,10 @@ class CourseFragment : Fragment() {
     }
 
     private fun setupRvCategory(){
-        listCourseAdapter = ListCourseAdapter(emptyList())
+        listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
+            val bundle = bundleOf("pickItem" to pickItem)
+            findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
+        })
         binding.rvCourse.setHasFixedSize(true)
         binding.rvCourse.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
