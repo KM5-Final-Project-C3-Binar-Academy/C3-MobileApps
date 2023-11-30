@@ -2,6 +2,7 @@ package com.c3.mobileapps.adapters
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -42,19 +43,24 @@ class ListCourseAdapter(private var data :List<Course>,  private var listener: (
     class CourseHolder(private val binding: ItemKelasFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bindContent(listKelas: Course) {
-            binding.tvNamaKelas.text = listKelas.name
-            binding.deskripsiJudulKelas.text = listKelas.courseCategory?.name
-            binding.creatorKelas.text = listKelas.author
-            binding.levelNameKelas.text = listKelas.difficulty
-            binding.rating.text = listKelas.rating.toString()
-            binding.durasiKelas.text = "?"
-            binding.jumlahModulKelas.text = "?"
-
+        fun bindContent(data: Course) {
+            binding.tvNamaKelas.text = data.courseCategory?.name
+            binding.deskripsiJudulKelas.text = data.name
+            binding.creatorKelas.text = "by ${data.author}"
+            binding.levelNameKelas.text = data.difficulty
+            binding.rating.text = data.rating
             Glide.with(binding.root.context)
-                .load(listKelas.image)
+                .load(data.image)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.imageView)
+
+            if (data.premium == true){
+                binding.btnMulaiKelas.visibility = View.GONE
+                binding.btnPremium.text = "Beli Rp.${data.price}"
+            }else{
+                binding.btnPremium.visibility = View.GONE
+            }
         }
 
     }
