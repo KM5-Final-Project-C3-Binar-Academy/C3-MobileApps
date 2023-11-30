@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Course
-import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
-import com.c3.mobileapps.databinding.ItemKelasBinding
+import com.c3.mobileapps.databinding.ItemKelasFullBinding
 import com.c3.mobileapps.utils.CourseDiffUtil
 
 
@@ -17,7 +16,7 @@ class ListCourseAdapter(private var data :List<Course>) : RecyclerView.Adapter<R
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
-            ItemKelasBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemKelasFullBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CourseHolder(binding)
     }
 
@@ -35,17 +34,17 @@ class ListCourseAdapter(private var data :List<Course>) : RecyclerView.Adapter<R
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    class CourseHolder(private val binding: ItemKelasBinding) :
+    class CourseHolder(private val binding: ItemKelasFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindContent(listKelas: Course) {
             binding.tvNamaKelas.text = listKelas.name
-            binding.tvCategory.text = listKelas.courseCategory?.name
-            binding.tvAuthor.text = listKelas.author
-            binding.tvLevel.text = listKelas.difficulty
-            binding.tvRating.text = listKelas.rating.toString()
-            binding.tvDurasi.text = "?"
-            binding.tvJumlahModul.text = "?"
+            binding.deskripsiJudulKelas.text = listKelas.courseCategory?.name
+            binding.creatorKelas.text = listKelas.author
+            binding.levelNameKelas.text = listKelas.difficulty
+            binding.rating.text = listKelas.rating.toString()
+            binding.durasiKelas.text = "?"
+            binding.jumlahModulKelas.text = "?"
 
             Glide.with(binding.root.context)
                 .load(listKelas.image)

@@ -72,6 +72,7 @@ dependencies {
 	implementation ("io.insert-koin:koin-android:3.5.0")
 	implementation ("io.insert-koin:koin-android-compat:3.5.0")
 
+	
 	/* Room */
 	implementation ("androidx.room:room-runtime:2.6.0")
 	ksp("androidx.room:room-compiler:2.5.0")

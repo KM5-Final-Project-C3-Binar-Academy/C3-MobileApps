@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [TbCourse::class], version = 2, exportSchema = false)
+@Database(entities = [TbCourse::class], version = 3, exportSchema = false)
 @TypeConverters(ConverterCourse::class)
 abstract class CourseDatabase : RoomDatabase() {
     abstract val courseDao: CourseDao

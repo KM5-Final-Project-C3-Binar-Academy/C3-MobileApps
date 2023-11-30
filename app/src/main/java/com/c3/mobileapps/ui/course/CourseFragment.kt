@@ -13,11 +13,9 @@ import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentCourseBinding
 import com.c3.mobileapps.utils.Status
-import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import kotlin.math.log
 
 class CourseFragment : Fragment() {
 
