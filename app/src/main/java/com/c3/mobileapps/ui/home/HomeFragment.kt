@@ -37,6 +37,40 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getCateogry()
+        getCourse()
+
+    }
+    private fun getCourse(){
+        homeViewModel.getAllCourse().observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("Cek Data", Gson().toJson(it.data))
+                    val response = it.data?.data
+
+                    listCourse = response.orEmpty().filterNotNull()
+                    val adapter = PopulerCourseAdapter(listCourse)
+                    binding.rvPopulerCourse.adapter = adapter
+                    binding.rvPopulerCourse.layoutManager = LinearLayoutManager(
+                        requireActivity(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+
+                }
+
+                Status.ERROR -> {
+
+                }
+
+                Status.LOADING -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getCateogry(){
         homeViewModel.getAllCategory().observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -74,34 +108,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
-        homeViewModel.getAllCourse().observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data", Gson().toJson(it.data))
-                    val response = it.data?.data
-
-                    listCourse = response.orEmpty().filterNotNull()
-                    val adapter = PopulerCourseAdapter(listCourse)
-                    binding.rvPopulerCourse.adapter = adapter
-                    binding.rvPopulerCourse.layoutManager = LinearLayoutManager(
-                        requireActivity(),
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-
-                }
-
-                Status.ERROR -> {
-
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-        }
-
     }
 
     private fun handleChipClick(clickedChip: Chip?) {

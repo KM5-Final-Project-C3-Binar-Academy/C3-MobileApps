@@ -92,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@id/rvChipFilter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_kelas"
+            tools:listitem="@layout/item_kelas_full"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="4"
             />
