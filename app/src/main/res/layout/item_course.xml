@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardMenuItem"
-    android:layout_width="match_parent"
+    android:layout_width="230dp"
     android:layout_height="wrap_content"
     app:cardCornerRadius="20dp"
     app:cardElevation="2dp"
@@ -19,12 +19,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp">
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:contentDescription="@string/content_description_media"
             android:scaleType="centerCrop"
             android:src="@drawable/ayam_oven"
@@ -36,12 +36,11 @@
             android:id="@+id/tvNamaKelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/primary"
             android:text="@string/judul_kursus"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView" />
 
@@ -64,7 +63,7 @@
             android:fontFamily="@font/poppins_bold"
             app:layout_constraintTop_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
             />
 
@@ -75,11 +74,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/deskripsi_judul_kursus"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tvNamaKelas"
             app:layout_constraintTop_toBottomOf="@id/tvNamaKelas"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="15dp"/>
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:id="@+id/creator_kelas"
@@ -88,7 +86,8 @@
             android:text="by John Doe"
             app:layout_constraintTop_toBottomOf="@id/deskripsi_judul_kelas"
             app:layout_constraintStart_toStartOf="@id/deskripsi_judul_kelas"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
+
 
         <TextView
             android:id="@+id/level_name_kelas"
@@ -159,38 +158,57 @@
             android:textSize="10sp" />
 
         <Button
-            android:id="@+id/btnPremium"
-            android:layout_width="wrap_content"
-            android:layout_height="33dp"
-            android:text="Premium"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/icon_diamond"
-            android:layout_centerInParent="true"
-            android:paddingHorizontal="25dp"
-            android:backgroundTint="@color/secondary"
-            android:layout_marginTop="5dp"
-
+            android:id="@+id/btnBeli"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:paddingVertical="0dp"
+            android:text="Beli Rp. 50.000"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas"
             app:layout_constraintTop_toBottomOf="@id/icon_durasi_kelas"
-            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas"
-
-            />
-
-        <Button
-            android:id="@+id/btn_mulaiKelas"
-            android:layout_width="wrap_content"
-            android:layout_height="33dp"
-            android:text="Mulai Kelas"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"
-            android:paddingHorizontal="25dp"
-            android:backgroundTint="@color/primary"
             android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@id/btnPremium"
-            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas"
+            android:backgroundTint="@color/secondary"
+            android:visibility="gone"
             />
 
+        <ImageView
+            android:id="@+id/icon_progres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/progres_check"
+            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas"
+            app:layout_constraintEnd_toEndOf="@id/icon_durasi_kelas"
+            app:layout_constraintTop_toBottomOf="@id/icon_durasi_kelas"
+            android:layout_marginTop="5dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"
+            android:progressDrawable="@drawable/custom_progres_bar"
+            android:progress="50"
+            app:layout_constraintTop_toTopOf="@id/icon_progres"
+            app:layout_constraintBottom_toBottomOf="@id/icon_progres"
+            app:layout_constraintStart_toEndOf="@id/icon_progres"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tvProgres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60% Complete"
+            android:textSize="8sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/progressBar"
+            app:layout_constraintBottom_toBottomOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="@id/progressBar"
+            android:layout_marginStart="10dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
