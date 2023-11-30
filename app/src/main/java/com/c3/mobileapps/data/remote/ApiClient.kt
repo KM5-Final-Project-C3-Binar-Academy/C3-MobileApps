@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://api-binar-backend.risalamin.com/"
+    private const val BASE_URL = "https://api.belajar.risalamin.com/"
 
     fun setRetrofit(): Retrofit {
         val loggingInterceptor = HttpLoggingInterceptor()
