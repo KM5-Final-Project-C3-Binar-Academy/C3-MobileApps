@@ -7,33 +7,45 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/tvAll"
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:id="@+id/cpAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
         android:layout_marginTop="80dp"
         android:text="All"
+        android:checkable="true"
+        android:clickable="true"
+        android:checked="true"
+
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cpKelasPremium"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvKelasPremium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:text="premium"
-        app:layout_constraintStart_toEndOf="@+id/tvAll"
-        app:layout_constraintTop_toTopOf="@+id/tvAll" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:id="@+id/cpKelasPremium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:text="premium"
+        app:layout_constraintStart_toEndOf="@+id/cpAll"
+        app:layout_constraintTop_toTopOf="@+id/cpAll"
+        app:layout_constraintEnd_toStartOf="@id/cpKelasGratis"/>
+
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:id="@+id/cpKelasGratis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="gratis"
-        app:layout_constraintStart_toEndOf="@+id/tvKelasPremium"
-        app:layout_constraintTop_toTopOf="@+id/tvKelasPremium" />
+        android:checkable="true"
+        android:clickable="true"
+        app:layout_constraintStart_toEndOf="@+id/cpKelasPremium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cpKelasPremium" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCourse"
@@ -42,7 +54,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvKelasPremium"
+        app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"
         tools:listitem="@layout/item_kelas"/>
 
     <ProgressBar

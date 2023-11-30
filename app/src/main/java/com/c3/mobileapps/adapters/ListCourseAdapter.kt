@@ -28,10 +28,10 @@ class ListCourseAdapter(private var data :List<Course>) : RecyclerView.Adapter<R
 
     override fun getItemCount(): Int = data.size
 
-    fun setData(courseResponse: CourseResponse) {
-        val diffUtil = CourseDiffUtil(data, courseResponse.data)
+    fun setData(courseResponse: List<Course>) {
+        val diffUtil = CourseDiffUtil(data, courseResponse)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
-        data = courseResponse.data
+        data = courseResponse
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
