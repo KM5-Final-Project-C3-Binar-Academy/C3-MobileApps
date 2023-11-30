@@ -2,4 +2,13 @@
     <string name="app_name">C3-MobileApps</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_judul">Label Judul</string>
+    <string name="lihatSemua">Lihat Semua</string>
+    <string name="title_kategori">Kategori Kelas</string>
+    <string name="kursus_populer">Kursus Populer</string>
+    <string name="judul_kursus">Judul Kursus</string>
+    <string name="deskripsi_judul_kursus">Belajar data cleaning dan sorting dengan Python</string>
+    <string name="chip_category_name">Web Developer</string>
+    <string name="content_description_media">Gambar preview kursus</string>
+    <string name="kelas_berjalan">Kelas Berjalan</string>
 </resources>
