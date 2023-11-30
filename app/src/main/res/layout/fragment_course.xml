@@ -68,35 +68,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChipFilter"
-            android:layout_width="match_parent"
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cpAll"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            app:layout_constraintTop_toBottomOf="@id/labelKelasBerjalan"
+            android:layout_marginTop="24dp"
+            android:checkable="true"
+            android:checked="true"
+            android:clickable="true"
+            android:text="All"
+            app:layout_constraintEnd_toStartOf="@id/cpKelasPremium"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelKelasBerjalan" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/cpKelasPremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
+            android:text="premium"
+            app:layout_constraintStart_toEndOf="@+id/cpAll"
+            app:layout_constraintTop_toTopOf="@+id/cpAll"
+            app:layout_constraintEnd_toStartOf="@id/cpKelasGratis"/>
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/cpKelasGratis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gratis"
+            android:checkable="true"
+            android:clickable="true"
+            app:layout_constraintStart_toEndOf="@+id/cpKelasPremium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_filter"
-            tools:itemCount="4"
-            android:orientation="horizontal"
-            />
+            app:layout_constraintTop_toTopOf="@+id/cpKelasPremium" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCourse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="15dp"
-            app:layout_constraintTop_toBottomOf="@id/rvChipFilter"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="370dp"
+            android:layout_height="610dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_kelas_full"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"
+            tools:listitem="@layout/item_kelas_full"/>
 
+        <ProgressBar
+            android:id="@+id/progressBarMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rvCourse"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="@+id/rvCourse"
+            app:layout_constraintTop_toTopOf="@+id/rvCourse"
+            app:layout_constraintVertical_bias="0.392" />
 
 
 

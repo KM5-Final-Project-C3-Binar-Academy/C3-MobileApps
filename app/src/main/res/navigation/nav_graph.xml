@@ -23,10 +23,19 @@
         android:id="@+id/courseFragment"
         android:name="com.c3.mobileapps.ui.course.CourseFragment"
         android:label="fragment_course"
-        tools:layout="@layout/fragment_course" />
+        tools:layout="@layout/fragment_course" >
+        <action
+            android:id="@+id/action_courseFragment_to_detailCourseFragment"
+            app:destination="@id/detailCourseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.c3.mobileapps.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/detailCourseFragment"
+        android:name="com.c3.mobileapps.ui.detailCourse.DetailCourseFragment"
+        android:label="fragment_detail_course"
+        tools:layout="@layout/fragment_detail_course" />
 </navigation>

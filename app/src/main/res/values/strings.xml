@@ -11,4 +11,7 @@
     <string name="chip_category_name">Web Developer</string>
     <string name="content_description_media">Gambar preview kursus</string>
     <string name="kelas_berjalan">Kelas Berjalan</string>
+    <string name="_60_menit">60 Menit</string>
+    <string name="materi_kelas">Materi Kelas</string>
+    <string name="tentang">Tentang</string>
 </resources>
