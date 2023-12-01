@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="colorPrimary">#6148FF</item>
     </style>
 
     <style name="Theme.C3MobileApps" parent="Base.Theme.C3MobileApps" />
