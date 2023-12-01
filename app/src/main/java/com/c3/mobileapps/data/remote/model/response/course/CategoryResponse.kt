@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class CategoryResponse(
     @SerializedName("data")
-    var `data`: List<Category?>?
+    var data: List<Category>
 )

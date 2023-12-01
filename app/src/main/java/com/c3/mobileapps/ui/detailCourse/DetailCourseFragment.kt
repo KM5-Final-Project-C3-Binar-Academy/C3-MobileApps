@@ -41,6 +41,14 @@ class DetailCourseFragment : Fragment() {
                 .load(dataDetail.image)
                 .into(binding.imageView2)
         }
+
+        buttonUpBack()
+    }
+
+    private fun buttonUpBack() {
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
 

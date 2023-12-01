@@ -22,8 +22,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ayam_oven"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="6dp" />
-
+            tools:layout_editor_absoluteX="8dp" />
 
         <TextView
             android:id="@+id/tvNamaKelas"
@@ -149,7 +148,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/cpTentang"
             style="@style/Widget.MaterialComponents.Snackbar.FullWidth"
-            android:layout_width="199dp"
+            android:layout_width="205dp"
             android:layout_height="65dp"
             android:layout_marginTop="56dp"
             android:checkable="true"
@@ -163,7 +162,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/cpMateriKelas"
             style="@style/Widget.MaterialComponents.Snackbar.FullWidth"
-            android:layout_width="199dp"
+            android:layout_width="205dp"
             android:layout_height="65dp"
             android:checkable="true"
             android:clickable="true"
@@ -183,6 +182,16 @@
             app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cpTentang" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

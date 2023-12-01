@@ -17,8 +17,8 @@ class CourseViewModel(private val repository: DataRepository): ViewModel() {
     private var _mode: MutableLiveData<Any> = MutableLiveData("All")
     val mode: LiveData<Any> = _mode
 
-    val readMenu: LiveData<List<TbCourse>> = repository.local.readCourse().asLiveData()
-    private fun insertMenu(tbCourse: TbCourse) = viewModelScope.launch(Dispatchers.IO) {
+    val readCourse: LiveData<List<TbCourse>> = repository.local.readCourse().asLiveData()
+    private fun insertCourse(tbCourse: TbCourse) = viewModelScope.launch(Dispatchers.IO) {
         repository.local.insertCourse(tbCourse)
     }
 
@@ -45,7 +45,7 @@ class CourseViewModel(private val repository: DataRepository): ViewModel() {
 
     private fun offlineMenu(courseResponse: CourseResponse) {
         val course = TbCourse(courseResponse)
-        insertMenu(course)
+        insertCourse(course)
     }
 
     fun setMode(mode:Any){

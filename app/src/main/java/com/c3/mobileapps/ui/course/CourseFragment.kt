@@ -34,7 +34,7 @@ class CourseFragment : Fragment() {
         binding = FragmentCourseBinding.inflate(inflater, container, false)
         checkMode()
         loadDataList()
-        setupRvCategory()
+        setupRvCourse()
         return binding.root
     }
     private fun checkMode(){
@@ -99,10 +99,10 @@ class CourseFragment : Fragment() {
     }
 
     private fun loadDataList() {
-        Log.d("dataMenu", "no connection, list course view from database")
         lifecycleScope.launch {
-            courseViewModel.readMenu.observe(viewLifecycleOwner) { database ->
+            courseViewModel.readCourse.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
+                    Log.d("data course", "list course view from database")
                     coursePerMode(database.first().courseResponse.data)
                 } else {
                     remoteGetCourse()
@@ -116,12 +116,12 @@ class CourseFragment : Fragment() {
         courseViewModel.listCourse.observe(viewLifecycleOwner){it ->
             when (it.status){
                 Status.SUCCESS -> {
-                    Log.e("Cek Data", Gson().toJson(it.data))
+                    Log.e("Cek Data Course", Gson().toJson(it.data))
                     binding.progressBarMenu.isVisible = false
                     it.data?.let { listCourseAdapter.setData(it.data) }
                 }
                 Status.ERROR -> {
-                    Log.e("Cek Data", it.message.toString())
+                    Log.e("Cek Data Course", it.message.toString())
                     binding.progressBarMenu.isVisible = false
                     loadDataList()
 
@@ -131,10 +131,9 @@ class CourseFragment : Fragment() {
                 }
             }
         }
-
     }
 
-    private fun setupRvCategory(){
+    private fun setupRvCourse(){
         listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
@@ -144,6 +143,4 @@ class CourseFragment : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvCourse.adapter = listCourseAdapter
     }
-
-
 }

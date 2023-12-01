@@ -13,7 +13,9 @@ import com.c3.mobileapps.databinding.ItemKelasFullBinding
 import com.c3.mobileapps.utils.CourseDiffUtil
 
 
-class ListCourseAdapter(private var data :List<Course>,  private var listener: (Course) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListCourseAdapter(private var data :List<Course>,
+                        private var listener: (Course) -> Unit)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =

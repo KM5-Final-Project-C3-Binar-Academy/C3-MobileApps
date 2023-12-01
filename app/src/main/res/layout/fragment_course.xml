@@ -75,7 +75,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:checkable="true"
             android:checked="true"
             android:clickable="true"
@@ -110,13 +110,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCourse"
-            android:layout_width="370dp"
-            android:layout_height="610dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="359dp"
+            android:layout_height="703dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"
-            tools:listitem="@layout/item_kelas_full"/>
+            tools:listitem="@layout/item_kelas_full" />
 
         <ProgressBar
             android:id="@+id/progressBarMenu"
