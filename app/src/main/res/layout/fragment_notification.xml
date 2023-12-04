@@ -3,12 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.notification.NotificationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Notification Fragment" />
+        android:text="@string/notifikasi"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_notification"
+        android:layout_marginTop="35dp"
+        android:layout_gravity="center"
+        app:spanCount="@integer/material_motion_duration_medium_1"/>
+
 
 </FrameLayout>

@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    tools:context=".ui.kelas.KelasFragment">
+    tools:context=".ui.kelas.KelasFragment"
+    android:background="@color/background"
+    android:elevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,6 +22,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
+            android:hint="Cari kursus terbaik..."
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxStrokeWidth="1dp"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeWidthFocused="2dp"
+            app:cardElevation="4dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="80dp"
-                android:hint="Cari kursus terbaik..." />
+                android:background="@null"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
