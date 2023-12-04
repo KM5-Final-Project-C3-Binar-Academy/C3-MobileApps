@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
@@ -26,6 +27,8 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by inject()
     private lateinit var listCourse: List<Course>
+//    private lateinit var categoryCourseAdapter: CategoryCourseAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,8 +40,19 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getCateogry()
+
         getCourse()
+        getCategory()
+//        loadDataCategory()
+//        setupRvCategory()
+
+        binding.lihatSemuaKategori.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_viewAllCategoryFragment)
+        }
+
+        binding.expandKursusPopuler.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_viewAllCourseFragment)
+        }
 
     }
     private fun getCourse(){
@@ -48,7 +62,7 @@ class HomeFragment : Fragment() {
                     Log.e("Cek Data", Gson().toJson(it.data))
                     val response = it.data?.data
 
-                    listCourse = response.orEmpty().filterNotNull()
+                    listCourse = response.orEmpty()
                     val adapter = PopulerCourseAdapter(listCourse)
                     binding.rvPopulerCourse.adapter = adapter
                     binding.rvPopulerCourse.layoutManager = LinearLayoutManager(
@@ -56,7 +70,6 @@ class HomeFragment : Fragment() {
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
-
                 }
 
                 Status.ERROR -> {
@@ -70,14 +83,30 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getCateogry(){
-        homeViewModel.getAllCategory().observe(viewLifecycleOwner) {
+//    private fun loadDataCategory() {
+//
+//        lifecycleScope.launch {
+//            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
+//                if (database.isNotEmpty()) {
+//                    Log.d("data category", "list category view from database")
+//                    categoryCourseAdapter.setData(database.first().categoryResponse.data)
+//                } else {
+//                    getCategory()
+//                }
+//            }
+//        }
+//    }
+
+    private fun getCategory(){
+        homeViewModel.getListCategory()
+        homeViewModel.listCategory.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    Log.e("Cek Data", Gson().toJson(it.data))
-                    val response = it.data?.data
+                    Log.e("Cek Data Category", Gson().toJson(it.data))
+//                    it.data?.let { categoryCourseAdapter.setData(it.data) }
 
-                    val listCategory: List<Category> = response.orEmpty().filterNotNull()
+                    val response = it.data?.data
+                    val listCategory: List<Category> = response.orEmpty()
                     val adapter = CategoryCourseAdapter(listCategory)
                     binding.rvCategoryCourse.adapter = adapter
                     binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
@@ -100,7 +129,8 @@ class HomeFragment : Fragment() {
                 }
 
                 Status.ERROR -> {
-
+                    Log.e("Cek Data Category", it.message.toString())
+//                    loadDataCategory()
                 }
 
                 Status.LOADING -> {
@@ -109,6 +139,16 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
+
+//    private fun setupRvCategory(){
+//        categoryCourseAdapter = CategoryCourseAdapter(emptyList())
+//        binding.rvCategoryCourse.setHasFixedSize(true)
+//        binding.rvCategoryCourse.layoutManager = GridLayoutManager(context, 2)
+//        binding.rvCategoryCourse.adapter = categoryCourseAdapter
+//    }
+
 
     private fun handleChipClick(clickedChip: Chip?) {
         for (i in 0 until binding.categoryChipGroup.childCount) {

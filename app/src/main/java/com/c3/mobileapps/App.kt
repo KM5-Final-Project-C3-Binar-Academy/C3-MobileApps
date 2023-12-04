@@ -2,6 +2,7 @@ package com.c3.mobileapps
 
 import android.app.Application
 import com.c3.mobileapps.di.KoinModule.apiModule
+import com.c3.mobileapps.di.KoinModule.dataModule
 import com.c3.mobileapps.di.KoinModule.remoteModule
 import com.c3.mobileapps.di.KoinModule.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -14,6 +15,7 @@ class App: Application() {
             androidContext(this@App)
             modules(
                 listOf(
+                    dataModule,
                     apiModule,
                     remoteModule,
                     viewModelModule

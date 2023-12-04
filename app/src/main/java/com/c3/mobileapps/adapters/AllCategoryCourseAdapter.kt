@@ -10,14 +10,11 @@ import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
 import com.c3.mobileapps.utils.CourseDiffUtil
 
-class CategoryCourseAdapter( private var listCategory : List<Category>): RecyclerView.Adapter<CategoryCourseAdapter.ViewHolder>() {
-
-
+class AllCategoryCourseAdapter(private var listCategory : List<Category>) : RecyclerView.Adapter<AllCategoryCourseAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             CategoryCourseItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,7 +22,7 @@ class CategoryCourseAdapter( private var listCategory : List<Category>): Recycle
         holder.onBind(item)
     }
 
-    override fun getItemCount(): Int = listCategory.size.minus(2)
+    override fun getItemCount(): Int = listCategory.size
 
     fun setData(categoryResponse: List<Category>) {
         val diffUtil = CourseDiffUtil(listCategory, categoryResponse)
@@ -34,9 +31,7 @@ class CategoryCourseAdapter( private var listCategory : List<Category>): Recycle
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(private val binding: CategoryCourseItemBinding)
-        : RecyclerView.ViewHolder(binding.root) {
-
+    class ViewHolder(private val binding: CategoryCourseItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Category) {
             binding.tvNameCategory.text = data.name
             Glide.with(binding.root.context)
@@ -46,4 +41,5 @@ class CategoryCourseAdapter( private var listCategory : List<Category>): Recycle
                 .into(binding.ivImageCategory)
         }
     }
+
 }

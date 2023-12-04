@@ -4,6 +4,7 @@ plugins {
 	id ("androidx.navigation.safeargs")
 	id ("kotlin-parcelize")
 	id ("kotlin-kapt")
+	id("com.google.devtools.ksp")
 }
 
 android {
@@ -71,13 +72,17 @@ dependencies {
 	implementation ("io.insert-koin:koin-android:3.5.0")
 	implementation ("io.insert-koin:koin-android-compat:3.5.0")
 
+	
 	/* Room */
 	implementation ("androidx.room:room-runtime:2.6.0")
-	kapt("androidx.room:room-compiler:2.6.0")
+	ksp("androidx.room:room-compiler:2.5.0")
 	implementation ("androidx.room:room-ktx:2.6.0")
 
 	/* LiveData ViewModel */
 	implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 	implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 	implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
+	/* Bottom Navigation */
+	implementation("com.google.android.material:material:1.2.0-alpha02")
 }
