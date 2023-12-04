@@ -48,12 +48,12 @@ class NotificationFragment : Fragment() {
 		val adapter = ItemFilterAdapter(listItem)
 //		binding.rvViewAll.adapter = adapter
 //		binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
-
-        binding.tvBottomSheet.setOnClickListener {
-            val bottomSheet = BottomSheet()
-            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-            bottomSheet.show(fragmentManager, bottomSheet.tag)
-        }
+//
+//        binding.tvBottomSheet.setOnClickListener {
+//            val bottomSheet = BottomSheet()
+//            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+//            bottomSheet.show(fragmentManager, bottomSheet.tag)
+//        }
     }
 
 }

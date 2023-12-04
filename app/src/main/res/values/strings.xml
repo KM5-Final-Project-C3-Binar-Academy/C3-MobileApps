@@ -35,4 +35,8 @@
     <string name="advanced_level">Advanced Level</string>
     <string name="terapkan_filter">Terapkan Filter</string>
     <string name="hapus_filter">Hapus Filter</string>
+    <string name="_60_menit">60 Menit</string>
+    <string name="materi_kelas">Materi Kelas</string>
+    <string name="tentang">Tentang</string>
+
 </resources>

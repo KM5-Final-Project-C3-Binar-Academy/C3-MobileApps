@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     tools:context=".ui.kelas.KelasFragment"
-    android:background="@color/background"
     android:elevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
