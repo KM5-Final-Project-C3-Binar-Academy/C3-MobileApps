@@ -8,7 +8,14 @@
         android:id="@+id/homeFragment"
         android:name="com.c3.mobileapps.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_viewAllCourseFragment"
+            app:destination="@id/viewAllCourseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewAllCategoryFragment"
+            app:destination="@id/viewAllCategoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.c3.mobileapps.ui.notification.NotificationFragment"
@@ -23,10 +30,28 @@
         android:id="@+id/courseFragment"
         android:name="com.c3.mobileapps.ui.course.CourseFragment"
         android:label="fragment_course"
-        tools:layout="@layout/fragment_course" />
+        tools:layout="@layout/fragment_course" >
+        <action
+            android:id="@+id/action_courseFragment_to_detailCourseFragment"
+            app:destination="@id/detailCourseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.c3.mobileapps.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/detailCourseFragment"
+        android:name="com.c3.mobileapps.ui.detailCourse.DetailCourseFragment"
+        android:label="fragment_detail_course"
+        tools:layout="@layout/fragment_detail_course" />
+    <fragment
+        android:id="@+id/viewAllCourseFragment"
+        android:name="com.c3.mobileapps.ui.home.viewAll.ViewAllCourseFragment"
+        android:label="fragment_view_all_course"
+        tools:layout="@layout/fragment_view_all_course" />
+    <fragment
+        android:id="@+id/viewAllCategoryFragment"
+        android:name="com.c3.mobileapps.ui.home.viewAll.ViewAllCategoryFragment"
+        android:label="ViewAllCategoryFragment" />
 </navigation>

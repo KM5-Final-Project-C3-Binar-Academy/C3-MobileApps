@@ -5,56 +5,55 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.c3.mobileapps.R
+import com.c3.mobileapps.adapters.ItemFilterAdapter
+import com.c3.mobileapps.data.filterCategory
+import com.c3.mobileapps.databinding.FragmentNotificationBinding
+import com.c3.mobileapps.databinding.FragmentViewAllCourseBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NotificationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NotificationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentNotificationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false)
+        binding = FragmentNotificationBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NotificationFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NotificationFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val listItem = mutableListOf<filterCategory>()
+        listItem.add(filterCategory("UI/UX Design"))
+        listItem.add(filterCategory("Product Management"))
+        listItem.add(filterCategory("Web Development"))
+        listItem.add(filterCategory("Android Development"))
+        listItem.add(filterCategory("AI Development"))
+        listItem.add(filterCategory("Business Intelligent"))
+        listItem.add(filterCategory("Fullstack Development"))
+        listItem.add(filterCategory("Data Science"))
+        listItem.add(filterCategory("Cyber security"))
+        listItem.add(filterCategory("Mobile App Development"))
+        listItem.add(filterCategory("Game Development"))
+        listItem.add(filterCategory("Cloud Computing"))
+        listItem.add(filterCategory("Machine Learning"))
+        listItem.add(filterCategory("DevOps"))
+        listItem.add(filterCategory("Blockchain"))
+
+		val adapter = ItemFilterAdapter(listItem)
+//		binding.rvViewAll.adapter = adapter
+//		binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
+//
+//        binding.tvBottomSheet.setOnClickListener {
+//            val bottomSheet = BottomSheet()
+//            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+//            bottomSheet.show(fragmentManager, bottomSheet.tag)
+//        }
     }
+
 }
