@@ -14,43 +14,43 @@ import kotlinx.coroutines.launch
 
 class CourseViewModel(private val repository: DataRepository): ViewModel() {
 
-    private var _mode: MutableLiveData<Any> = MutableLiveData("All")
-    val mode: LiveData<Any> = _mode
-
-    val readCourse: LiveData<List<TbCourse>> = repository.local.readCourse().asLiveData()
-    private fun insertCourse(tbCourse: TbCourse) = viewModelScope.launch(Dispatchers.IO) {
-        repository.local.insertCourse(tbCourse)
-    }
-
-    private var _listCourse: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
-    val listCourse: LiveData<Resource<CourseResponse>> get() = _listCourse
-    fun getListCourse() = viewModelScope.launch {
-        getAllCourse()
-    }
-
-    private suspend fun getAllCourse() {
-        try {
-            val responses = repository.remote.getCourse()
-            _listCourse.value = Resource.success(responses)
-
-            val listCourse = _listCourse.value!!.data
-            if (listCourse != null) {
-                offlineMenu(listCourse)
-            }
-
-        } catch (exception: Exception) {
-            _listCourse.value = Resource.error( null,  exception.message ?: "Error Occurred!")
-        }
-    }
-
-    private fun offlineMenu(courseResponse: CourseResponse) {
-        val course = TbCourse(courseResponse)
-        insertCourse(course)
-    }
-
-    fun setMode(mode:Any){
-        _mode.value = mode
-    }
+//    private var _mode: MutableLiveData<Any> = MutableLiveData("All")
+//    val mode: LiveData<Any> = _mode
+//
+//    val readCourse: LiveData<List<TbCourse>> = repository.local.readCourse().asLiveData()
+//    private fun insertCourse(tbCourse: TbCourse) = viewModelScope.launch(Dispatchers.IO) {
+//        repository.local.insertCourse(tbCourse)
+//    }
+//
+//    private var _listCourse: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
+//    val listCourse: LiveData<Resource<CourseResponse>> get() = _listCourse
+//    fun getListCourse() = viewModelScope.launch {
+//        getAllCourse()
+//    }
+//
+//    private suspend fun getAllCourse() {
+//        try {
+//            val responses = repository.remote.getCourse()
+//            _listCourse.value = Resource.success(responses)
+//
+//            val listCourse = _listCourse.value!!.data
+//            if (listCourse != null) {
+//                offlineMenu(listCourse)
+//            }
+//
+//        } catch (exception: Exception) {
+//            _listCourse.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+//        }
+//    }
+//
+//    private fun offlineMenu(courseResponse: CourseResponse) {
+//        val course = TbCourse(courseResponse)
+//        insertCourse(course)
+//    }
+//
+//    fun setMode(mode:Any){
+//        _mode.value = mode
+//    }
 
 
 

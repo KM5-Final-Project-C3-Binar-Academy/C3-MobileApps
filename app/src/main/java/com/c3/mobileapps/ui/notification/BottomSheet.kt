@@ -39,17 +39,17 @@ class BottomSheet : BottomSheetDialogFragment() {
 		listItem.add(filterCategory("Machine Learning"))
 		listItem.add(filterCategory("DevOps"))
 		listItem.add(filterCategory("Blockchain"))
-
-		val adapter = ItemFilterAdapter(listItem)
-
-		// Inisialisasi rvFilter menggunakan findViewById
-		val rvFilter = view.findViewById<RecyclerView>(R.id.rvFilter)
-		val rvFilter2 = view.findViewById<RecyclerView>(R.id.rvFilter2)
-
-		rvFilter.adapter = adapter
-		rvFilter.layoutManager = LinearLayoutManager(requireActivity())
-
-		rvFilter2.adapter = adapter
-		rvFilter2.layoutManager = LinearLayoutManager(requireActivity())
+//
+//		val adapter = ItemFilterAdapter(listItem)
+//
+//		// Inisialisasi rvFilter menggunakan findViewById
+//		val rvFilter = view.findViewById<RecyclerView>(R.id.rvFilter)
+//		val rvFilter2 = view.findViewById<RecyclerView>(R.id.rvFilter2)
+//
+//		rvFilter.adapter = adapter
+//		rvFilter.layoutManager = LinearLayoutManager(requireActivity())
+//
+//		rvFilter2.adapter = adapter
+//		rvFilter2.layoutManager = LinearLayoutManager(requireActivity())
 	}
 }

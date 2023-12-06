@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemKelasFullBinding
 import com.c3.mobileapps.utils.CourseDiffUtil
@@ -16,6 +17,8 @@ import com.c3.mobileapps.utils.CourseDiffUtil
 class ListCourseAdapter(private var data :List<Course>,
                         private var listener: (Course) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =

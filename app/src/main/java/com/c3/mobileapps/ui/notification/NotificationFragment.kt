@@ -45,7 +45,7 @@ class NotificationFragment : Fragment() {
         listItem.add(filterCategory("DevOps"))
         listItem.add(filterCategory("Blockchain"))
 
-		val adapter = ItemFilterAdapter(listItem)
+//		val adapter = ItemFilterAdapter(listItem)
 //		binding.rvViewAll.adapter = adapter
 //		binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
 //

@@ -33,39 +33,39 @@ class ViewAllCourseFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		getCourse()
+//		getCourse()
 		buttonUpBack()
 
 	}
 
-	private fun getCourse(){
-		homeViewModel.getAllCourse().observe(viewLifecycleOwner) {
-			when (it.status) {
-				Status.SUCCESS -> {
-					Log.e("Cek Data", Gson().toJson(it.data))
-					val response = it.data?.data
-
-					listCourse = response.orEmpty()
-					val adapter = PopulerCourseAdapter(listCourse)
-					binding.rvViewAll.adapter = adapter
-					binding.rvViewAll.layoutManager = LinearLayoutManager(
-						requireActivity(),
-						LinearLayoutManager.VERTICAL,
-						false
-					)
-
-				}
-
-				Status.ERROR -> {
-
-				}
-
-				Status.LOADING -> {
-
-				}
-			}
-		}
-	}
+//	private fun getCourse(){
+//		homeViewModel.getAllCourse().observe(viewLifecycleOwner) {
+//			when (it.status) {
+//				Status.SUCCESS -> {
+//					Log.e("Cek Data", Gson().toJson(it.data))
+//					val response = it.data?.data
+//
+//					listCourse = response.orEmpty()
+//					val adapter = PopulerCourseAdapter(listCourse)
+//					binding.rvViewAll.adapter = adapter
+//					binding.rvViewAll.layoutManager = LinearLayoutManager(
+//						requireActivity(),
+//						LinearLayoutManager.VERTICAL,
+//						false
+//					)
+//
+//				}
+//
+//				Status.ERROR -> {
+//
+//				}
+//
+//				Status.LOADING -> {
+//
+//				}
+//			}
+//		}
+//	}
 
 	private fun buttonUpBack() {
 		binding.back.setOnClickListener {
