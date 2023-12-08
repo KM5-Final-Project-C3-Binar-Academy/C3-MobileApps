@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.R
-import com.c3.mobileapps.data.filterCategory
 import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding

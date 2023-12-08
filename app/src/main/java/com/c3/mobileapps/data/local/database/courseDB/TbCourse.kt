@@ -1,4 +1,4 @@
-package com.c3.mobileapps.data.database.courseDB
+package com.c3.mobileapps.data.local.database.courseDB
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

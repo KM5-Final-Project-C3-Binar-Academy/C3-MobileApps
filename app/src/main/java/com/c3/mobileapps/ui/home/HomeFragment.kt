@@ -135,7 +135,6 @@ class HomeFragment : Fragment() {
 
                 Status.ERROR -> {
                     Log.e("Cek Data Category", it.message.toString())
-                    loadDataCategory()
                 }
 
                 Status.LOADING -> {

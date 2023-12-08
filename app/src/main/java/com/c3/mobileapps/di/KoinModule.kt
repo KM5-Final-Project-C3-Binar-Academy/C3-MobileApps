@@ -1,7 +1,7 @@
 package com.c3.mobileapps.di
 
-import com.c3.mobileapps.data.database.categoryDB.CategoryDatabase
-import com.c3.mobileapps.data.database.courseDB.CourseDatabase
+import com.c3.mobileapps.data.local.database.categoryDB.CategoryDatabase
+import com.c3.mobileapps.data.local.database.courseDB.CourseDatabase
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.CourseRepository
 import com.c3.mobileapps.data.repository.DataRepository

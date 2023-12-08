@@ -45,6 +45,12 @@ class ListCourseAdapter(private var data :List<Course>,
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
+    fun clearData() {
+        val diffCallback = CourseDiffUtil(data, emptyList())
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        data = emptyList()
+        diffResult.dispatchUpdatesTo(this)
+    }
     class CourseHolder(private val binding: ItemKelasFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -61,10 +67,14 @@ class ListCourseAdapter(private var data :List<Course>,
                 .into(binding.imageView)
 
             if (data.premium == true){
+                val price = "Beli Rp.${data.price}"
+                binding.btnPremium.text = price
+                binding.btnPremium.visibility = View.VISIBLE
                 binding.btnMulaiKelas.visibility = View.GONE
-                binding.btnPremium.text = "Beli Rp.${data.price}"
+
             }else{
                 binding.btnPremium.visibility = View.GONE
+                binding.btnMulaiKelas.visibility = View.VISIBLE
             }
         }
 
