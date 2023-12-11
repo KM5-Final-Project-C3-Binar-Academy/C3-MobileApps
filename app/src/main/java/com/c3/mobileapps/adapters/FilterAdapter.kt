@@ -3,18 +3,29 @@ package com.c3.mobileapps.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.local.filter.FilterCategory
 import com.c3.mobileapps.data.remote.model.response.course.Category
+import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemCheckboxBinding
 import com.c3.mobileapps.databinding.ItemHeaderBinding
+import com.c3.mobileapps.utils.CourseDiffUtil
 
 class FilterAdapter(
-    private val data: List<Any>,
     private val checkedItemsMap: MutableMap<String, MutableList<String>>,
     private val filterItemClickListener: ((FilterCategory, type: String) -> Unit)? = null
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var data = emptyList<Any>()
+
+    fun setData(newDaata: List<Any>) {
+        val diffUtil = CourseDiffUtil(data, newDaata)
+        val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
+        data = newDaata
+        diffUtilResult.dispatchUpdatesTo(this)
+    }
 
     companion object {
         private const val ITEM_HEADER = 0

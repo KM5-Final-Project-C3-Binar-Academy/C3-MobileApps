@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 class CourseViewModel(private val repository: DataRepository) : ViewModel() {
 
 
-    private var _mode: MutableLiveData<String> = MutableLiveData(null)
-    val mode: LiveData<String> = _mode
+    private var _mode: MutableLiveData<String?> = MutableLiveData(null)
+    val mode: LiveData<String?> = _mode
     fun setMode(mode: String?) {
         _mode.value = mode
     }
@@ -40,15 +40,28 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
     }
     **/
 
-    private var _isFiltered: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isFiltered: LiveData<Boolean> = _isFiltered
-
     private var _dataFilter: MutableLiveData<MutableMap<String, MutableList<String>>> =
         MutableLiveData(mutableMapOf())
     val dataFilter: LiveData<MutableMap<String, MutableList<String>>> = _dataFilter
     fun setIsFiltered( data: MutableMap<String, MutableList<String>>) {
         _dataFilter.value = data
     }
+
+    fun addDataMapping(key: String, value: String?) {
+        val currentData = _dataFilter.value ?: mutableMapOf()
+
+        if (currentData.containsKey(key)) {
+            if (value != null) {
+                currentData[key] = mutableListOf(value)
+            }
+        } else {
+            currentData[key] = mutableListOf(value.toString())
+        }
+
+        _dataFilter.value = currentData
+    }
+
+
 
     private var _listCourse: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
     val listCourse: LiveData<Resource<CourseResponse>> get() = _listCourse

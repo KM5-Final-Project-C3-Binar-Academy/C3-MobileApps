@@ -32,55 +32,65 @@ class CourseFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         checkMode()
 
-        courseViewModel.mode.observe(viewLifecycleOwner) {type ->
-            courseViewModel.dataFilter.observe(viewLifecycleOwner) { dataFilter ->
-                val filterString = dataFilter["filter"]?.joinToString(",")
-                val categoryString = dataFilter["kategori"]?.joinToString(",")
-                val difficultyString = dataFilter["level"]?.joinToString(",")
+        courseViewModel.dataFilter.observe(viewLifecycleOwner) { dataFilter ->
+            val filterString = dataFilter["filter"]?.joinToString(",")
+            val categoryString = dataFilter["kategori"]?.joinToString(",")
+            val difficultyString = dataFilter["level"]?.joinToString(",")
+            val typeString = dataFilter["type"]?.joinToString(",")
 
+            if(typeString.isNullOrEmpty()){
+                binding.cpAll.isChecked = true
+                binding.cpKelasPremium.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+            }
+
+            getCourse(
+                type = typeString,
+                filter = filterString,
+                category = categoryString,
+                difficulty = difficultyString,
+                search = null
+            )
+
+            binding.filter.setOnClickListener {
+                val fIlterBottomSheet = FIlterBottomSheet(dataFilter)
+                fIlterBottomSheet.show(childFragmentManager, fIlterBottomSheet.tag)
+            }
+
+            binding.btnSearch.setOnClickListener {
+                hideKeyboardAndClearFocus()
                 getCourse(
-                    type = type,
+                    type = typeString,
                     filter = filterString,
                     category = categoryString,
                     difficulty = difficultyString,
-                    search = null
+                    search = binding.etSearch.text.toString()
                 )
-
-                binding.filter.setOnClickListener {
-                    val fIlterBottomSheet = FIlterBottomSheet(dataFilter)
-                    fIlterBottomSheet.show(childFragmentManager, fIlterBottomSheet.tag)
-                }
-
-                binding.btnSearch.setOnClickListener {
-                    hideKeyboardAndClearFocus()
-                    getCourse(
-                        type = type,
-                        filter = filterString,
-                        category = categoryString,
-                        difficulty = difficultyString,
-                        search = binding.etSearch.text.toString()
-                    )
-                }
             }
         }
 
-
-
         setupRvCourse()
 
+        return binding.root
+    }
 
 
+    override fun onResume() {
+        super.onResume()
+
+        binding.etSearch.setText("")
+        binding.cpAll.isChecked = true
+        binding.cpKelasPremium.isChecked = false
+        binding.cpKelasGratis.isChecked = false
+        courseViewModel.dataFilter.value?.clear()
     }
 
     private fun hideKeyboardAndClearFocus() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // Check if the currently focused view is an EditText or has focusable property
         if (requireActivity().currentFocus is View) {
@@ -93,22 +103,32 @@ class CourseFragment : Fragment() {
     }
 
     private fun checkMode() {
-        binding.cpAll.setOnClickListener {
-            binding.cpKelasPremium.isChecked = false
-            binding.cpKelasGratis.isChecked = false
-            courseViewModel.setMode(null)
-        }
-        binding.cpKelasPremium.setOnClickListener {
-            binding.cpAll.isChecked = false
-            binding.cpKelasGratis.isChecked = false
-            courseViewModel.setMode("premium")
-        }
 
-        binding.cpKelasGratis.setOnClickListener {
-            binding.cpKelasPremium.isChecked = false
-            binding.cpAll.isChecked = false
-            courseViewModel.setMode("free")
-        }
+
+
+            binding.cpAll.setOnClickListener {
+                binding.cpKelasPremium.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+                courseViewModel.addDataMapping("type", null)
+
+            }
+            binding.cpKelasPremium.setOnClickListener {
+                binding.cpAll.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+                courseViewModel.addDataMapping("type", "premium")
+            }
+
+            binding.cpKelasGratis.setOnClickListener {
+                binding.cpKelasPremium.isChecked = false
+                binding.cpAll.isChecked = false
+                courseViewModel.addDataMapping("type", "free")
+            }
+
+
+
+
+
+
     }
 
     private fun getCourse(

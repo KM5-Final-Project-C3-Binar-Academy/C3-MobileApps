@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
@@ -17,6 +18,7 @@ import com.c3.mobileapps.databinding.FilterBottomSheetBinding
 import com.c3.mobileapps.databinding.FragmentCourseBinding
 import com.c3.mobileapps.ui.course.CourseViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -26,6 +28,7 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
     private lateinit var binding: FilterBottomSheetBinding
     private val courseViewModel: CourseViewModel by activityViewModel<CourseViewModel>()
 
+    private lateinit var filterAdapter: FilterAdapter
     private lateinit var dataFilter: MutableList<Any>
     private val checkedItemsMap: MutableMap<String, MutableList<String>> = mutableMapOf()
 
@@ -34,19 +37,14 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
         savedInstanceState: Bundle?
     ): View? {
         binding = FilterBottomSheetBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        // Update checkedItemsMap with old
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Update checkedItemsMap with old data
+        setRecycleVIew()
+        setDataFilter()
         checkedItemsMap.clear()
         checkedItemsMap.putAll(oldCheckedItemsMap)
 
-        setDataFilter()
-        setRecycleVIew()
+
 
         binding.btnTerapkanFilter.setOnClickListener {
             courseViewModel.setIsFiltered(checkedItemsMap)
@@ -63,15 +61,24 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
 
 
         }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 
     private fun setRecycleVIew() {
-        binding.rvFilter.adapter = FilterAdapter(dataFilter,
+        filterAdapter = FilterAdapter(
             filterItemClickListener = { data, type ->
                 handleItemFilter(data, type)
 
             }, checkedItemsMap = checkedItemsMap
         )
+
+        binding.rvFilter.adapter = filterAdapter
 
         binding.rvFilter.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -91,33 +98,43 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
     }
 
     private fun setDataFilter() {
+        lifecycleScope.launch {
+            dataFilter = mutableListOf()
 
-        dataFilter = mutableListOf(
-            "Filter",
-            FilterCategory("new","Paling Baru", "filter"),
-            FilterCategory("populer","Paling Populer", "filter"),
-            FilterCategory("promo","Promo", "filter"),
-            "Kategori"
-        )
+            dataFilter.add("Filter")
+            dataFilter.add(FilterCategory("new", "Paling Baru", "filter"))
+            dataFilter.add(FilterCategory("populer", "Paling Populer", "filter"))
+            dataFilter.add(FilterCategory("promo", "Promo", "filter"))
+            dataFilter.add("Kategori")
 //        Add data category to list
 
-        courseViewModel.readCategory.observe(viewLifecycleOwner) { data ->
+            courseViewModel.readCategory.observe(viewLifecycleOwner) { data ->
 
-            val listCategory = data.first().categoryResponse.data
+                val listCategory = data.first().categoryResponse.data
 
-            listCategory.forEach {
-                Log.d("cek filter", it.name.toString())
-                dataFilter.add(FilterCategory(it.name.toString(),it.name.toString(), "kategori"))
+                listCategory.forEach {
+                    dataFilter.add(
+                        FilterCategory(
+                            it.name.toString(),
+                            it.name.toString(),
+                            "kategori"
+                        )
+                    )
+                }
+
+                //Add Level
+                dataFilter.add("Level")
+                dataFilter.add(FilterCategory("beginner", "Beginner Level", "level"))
+                dataFilter.add(FilterCategory("intermediate", "Intermediate Level", "level"))
+                dataFilter.add(FilterCategory("advanced", "Advanced Level", "level"))
+
+//                binding.rvFilter.adapter?.notifyDataSetChanged()
+
+                filterAdapter.setData(dataFilter)
+
             }
-
-            //Add Level
-            dataFilter.add("Level")
-            dataFilter.add(FilterCategory("beginner","Beginner Level", "level"))
-            dataFilter.add(FilterCategory("intermediate","Intermediate Level", "level"))
-            dataFilter.add(FilterCategory("advanced","Advanced Level", "level"))
-
-            binding.rvFilter.adapter?.notifyDataSetChanged()
-
         }
+
+
     }
 }
