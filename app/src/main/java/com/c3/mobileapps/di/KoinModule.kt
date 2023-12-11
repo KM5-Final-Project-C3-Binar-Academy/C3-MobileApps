@@ -42,6 +42,6 @@ object KoinModule {
         get() = module {
             viewModel { HomeViewModel(get()) }
             viewModel { CourseViewModel(get())}
-            viewModel { DetailCourseViewModel()}
+            viewModel { DetailCourseViewModel(get())}
         }
 }
