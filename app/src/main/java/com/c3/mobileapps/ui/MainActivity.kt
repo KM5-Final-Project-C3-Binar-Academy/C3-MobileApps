@@ -2,6 +2,7 @@ package com.c3.mobileapps.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -29,5 +30,22 @@ class MainActivity : AppCompatActivity() {
 
 		binding.bottomNavigation.setupWithNavController(navController)
 
+		navController.addOnDestinationChangedListener{_,destination,_ ->
+			when(destination.id){
+				R.id.searchFragment -> setBottomNav(true)
+				R.id.detailCourseFragment -> setBottomNav(true)
+				else -> setBottomNav(false)
+			}
+		}
 	}
+
+	private fun setBottomNav(hide:Boolean){
+		if (hide){
+			binding.bottomNavigation.visibility = View.GONE
+		}else{
+			binding.bottomNavigation.visibility = View.VISIBLE
+		}
+
+	}
+
 }

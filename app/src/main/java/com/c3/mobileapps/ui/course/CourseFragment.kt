@@ -124,12 +124,6 @@ class CourseFragment : Fragment() {
                 binding.cpAll.isChecked = false
                 courseViewModel.addDataMapping("type", "free")
             }
-
-
-
-
-
-
     }
 
     private fun getCourse(

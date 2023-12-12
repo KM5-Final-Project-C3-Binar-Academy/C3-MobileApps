@@ -10,11 +10,15 @@ import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
 import com.c3.mobileapps.utils.DiffUtils
 
-class AllCategoryCourseAdapter(private var listCategory : List<Category>) : RecyclerView.Adapter<AllCategoryCourseAdapter.ViewHolder>() {
+class CategoryAdapter(private var listener: (() -> Unit)? = null): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+
+    private var listCategory = emptyList<Category>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             CategoryCourseItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,16 +26,19 @@ class AllCategoryCourseAdapter(private var listCategory : List<Category>) : Recy
         holder.onBind(item)
     }
 
-    override fun getItemCount(): Int = listCategory.size
+    override fun getItemCount(): Int = listCategory.size.minus(2)
 
-    fun setData(categoryResponse: List<Category>) {
-        val diffUtil = DiffUtils(listCategory, categoryResponse)
+    fun setData(newCategory: List<Category>) {
+
+        val diffUtil = DiffUtils(listCategory, newCategory)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
-        listCategory = categoryResponse
+        listCategory = newCategory
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(private val binding: CategoryCourseItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: CategoryCourseItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+
         fun onBind(data: Category) {
             binding.tvNameCategory.text = data.name
             Glide.with(binding.root.context)
@@ -41,5 +48,4 @@ class AllCategoryCourseAdapter(private var listCategory : List<Category>) : Recy
                 .into(binding.ivImageCategory)
         }
     }
-
 }
