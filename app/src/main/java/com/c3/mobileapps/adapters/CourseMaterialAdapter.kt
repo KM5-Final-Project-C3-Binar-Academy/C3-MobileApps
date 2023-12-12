@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.remote.model.response.CourseId.CourseChapter
 import com.c3.mobileapps.data.remote.model.response.CourseId.CourseMaterial
-import com.c3.mobileapps.data.remote.model.response.CourseId.Data
 import com.c3.mobileapps.databinding.ItemMateriBinding
 import com.c3.mobileapps.databinding.ItemMateriHeaderBinding
 
@@ -27,17 +26,18 @@ class CourseMaterialAdapter(private val data: List<Any>)
     }
 
 
-    class FilterViewHolder(private val binding: ItemMateriBinding) :
+    class MaterialViewHolder(private val binding: ItemMateriBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: Data) {
+        fun onBind(data: CourseMaterial) {
+            binding.tvMateri.text = data.name
 
         }
     }
 
     class HeaderViewHolder(private val binding: ItemMateriHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: String) {
-            binding.tvHeader.text = data
+        fun onBind(data: CourseChapter) {
+            binding.tvHeader.text = data.name
         }
     }
 
@@ -53,7 +53,7 @@ class CourseMaterialAdapter(private val data: List<Any>)
             ITEM_MATERIAL -> {
                 val binding =
                     ItemMateriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                FilterViewHolder(binding)
+                MaterialViewHolder(binding)
             }
 
             else -> throw throw IllegalArgumentException("Undefined view type")
@@ -66,16 +66,15 @@ class CourseMaterialAdapter(private val data: List<Any>)
         when (holder.itemViewType) {
             ITEM_HEADER -> {
                 val headerHolder = holder as HeaderViewHolder
-                headerHolder.onBind(data[position] as String)
+                headerHolder.onBind(data[position] as CourseChapter)
             }
 
             ITEM_MATERIAL -> {
-                val itemHolder = holder as FilterViewHolder
-//                itemHolder.onBind(
-//                    data[position] as FilterCategory,
-//                    filterItemClickListener,
-//                    checkedItemsMap
-//                )
+                val materialHolder = holder as MaterialViewHolder
+                materialHolder.onBind(
+                    data[position] as CourseMaterial,
+
+                )
             }
 
             else -> throw IllegalArgumentException("Undefined view type")
