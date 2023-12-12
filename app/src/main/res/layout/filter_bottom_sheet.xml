@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:animateLayoutChanges="true"
+    android:background="@color/transparant">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:text="FILTER PENCARIAN" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="75dp"
+        android:background="@drawable/bg_filter"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!-- KATEGORI 1 -->
-            <TextView
-                android:id="@+id/textView2"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:paddingBottom="10dp"
-                android:text="KATEGORI 1" />
+                android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvFilter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- KATEGORI 2 -->
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:paddingBottom="10dp"
-                android:text="KATEGORI 2" />
+                <Button
+                    android:id="@+id/btnTerapkanFilter"
+                    android:layout_width="275dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/terapkan_filter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_filter" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvFilter2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
-        </LinearLayout>
-    </ScrollView>
+                <Button
+                    android:id="@+id/btnHapusFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/red"
+                    android:text="@string/hapus_filter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnTerapkanFilter" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

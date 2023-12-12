@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemKelasFullBinding
 import com.c3.mobileapps.utils.CourseDiffUtil
@@ -16,6 +17,8 @@ import com.c3.mobileapps.utils.CourseDiffUtil
 class ListCourseAdapter(private var data :List<Course>,
                         private var listener: (Course) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -42,6 +45,12 @@ class ListCourseAdapter(private var data :List<Course>,
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
+    fun clearData() {
+        val diffCallback = CourseDiffUtil(data, emptyList())
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        data = emptyList()
+        diffResult.dispatchUpdatesTo(this)
+    }
     class CourseHolder(private val binding: ItemKelasFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -58,10 +67,14 @@ class ListCourseAdapter(private var data :List<Course>,
                 .into(binding.imageView)
 
             if (data.premium == true){
+                val price = "Beli Rp.${data.price}"
+                binding.btnPremium.text = price
+                binding.btnPremium.visibility = View.VISIBLE
                 binding.btnMulaiKelas.visibility = View.GONE
-                binding.btnPremium.text = "Beli Rp.${data.price}"
+
             }else{
                 binding.btnPremium.visibility = View.GONE
+                binding.btnMulaiKelas.visibility = View.VISIBLE
             }
         }
 

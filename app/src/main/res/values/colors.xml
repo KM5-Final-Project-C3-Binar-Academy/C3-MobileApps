@@ -7,4 +7,5 @@
     <color name="blue">#6148FF</color>
     <color name="transparant">#3E000000</color>
     <color name="red">#FF0000</color>
+    <color name="background">#EBF3FC</color>
 </resources>

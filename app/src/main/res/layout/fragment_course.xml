@@ -5,7 +5,8 @@
     android:layout_marginBottom="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,7 +29,6 @@
             app:boxStrokeWidth="1dp"
             app:boxBackgroundMode="filled"
             app:boxStrokeWidthFocused="2dp"
-
             app:cardElevation="4dp"
             >
 
@@ -36,6 +36,8 @@
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
                 android:paddingEnd="80dp"
                 android:background="@null"/>
 
@@ -43,7 +45,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/baseline_search_24"
@@ -69,11 +71,11 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/lihatSemuaKategori"
+            android:id="@+id/filter"
             style="@style/text_expand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lihatSemua"
+            android:text="Filter"
             app:layout_constraintTop_toTopOf="@id/labelKelasBerjalan"
             app:layout_constraintBottom_toBottomOf="@id/labelKelasBerjalan"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +124,6 @@
             android:id="@+id/rvCourse"
             android:layout_width="359dp"
             android:layout_height="703dp"
-            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"

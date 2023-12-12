@@ -1,4 +1,4 @@
-package com.c3.mobileapps.data.database.categoryDB
+package com.c3.mobileapps.data.local.database.categoryDB
 
 import androidx.room.Dao
 import androidx.room.Insert

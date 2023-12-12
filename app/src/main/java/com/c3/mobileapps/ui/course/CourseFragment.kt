@@ -1,131 +1,159 @@
 package com.c3.mobileapps.ui.course
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.ListCourseAdapter
-import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentCourseBinding
+import com.c3.mobileapps.ui.filter.FIlterBottomSheet
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class CourseFragment : Fragment() {
 
     private lateinit var binding: FragmentCourseBinding
-    private lateinit var listCourseAdapter: ListCourseAdapter
-    private val courseViewModel: CourseViewModel by inject()
+    private val courseViewModel: CourseViewModel by activityViewModel<CourseViewModel>()
 
+    private lateinit var listCourseAdapter: ListCourseAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
+
         checkMode()
-        loadDataList()
+
+        courseViewModel.dataFilter.observe(viewLifecycleOwner) { dataFilter ->
+            val filterString = dataFilter["filter"]?.joinToString(",")
+            val categoryString = dataFilter["kategori"]?.joinToString(",")
+            val difficultyString = dataFilter["level"]?.joinToString(",")
+            val typeString = dataFilter["type"]?.joinToString(",")
+
+            if(typeString.isNullOrEmpty()){
+                binding.cpAll.isChecked = true
+                binding.cpKelasPremium.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+            }
+
+            getCourse(
+                type = typeString,
+                filter = filterString,
+                category = categoryString,
+                difficulty = difficultyString,
+                search = null
+            )
+
+            binding.filter.setOnClickListener {
+                val fIlterBottomSheet = FIlterBottomSheet(dataFilter)
+                fIlterBottomSheet.show(childFragmentManager, fIlterBottomSheet.tag)
+            }
+
+            binding.btnSearch.setOnClickListener {
+                hideKeyboardAndClearFocus()
+                getCourse(
+                    type = typeString,
+                    filter = filterString,
+                    category = categoryString,
+                    difficulty = difficultyString,
+                    search = binding.etSearch.text.toString()
+                )
+            }
+        }
+
         setupRvCourse()
+
         return binding.root
     }
-    private fun checkMode(){
-        binding.cpAll.setOnClickListener {
-            binding.cpKelasPremium.isChecked = false
-            binding.cpKelasGratis.isChecked = false
-            courseViewModel.setMode("All")
-        }
-        binding.cpKelasPremium.setOnClickListener {
-            binding.cpAll.isChecked = false
-            binding.cpKelasGratis.isChecked = false
-            courseViewModel.setMode(true)
-        }
 
-        binding.cpKelasGratis.setOnClickListener {
-            binding.cpKelasPremium.isChecked = false
-            binding.cpAll.isChecked = false
-            courseViewModel.setMode(false)
-        }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.etSearch.setText("")
+        binding.cpAll.isChecked = true
+        binding.cpKelasPremium.isChecked = false
+        binding.cpKelasGratis.isChecked = false
+        courseViewModel.dataFilter.value?.clear()
     }
 
-    private fun coursePerMode(listCourse: List<Course>){
-        courseViewModel.mode.observe(viewLifecycleOwner){mode ->
-            when(mode){
-                "All" -> {
-                    Log.d("cek mode",mode.toString())
-                    checkMode()
-                    listCourseAdapter.setData(listCourse)
-                    binding.progressBarMenu.isVisible = false
-                }
-                true -> {
-                    Log.d("cek mode",mode.toString())
-                    checkMode()
+    private fun hideKeyboardAndClearFocus() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-                    val premiumList = mutableListOf<Course>()
+        // Check if the currently focused view is an EditText or has focusable property
+        if (requireActivity().currentFocus is View) {
+            val focusedView = requireActivity().currentFocus as View
+            focusedView.clearFocus()
+        }
 
-                    listCourse.forEach {
-                        if (it.premium == true){
-                            premiumList.add(it)
-                        }
-                    }
-                    listCourseAdapter.setData(premiumList)
-                    binding.progressBarMenu.isVisible = false
+        // Hide the keyboard
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 
-                }
-                false ->{
-                    Log.d("cek mode",mode.toString())
-                    checkMode()
+    private fun checkMode() {
 
-                    val gratisList = mutableListOf<Course>()
 
-                    listCourse.forEach {
-                        if (it.premium == false){
-                            gratisList.add(it)
-                        }
-                    }
-                    listCourseAdapter.setData(gratisList)
-                    binding.progressBarMenu.isVisible = false
-                }
+
+            binding.cpAll.setOnClickListener {
+                binding.cpKelasPremium.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+                courseViewModel.addDataMapping("type", null)
+
             }
-        }
-    }
-
-    private fun loadDataList() {
-        lifecycleScope.launch {
-            courseViewModel.readCourse.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
-                    Log.d("data course", "list course view from database")
-                    coursePerMode(database.first().courseResponse.data)
-                } else {
-                    remoteGetCourse()
-                }
+            binding.cpKelasPremium.setOnClickListener {
+                binding.cpAll.isChecked = false
+                binding.cpKelasGratis.isChecked = false
+                courseViewModel.addDataMapping("type", "premium")
             }
-        }
+
+            binding.cpKelasGratis.setOnClickListener {
+                binding.cpKelasPremium.isChecked = false
+                binding.cpAll.isChecked = false
+                courseViewModel.addDataMapping("type", "free")
+            }
+
+
+
+
+
+
     }
 
-    private fun remoteGetCourse(){
-        courseViewModel.getListCourse()
-        courseViewModel.listCourse.observe(viewLifecycleOwner){it ->
-            when (it.status){
+    private fun getCourse(
+        type: String?,
+        filter: String?,
+        category: String?,
+        search: String?,
+        difficulty: String?
+    ) {
+        courseViewModel.getListCourse(type, filter, category, search, difficulty)
+        courseViewModel.listCourse.observe(viewLifecycleOwner) { it ->
+            when (it.status) {
                 Status.SUCCESS -> {
+                    listCourseAdapter.clearData()
                     Log.e("Cek Data Course", Gson().toJson(it.data))
                     binding.progressBarMenu.isVisible = false
                     it.data?.let { listCourseAdapter.setData(it.data) }
                 }
+
                 Status.ERROR -> {
                     Log.e("Cek Data Course", it.message.toString())
                     binding.progressBarMenu.isVisible = false
-                    loadDataList()
 
                 }
+
                 Status.LOADING -> {
                     binding.progressBarMenu.isVisible = true
                 }
@@ -133,12 +161,12 @@ class CourseFragment : Fragment() {
         }
     }
 
-    private fun setupRvCourse(){
+    private fun setupRvCourse() {
         listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
         })
-        binding.rvCourse.setHasFixedSize(true)
+
         binding.rvCourse.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvCourse.adapter = listCourseAdapter

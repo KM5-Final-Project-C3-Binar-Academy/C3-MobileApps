@@ -1,9 +1,9 @@
 package com.c3.mobileapps.data.repository
 
-import com.c3.mobileapps.data.database.categoryDB.CategoryDao
-import com.c3.mobileapps.data.database.categoryDB.TbCategory
-import com.c3.mobileapps.data.database.courseDB.CourseDao
-import com.c3.mobileapps.data.database.courseDB.TbCourse
+import com.c3.mobileapps.data.local.database.categoryDB.CategoryDao
+import com.c3.mobileapps.data.local.database.categoryDB.TbCategory
+import com.c3.mobileapps.data.local.database.courseDB.CourseDao
+import com.c3.mobileapps.data.local.database.courseDB.TbCourse
 import kotlinx.coroutines.flow.Flow
 
 class RoomRepository(private val courseDao: CourseDao, private val categoryDao: CategoryDao) {

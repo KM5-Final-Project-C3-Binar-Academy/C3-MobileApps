@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.ItemFilterAdapter
-import com.c3.mobileapps.data.filterCategory
 import com.c3.mobileapps.databinding.FragmentNotificationBinding
 import com.c3.mobileapps.databinding.FragmentViewAllCourseBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -28,24 +27,24 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listItem = mutableListOf<filterCategory>()
-        listItem.add(filterCategory("UI/UX Design"))
-        listItem.add(filterCategory("Product Management"))
-        listItem.add(filterCategory("Web Development"))
-        listItem.add(filterCategory("Android Development"))
-        listItem.add(filterCategory("AI Development"))
-        listItem.add(filterCategory("Business Intelligent"))
-        listItem.add(filterCategory("Fullstack Development"))
-        listItem.add(filterCategory("Data Science"))
-        listItem.add(filterCategory("Cyber security"))
-        listItem.add(filterCategory("Mobile App Development"))
-        listItem.add(filterCategory("Game Development"))
-        listItem.add(filterCategory("Cloud Computing"))
-        listItem.add(filterCategory("Machine Learning"))
-        listItem.add(filterCategory("DevOps"))
-        listItem.add(filterCategory("Blockchain"))
+//        val listItem = mutableListOf<filterCategory>()
+//        listItem.add(filterCategory("UI/UX Design"))
+//        listItem.add(filterCategory("Product Management"))
+//        listItem.add(filterCategory("Web Development"))
+//        listItem.add(filterCategory("Android Development"))
+//        listItem.add(filterCategory("AI Development"))
+//        listItem.add(filterCategory("Business Intelligent"))
+//        listItem.add(filterCategory("Fullstack Development"))
+//        listItem.add(filterCategory("Data Science"))
+//        listItem.add(filterCategory("Cyber security"))
+//        listItem.add(filterCategory("Mobile App Development"))
+//        listItem.add(filterCategory("Game Development"))
+//        listItem.add(filterCategory("Cloud Computing"))
+//        listItem.add(filterCategory("Machine Learning"))
+//        listItem.add(filterCategory("DevOps"))
+//        listItem.add(filterCategory("Blockchain"))
 
-		val adapter = ItemFilterAdapter(listItem)
+//		val adapter = ItemFilterAdapter(listItem)
 //		binding.rvViewAll.adapter = adapter
 //		binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
 //
