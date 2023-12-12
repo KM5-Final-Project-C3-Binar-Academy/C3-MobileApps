@@ -4,8 +4,8 @@ package com.c3.mobileapps.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.c3.mobileapps.data.remote.model.response.CourseId.CourseChapter
-import com.c3.mobileapps.data.remote.model.response.CourseId.CourseMaterial
+import com.c3.mobileapps.data.remote.model.response.course.CourseChapter
+import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
 import com.c3.mobileapps.databinding.ItemMateriBinding
 import com.c3.mobileapps.databinding.ItemMateriHeaderBinding
 

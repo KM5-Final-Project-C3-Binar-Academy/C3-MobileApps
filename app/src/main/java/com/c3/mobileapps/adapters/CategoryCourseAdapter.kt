@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
+import com.c3.mobileapps.utils.DiffUtils
 
 class CategoryCourseAdapter( private var listener: (() -> Unit)? = null): RecyclerView.Adapter<CategoryCourseAdapter.ViewHolder>() {
 
@@ -30,7 +30,7 @@ class CategoryCourseAdapter( private var listener: (() -> Unit)? = null): Recycl
 
     fun setData(newCategory: List<Category>) {
 
-        val diffUtil = CourseDiffUtil(listCategory, newCategory)
+        val diffUtil = DiffUtils(listCategory, newCategory)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         listCategory = newCategory
         diffUtilResult.dispatchUpdatesTo(this)

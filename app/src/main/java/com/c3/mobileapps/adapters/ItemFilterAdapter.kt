@@ -5,15 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.response.course.Category
-import com.c3.mobileapps.data.remote.model.response.course.Course
-import com.c3.mobileapps.databinding.CategoryCourseItemBinding
-import com.c3.mobileapps.databinding.FilterBottomSheetBinding
-import com.c3.mobileapps.databinding.ItemCheckboxBinding
 import com.c3.mobileapps.databinding.ItemFilterBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
-import com.google.android.material.chip.Chip
+import com.c3.mobileapps.utils.DiffUtils
 
 class ItemFilterAdapter( private var listener: ((String) -> Unit)? = null)  : RecyclerView.Adapter<ItemFilterAdapter.ViewHolder>()  {
 
@@ -44,7 +38,7 @@ class ItemFilterAdapter( private var listener: ((String) -> Unit)? = null)  : Re
 		val updatedList = mutableListOf(allCategory)
 		updatedList.addAll(newCategory)
 
-		val diffUtil = CourseDiffUtil(categoryItem, updatedList)
+		val diffUtil = DiffUtils(categoryItem, updatedList)
 		val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
 		categoryItem = updatedList
 		diffUtilResult.dispatchUpdatesTo(this)

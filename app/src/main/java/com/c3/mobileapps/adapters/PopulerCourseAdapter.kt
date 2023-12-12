@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.data.remote.model.response.course.Course
-import com.c3.mobileapps.databinding.ItemKelasBinding
 import com.c3.mobileapps.databinding.ItemKelasFullBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
+import com.c3.mobileapps.utils.DiffUtils
 
 class PopulerCourseAdapter(private var listener: ((Course) -> Unit)? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -34,7 +32,7 @@ class PopulerCourseAdapter(private var listener: ((Course) -> Unit)? = null) :
 
     fun setData(newCourse: List<Course>) {
 
-        val diffUtil = CourseDiffUtil(listCourse, newCourse)
+        val diffUtil = DiffUtils(listCourse, newCourse)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         listCourse = newCourse
         diffUtilResult.dispatchUpdatesTo(this)

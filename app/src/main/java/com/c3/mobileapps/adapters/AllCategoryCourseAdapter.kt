@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
+import com.c3.mobileapps.utils.DiffUtils
 
 class AllCategoryCourseAdapter(private var listCategory : List<Category>) : RecyclerView.Adapter<AllCategoryCourseAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +25,7 @@ class AllCategoryCourseAdapter(private var listCategory : List<Category>) : Recy
     override fun getItemCount(): Int = listCategory.size
 
     fun setData(categoryResponse: List<Category>) {
-        val diffUtil = CourseDiffUtil(listCategory, categoryResponse)
+        val diffUtil = DiffUtils(listCategory, categoryResponse)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         listCategory = categoryResponse
         diffUtilResult.dispatchUpdatesTo(this)

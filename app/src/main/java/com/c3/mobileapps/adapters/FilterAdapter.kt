@@ -6,11 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.local.filter.FilterCategory
-import com.c3.mobileapps.data.remote.model.response.course.Category
-import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemCheckboxBinding
 import com.c3.mobileapps.databinding.ItemHeaderBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
+import com.c3.mobileapps.utils.DiffUtils
 
 class FilterAdapter(
     private val checkedItemsMap: MutableMap<String, MutableList<String>>,
@@ -21,7 +19,7 @@ class FilterAdapter(
     private var data = emptyList<Any>()
 
     fun setData(newDaata: List<Any>) {
-        val diffUtil = CourseDiffUtil(data, newDaata)
+        val diffUtil = DiffUtils(data, newDaata)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         data = newDaata
         diffUtilResult.dispatchUpdatesTo(this)

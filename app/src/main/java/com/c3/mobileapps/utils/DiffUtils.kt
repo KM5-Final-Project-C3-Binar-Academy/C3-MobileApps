@@ -2,7 +2,7 @@ package com.c3.mobileapps.utils
 
 import androidx.recyclerview.widget.DiffUtil
 
-class CourseDiffUtil <T>(
+class DiffUtils <T>(
     private val oldCourse: List<T>,
     private val newCourse: List<T>
 ) : DiffUtil.Callback() {

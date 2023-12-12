@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.c3.mobileapps.data.remote.model.response.CourseId.CourseIdResponse
+import com.c3.mobileapps.data.remote.model.response.course.CourseIdResponse
+import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
 import kotlinx.coroutines.launch

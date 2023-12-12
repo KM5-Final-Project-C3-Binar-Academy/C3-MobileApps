@@ -71,13 +71,16 @@ class DetailCourseFragment : Fragment() {
                     Log.e("Cek Data Course", Gson().toJson(it.data))
                     binding.progressBar.isVisible = false
 
-                    binding.tvNamaKelas.text = it.data?.data?.course_category?.name
-                    binding.deskripsiJudulKelas.text = it.data?.data?.name
-                    binding.creatorKelas.text = it.data?.data?.author
-                    binding.levelNameKelas.text =  it.data?.data?.difficulty
-                    binding.rating.text =  it.data?.data?.rating.toString()
-                    binding.durasiKelas.text = "${it.data?.data?.total_duration.toString()} Menit"
-                    binding.jumlahModulKelas.text =  "${it.data?.data?.total_materials.toString()} Modul "
+                    val data = it.data?.data
+
+
+                    binding.tvNamaKelas.text = data?.courseCategory?.name
+                    binding.deskripsiJudulKelas.text = data?.name
+                    binding.creatorKelas.text = data?.author
+                    binding.levelNameKelas.text =  data?.difficulty
+                    binding.rating.text =  data?.rating.toString()
+                    binding.durasiKelas.text = "${ data?.totalDuration.toString()} Menit"
+                    binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
 
 //                    it.data?.data?.course_chapter?.forEach{
 //                        it.

@@ -42,9 +42,11 @@ class DetailTentangFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Course", Gson().toJson(it.data))
 
-                    binding.tvTentangkelas.text = it.data?.data?.description
-                    binding.tvAudience.text = it.data?.data?.target_audience.toString()
-                    val telegram = it.data?.data?.telegram
+                    val data = it.data?.data
+
+                    binding.tvTentangkelas.text = data?.description
+                    binding.tvAudience.text = data?.targetAudience.toString()
+                    val telegram = data?.telegram
                     binding.btnTelegram.setOnClickListener {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(telegram))
                         startActivity(intent)

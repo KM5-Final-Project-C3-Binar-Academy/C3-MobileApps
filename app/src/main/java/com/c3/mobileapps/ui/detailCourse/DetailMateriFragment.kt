@@ -62,10 +62,10 @@ class DetailMateriFragment : Fragment() {
 
                     val data = it.data?.data
 
-                    data?.course_chapter?.forEach {chapter ->
+                    data?.courseChapter?.forEach {chapter ->
                         if (chapter != null) {
                             materiList.add(chapter)
-                            chapter.course_material?.forEach {material ->
+                            chapter.courseMaterial?.forEach {material ->
                                 materiList.add(material!!)
                             }
                         }

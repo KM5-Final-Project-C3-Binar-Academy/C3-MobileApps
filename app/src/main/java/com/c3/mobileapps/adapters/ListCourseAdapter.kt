@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemKelasFullBinding
-import com.c3.mobileapps.utils.CourseDiffUtil
+import com.c3.mobileapps.utils.DiffUtils
 
 
 class ListCourseAdapter(private var data :List<Course>,
@@ -39,14 +38,14 @@ class ListCourseAdapter(private var data :List<Course>,
     override fun getItemCount(): Int = data.size
 
     fun setData(courseResponse: List<Course>) {
-        val diffUtil = CourseDiffUtil(data, courseResponse)
+        val diffUtil = DiffUtils(data, courseResponse)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         data = courseResponse
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
     fun clearData() {
-        val diffCallback = CourseDiffUtil(data, emptyList())
+        val diffCallback = DiffUtils(data, emptyList())
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         data = emptyList()
         diffResult.dispatchUpdatesTo(this)
