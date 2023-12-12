@@ -33,9 +33,10 @@ class CourseFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
 
-        checkMode()
-
         courseViewModel.dataFilter.observe(viewLifecycleOwner) { dataFilter ->
+
+            checkMode()
+
             val filterString = dataFilter["filter"]?.joinToString(",")
             val categoryString = dataFilter["kategori"]?.joinToString(",")
             val difficultyString = dataFilter["level"]?.joinToString(",")

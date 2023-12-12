@@ -13,33 +13,6 @@ import kotlinx.coroutines.launch
 
 class CourseViewModel(private val repository: DataRepository) : ViewModel() {
 
-
-    private var _mode: MutableLiveData<String?> = MutableLiveData(null)
-    val mode: LiveData<String?> = _mode
-    fun setMode(mode: String?) {
-        _mode.value = mode
-    }
-
-    /**
-    private var _category: MutableLiveData<String> = MutableLiveData()
-    val category: LiveData<String> = _category
-    fun setCategory(category: String) {
-        _category.value = category
-    }
-
-    private var _difficulty: MutableLiveData<String> = MutableLiveData()
-    val difficulty: LiveData<String> = _difficulty
-    fun setDifficulty(difficulty: String) {
-        _difficulty.value = difficulty
-    }
-
-    private var _filter: MutableLiveData<String> = MutableLiveData()
-    val filter: LiveData<String> = _filter
-    fun setFilter(filter: String) {
-        _filter.value = filter
-    }
-    **/
-
     private var _dataFilter: MutableLiveData<MutableMap<String, MutableList<String>>> =
         MutableLiveData(mutableMapOf())
     val dataFilter: LiveData<MutableMap<String, MutableList<String>>> = _dataFilter
@@ -53,6 +26,8 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
         if (currentData.containsKey(key)) {
             if (value != null) {
                 currentData[key] = mutableListOf(value)
+            }else{
+                currentData[key] = mutableListOf()
             }
         } else {
             currentData[key] = mutableListOf(value.toString())
