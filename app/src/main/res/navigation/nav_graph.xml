@@ -25,7 +25,11 @@
         android:id="@+id/kelasFragment"
         android:name="com.c3.mobileapps.ui.kelas.KelasFragment"
         android:label="fragment_kelas"
-        tools:layout="@layout/fragment_kelas" />
+        tools:layout="@layout/fragment_kelas" >
+        <action
+            android:id="@+id/action_kelasFragment_to_viewAllCategoryFragment"
+            app:destination="@id/viewAllCategoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/courseFragment"
         android:name="com.c3.mobileapps.ui.course.CourseFragment"
@@ -39,7 +43,14 @@
         android:id="@+id/profileFragment"
         android:name="com.c3.mobileapps.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_historyPaymentFragment"
+            app:destination="@id/historyPaymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailCourseFragment"
         android:name="com.c3.mobileapps.ui.detailCourse.DetailCourseFragment"
@@ -54,4 +65,14 @@
         android:id="@+id/viewAllCategoryFragment"
         android:name="com.c3.mobileapps.ui.home.viewAll.ViewAllCategoryFragment"
         android:label="ViewAllCategoryFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.c3.mobileapps.ui.profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/historyPaymentFragment"
+        android:name="com.c3.mobileapps.ui.paymentCourse.HistoryPaymentFragment"
+        android:label="fragment_history_payment"
+        tools:layout="@layout/fragment_history_payment" />
 </navigation>

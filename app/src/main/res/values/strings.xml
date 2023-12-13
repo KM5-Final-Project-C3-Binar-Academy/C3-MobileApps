@@ -38,5 +38,13 @@
     <string name="_60_menit">60 Menit</string>
     <string name="materi_kelas">Materi Kelas</string>
     <string name="tentang">Tentang</string>
+    <string name="search">search</string>
+    <string name="riwayat_pembayaran">Riwayat Pembayaran</string>
+    <string name="star">***</string>
+    <string name="by_john_doe">by John Doe</string>
+    <string name="_10_05">10/05</string>
+    <string name="todo">TODO</string>
+    <string name="ppn_11">PPN 11%</string>
+    <string name="harga">Harga</string>
 
 </resources>

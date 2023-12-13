@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="@id/searchLayout"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
-            />
+            android:contentDescription="@string/search"/>
 
 
 

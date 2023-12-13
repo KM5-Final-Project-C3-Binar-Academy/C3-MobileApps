@@ -1,8 +1,6 @@
 package com.c3.mobileapps.ui.detailCourse
 
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -38,12 +36,9 @@ class DetailMateriFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val simpleArgs = arguments?.getString("ARGS_ID")
-        binding.textView6.text = simpleArgs
-
         getCourseDetail(simpleArgs)
 
         courseMaterialAdapter = CourseMaterialAdapter(materiList)
-
         binding.rvMateri.adapter = courseMaterialAdapter
         binding.rvMateri.layoutManager = LinearLayoutManager(
             requireActivity(),

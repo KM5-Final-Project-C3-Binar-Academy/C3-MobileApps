@@ -10,7 +10,8 @@ import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
 import com.c3.mobileapps.utils.DiffUtils
 
-class AllCategoryCourseAdapter(private var listCategory : List<Category>) : RecyclerView.Adapter<AllCategoryCourseAdapter.ViewHolder>() {
+class AllCategoryCourseAdapter( private var listener: (() -> Unit)? = null) : RecyclerView.Adapter<AllCategoryCourseAdapter.ViewHolder>() {
+    private var listCategory = emptyList<Category>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             CategoryCourseItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,10 +25,11 @@ class AllCategoryCourseAdapter(private var listCategory : List<Category>) : Recy
 
     override fun getItemCount(): Int = listCategory.size
 
-    fun setData(categoryResponse: List<Category>) {
-        val diffUtil = DiffUtils(listCategory, categoryResponse)
+    fun setData(newCategory: List<Category>) {
+
+        val diffUtil = DiffUtils(listCategory, newCategory)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
-        listCategory = categoryResponse
+        listCategory = newCategory
         diffUtilResult.dispatchUpdatesTo(this)
     }
 

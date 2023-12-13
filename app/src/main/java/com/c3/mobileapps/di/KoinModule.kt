@@ -9,6 +9,7 @@ import com.c3.mobileapps.data.repository.RoomRepository
 import com.c3.mobileapps.ui.course.CourseViewModel
 import com.c3.mobileapps.ui.detailCourse.DetailCourseViewModel
 import com.c3.mobileapps.ui.home.HomeViewModel
+import com.c3.mobileapps.ui.kelas.KelasViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -43,5 +44,6 @@ object KoinModule {
             viewModel { HomeViewModel(get()) }
             viewModel { CourseViewModel(get())}
             viewModel { DetailCourseViewModel(get())}
+            viewModel { KelasViewModel(get()) }
         }
 }

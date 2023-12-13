@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.AllCategoryCourseAdapter
+import com.c3.mobileapps.adapters.CategoryCourseAdapter
 import com.c3.mobileapps.databinding.FragmentViewAllCategoryBinding
 import com.c3.mobileapps.ui.home.HomeViewModel
 import com.c3.mobileapps.utils.Status
@@ -39,7 +40,6 @@ class ViewAllCategoryFragment : Fragment() {
     }
 
     private fun loadDataCategory() {
-
         lifecycleScope.launch {
             homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
@@ -74,8 +74,8 @@ class ViewAllCategoryFragment : Fragment() {
     }
 
     private fun setupRvCategory(){
-        categoryCourseAdapter = AllCategoryCourseAdapter(emptyList())
-        binding.rvViewAll.setHasFixedSize(true)
+        categoryCourseAdapter = AllCategoryCourseAdapter(listener = null)
+
         binding.rvViewAll.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvViewAll.adapter = categoryCourseAdapter
     }
