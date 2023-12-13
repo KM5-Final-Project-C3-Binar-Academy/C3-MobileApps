@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvProfil.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+            findNavController().navigate(R.id.editProfileFragment)
         }
 
         binding.tvChangePassword.setOnClickListener {
@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.tvHistoryPayment.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_historyPaymentFragment)
+            findNavController().navigate(R.id.historyPaymentFragment)
 
         }
 

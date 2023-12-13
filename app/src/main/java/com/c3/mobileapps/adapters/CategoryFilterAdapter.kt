@@ -9,7 +9,7 @@ import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.ItemFilterBinding
 import com.c3.mobileapps.utils.DiffUtils
 
-class ItemFilterAdapter( private var listener: ((String) -> Unit)? = null)  : RecyclerView.Adapter<ItemFilterAdapter.ViewHolder>()  {
+class CategoryFilterAdapter(private var listener: ((String) -> Unit)? = null)  : RecyclerView.Adapter<CategoryFilterAdapter.ViewHolder>()  {
 
 	private var categoryItem = emptyList<Category>()
 	private var selectedCategory: String? = "All"

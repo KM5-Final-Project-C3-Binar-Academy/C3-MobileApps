@@ -8,14 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.c3.mobileapps.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_viewAllCourseFragment"
-            app:destination="@id/viewAllCourseFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_viewAllCategoryFragment"
-            app:destination="@id/viewAllCategoryFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.c3.mobileapps.ui.notification.NotificationFragment"
@@ -25,11 +18,7 @@
         android:id="@+id/kelasFragment"
         android:name="com.c3.mobileapps.ui.kelas.KelasFragment"
         android:label="fragment_kelas"
-        tools:layout="@layout/fragment_kelas" >
-        <action
-            android:id="@+id/action_kelasFragment_to_viewAllCategoryFragment"
-            app:destination="@id/viewAllCategoryFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_kelas" />
     <fragment
         android:id="@+id/courseFragment"
         android:name="com.c3.mobileapps.ui.course.CourseFragment"
@@ -43,28 +32,22 @@
         android:id="@+id/profileFragment"
         android:name="com.c3.mobileapps.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_historyPaymentFragment"
-            app:destination="@id/historyPaymentFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/detailCourseFragment"
         android:name="com.c3.mobileapps.ui.detailCourse.DetailCourseFragment"
         android:label="fragment_detail_course"
         tools:layout="@layout/fragment_detail_course" />
     <fragment
-        android:id="@+id/viewAllCourseFragment"
-        android:name="com.c3.mobileapps.ui.home.viewAll.ViewAllCourseFragment"
-        android:label="fragment_view_all_course"
-        tools:layout="@layout/fragment_view_all_course" />
+        android:id="@+id/searchFragment"
+        android:name="com.c3.mobileapps.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/viewAllCategoryFragment"
-        android:name="com.c3.mobileapps.ui.home.viewAll.ViewAllCategoryFragment"
-        android:label="ViewAllCategoryFragment" />
+        android:id="@+id/viewAllFragment"
+        android:name="com.c3.mobileapps.ui.home.ViewAllFragment"
+        android:label="fragment_view_all"
+        tools:layout="@layout/fragment_view_all" />
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.c3.mobileapps.ui.profile.EditProfileFragment"

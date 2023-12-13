@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.recyclerview.widget.GridLayoutManager
 import com.c3.mobileapps.R
-import com.c3.mobileapps.adapters.CategoryCourseAdapter
+import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.databinding.FragmentKelasBinding
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -21,8 +23,9 @@ import org.koin.android.ext.android.inject
 class KelasFragment : Fragment() {
 
     private lateinit var binding: FragmentKelasBinding
+
     private val kelasViewModel: KelasViewModel by inject()
-    private lateinit var categoryCourseAdapter: CategoryCourseAdapter
+    private lateinit var categoryCourseAdapter: CategoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +33,31 @@ class KelasFragment : Fragment() {
     ): View{
         // Inflate the layout for this fragment
         binding = FragmentKelasBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
+            if (hasFocus) {
+                // Do something when the EditText is focused
+                findNavController().navigate(R.id.searchFragment)
+            }
+
+        }
+
 
         setupRecyclerView()
         loadDataCategory()
 
         binding.lihatSemuaKategori.setOnClickListener {
-            findNavController().navigate(R.id.action_kelasFragment_to_viewAllCategoryFragment)
+            val bundle = Bundle()
+            bundle.putBoolean("ModeView", true)
+
+            findNavController().navigate(R.id.viewAllFragment, bundle)
         }
 
-
-        return binding.root
     }
 
     private fun loadDataCategory() {
@@ -81,7 +99,15 @@ class KelasFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        categoryCourseAdapter = CategoryCourseAdapter(listener = null)
+        categoryCourseAdapter = CategoryAdapter(
+            isAll = false,
+            listener = {category ->
+                val bundle = bundleOf("CATEGORY" to category)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.kelasFragment, true)
+                    .build()
+                findNavController().navigate(R.id.courseFragment,bundle,navOptions)
+            })
         binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCategoryCourse.adapter = categoryCourseAdapter
 

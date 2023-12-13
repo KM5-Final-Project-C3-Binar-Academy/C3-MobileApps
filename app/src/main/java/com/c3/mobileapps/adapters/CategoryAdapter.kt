@@ -10,7 +10,10 @@ import com.c3.mobileapps.data.remote.model.response.course.Category
 import com.c3.mobileapps.databinding.CategoryCourseItemBinding
 import com.c3.mobileapps.utils.DiffUtils
 
-class CategoryCourseAdapter( private var listener: (() -> Unit)? = null): RecyclerView.Adapter<CategoryCourseAdapter.ViewHolder>() {
+class CategoryAdapter(
+    private var listener: ((String) -> Unit)? = null,
+    private var isAll: Boolean
+) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private var listCategory = emptyList<Category>()
 
@@ -24,9 +27,17 @@ class CategoryCourseAdapter( private var listener: (() -> Unit)? = null): Recycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listCategory[position]
         holder.onBind(item)
+
+        holder.itemView.setOnClickListener {
+            listener?.invoke(item.name!!)
+        }
     }
 
-    override fun getItemCount(): Int = listCategory.size.minus(2)
+    override fun getItemCount(): Int {
+        return if (isAll) listCategory.size else listCategory.size.minus(2)
+
+
+    }
 
     fun setData(newCategory: List<Category>) {
 
@@ -36,8 +47,8 @@ class CategoryCourseAdapter( private var listener: (() -> Unit)? = null): Recycl
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(private val binding: CategoryCourseItemBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: CategoryCourseItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(data: Category) {
             binding.tvNameCategory.text = data.name

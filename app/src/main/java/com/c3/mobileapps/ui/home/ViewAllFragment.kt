@@ -16,14 +16,16 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
-import com.c3.mobileapps.databinding.FragmentHomeBinding
+import com.c3.mobileapps.databinding.FragmentViewAllBinding
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+class ViewAllFragment : Fragment() {
+
+    private lateinit var binding: FragmentViewAllBinding
+
     private val homeViewModel: HomeViewModel by inject()
 
     private lateinit var categoryAdapter: CategoryAdapter
@@ -34,48 +36,33 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        binding = FragmentViewAllBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
+        //check bundle bawa data iscategory/ iskelas favorit
+        val isCategory = arguments?.getBoolean("ModeView")
+        setupRecyclerView(isCategory!!)
         loadDataCategory()
         populerByCategory("All")
 
-        binding.lihatSemuaKategori.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putBoolean("ModeView", true)
-
-            findNavController().navigate(R.id.viewAllFragment, bundle)
-        }
-
-        binding.expandKursusPopuler.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putBoolean("ModeView", false)
-
-            findNavController().navigate(R.id.viewAllFragment,bundle)
-        }
-
-        binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
-            if (hasFocus) {
-                // Do something when the EditText is focused
-                findNavController().navigate(R.id.searchFragment)
-            }
-
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(isCategory: Boolean) {
 
         categoryFilterAdapter = CategoryFilterAdapter{
-                populerByCategory(it)
+            populerByCategory(it)
         }
         categoryAdapter = CategoryAdapter(
-            isAll = false,
+            isAll = true,
             listener = {category ->
                 val bundle = bundleOf("CATEGORY" to category)
                 val navOptions = NavOptions.Builder()
@@ -85,22 +72,25 @@ class HomeFragment : Fragment() {
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
-
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         })
 
-        binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
-        binding.rvCategoryCourse.adapter = categoryAdapter
+        if (isCategory){
+            binding.rvFilterAll.visibility = View.GONE
+            binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
+            binding.rvViewAll.adapter = categoryAdapter
+        }else{
+            binding.rvFilterAll.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            binding.rvFilterAll.adapter = categoryFilterAdapter
 
-        binding.rvFilter.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvFilter.adapter = categoryFilterAdapter
-
-        binding.rvKelas.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvKelas.adapter = listCourseAdapter
+            binding.rvViewAll.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            binding.rvViewAll.adapter = listCourseAdapter
+        }
 
     }
+
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
