@@ -1,5 +1,6 @@
 package com.c3.mobileapps.data.remote
 
+import com.c3.mobileapps.data.remote.service.ApiServiceAuth
 import com.c3.mobileapps.data.remote.service.ApiServiceCourse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,4 +25,7 @@ object ApiClient {
 
     fun setApiServiceCourse(retrofit: Retrofit): ApiServiceCourse =
         retrofit.create(ApiServiceCourse::class.java)
+
+    fun setApiServiceAuth(retrofit: Retrofit): ApiServiceAuth =
+        retrofit.create(ApiServiceAuth::class.java)
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.register.RegisterRequest
 import com.c3.mobileapps.databinding.FragmentRegister1Binding
@@ -34,6 +35,8 @@ class RegisterFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		onAttach(requireContext())
 
 		binding.btnDaftar.setOnClickListener{
 			// Aktifkan ProgressBar
@@ -66,7 +69,7 @@ class RegisterFragment : Fragment() {
 					when (res.code()) {
 						200 -> {
 							// Intent to Loginpage
-							replaceFragment(R.id.fragment_container, LoginFragment(), false)
+							findNavController().navigate(R.id.loginFragment)
 						}
 
 						400 -> {
@@ -84,11 +87,11 @@ class RegisterFragment : Fragment() {
 		}
 
 		binding.ivBack.setOnClickListener {
-			replaceFragment(R.id.fragment_container, LoginFragment(), false)
+			findNavController().popBackStack()
 		}
 
 		binding.tvToLogin.setOnClickListener {
-			replaceFragment(R.id.fragment_container, LoginFragment(), false)
+			findNavController().popBackStack()
 		}
 	}
 
@@ -122,16 +125,6 @@ class RegisterFragment : Fragment() {
 		snackbar.show()
 	}
 
-	private fun Fragment.replaceFragment(containerId: Int, fragment: Fragment, addToBackStack: Boolean = true) {
-		requireActivity().supportFragmentManager.beginTransaction().apply {
-			replace(containerId, fragment)
-			if (addToBackStack) {
-				addToBackStack(null)
-			}
-			commit()
-		}
-	}
-
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
 		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
@@ -144,8 +137,8 @@ class RegisterFragment : Fragment() {
 		bottomNavigationView?.visibility = View.VISIBLE
 	}
 
-	private fun showBottomSheet() {
-		val bottomSheet = RegisterSuccessBottomSheet()
-		bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-	}
+//	private fun showBottomSheet() {
+//		val bottomSheet = RegisterSuccessBottomSheet()
+//		bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+//	}
 }

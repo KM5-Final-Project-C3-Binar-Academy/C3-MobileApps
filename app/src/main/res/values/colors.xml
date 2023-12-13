@@ -8,4 +8,5 @@
     <color name="transparant">#3E000000</color>
     <color name="red">#FF0000</color>
     <color name="background">#EBF3FC</color>
+    <color name="soft_blue">#5FBDFF</color>
 </resources>

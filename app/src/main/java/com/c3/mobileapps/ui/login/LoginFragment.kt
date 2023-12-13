@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.FragmentLoginBinding
 import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
@@ -35,6 +37,7 @@ class LoginFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		onAttach(requireContext())
 
 		// Some Logic Login Here
 		binding.btnLogin.setOnClickListener {
@@ -45,42 +48,46 @@ class LoginFragment : Fragment() {
 			val email  = binding.etEmail.text
 			val pass   = binding.etPassword.text
 
-			loginViewModel.login(email.toString(),pass.toString())
-			loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
+			try {
+				loginViewModel.login(email.toString(),pass.toString())
+				loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
 
-				when (res.code()) {
-					200 -> {
-						showSnackbar("Login Berhasil!", false)
+					when (res.code()) {
+						200 -> {
+							showSnackbar("Login Berhasil!", false)
 
-						// Intent to Homepage
-						replaceFragment(R.id.fragment_container,HomeFragment(), false)
+							// Intent to Homepage
+							findNavController().navigate(R.id.homeFragment)
+						}
+
+						400 -> {
+							showSnackbar("Email dan Password diperlukan!", true)
+						}
+
+						401 -> {
+							showSnackbar("Email atau Password salah!", true)
+						}
+
+						500 -> {
+							showSnackbar("Aplikasi dalam perbaikan. Mohon Coba Lagi", true)
+						}
 					}
 
-					400 -> {
-						showSnackbar("Email dan Password diperlukan!", true)
-					}
-
-					401 -> {
-						showSnackbar("Email atau Password salah!", true)
-					}
-
-					500 -> {
-						showSnackbar("Aplikasi dalam perbaikan. Mohon Coba Lagi", true)
-					}
-				}
-
-				binding.constraintLogin.visibility = View.GONE
-			})
+					binding.constraintLogin.visibility = View.GONE
+				})
+			} catch (e: Exception) {
+				Log.e("Auth Issues", e.toString())
+			}
 		}
 
-		binding.tvToRegister.setOnClickListener{
-			replaceFragment(R.id.fragment_container,RegisterFragment())
-		}
+			binding.tvToRegister.setOnClickListener{
+				findNavController().navigate(R.id.registerFragment)
+			}
 
-		binding.tvBypass.setOnClickListener {
-			// Intent to Homepage
-			replaceFragment(R.id.fragment_container,HomeFragment(), false)
-		}
+			binding.tvBypass.setOnClickListener {
+				// Intent to Homepage
+				findNavController().navigate(R.id.homeFragment)
+			}
 	}
 
 	// Additional Function
@@ -109,16 +116,6 @@ class LoginFragment : Fragment() {
 		snackbar.show()
 	}
 
-	private fun Fragment.replaceFragment(containerId: Int, fragment: Fragment, addToBackStack: Boolean = true) {
-		requireActivity().supportFragmentManager.beginTransaction().apply {
-			replace(containerId, fragment)
-			if (addToBackStack) {
-				addToBackStack(null)
-			}
-			commit()
-		}
-	}
-
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
 		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
@@ -129,16 +126,5 @@ class LoginFragment : Fragment() {
 		super.onDetach()
 		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
 		bottomNavigationView?.visibility = View.VISIBLE
-	}
-
-	private fun convertToMD5(input: String): String {
-		val md = MessageDigest.getInstance("MD5")
-		md.update(input.toByteArray())
-		val digest = md.digest()
-		val sb = StringBuilder()
-		for (byte in digest) {
-			sb.append(String.format("%02x", byte))
-		}
-		return sb.toString()
 	}
 }

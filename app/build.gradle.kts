@@ -85,4 +85,8 @@ dependencies {
 
 	/* Bottom Navigation */
 	implementation("com.google.android.material:material:1.2.0-alpha02")
+
+	// SnackBar
+//	implementation ("com.google.android.material:material:1.3.0")
+
 }

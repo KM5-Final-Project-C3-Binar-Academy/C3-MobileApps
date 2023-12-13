@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.c3.mobileapps.ui.home.HomeFragment"
@@ -58,4 +58,14 @@
         android:name="com.c3.mobileapps.ui.paymentCourse.HistoryPaymentFragment"
         android:label="fragment_history_payment"
         tools:layout="@layout/fragment_history_payment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.c3.mobileapps.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.c3.mobileapps.ui.register.RegisterFragment"
+        android:label="fragment_register1"
+        tools:layout="@layout/fragment_register1" />
 </navigation>
