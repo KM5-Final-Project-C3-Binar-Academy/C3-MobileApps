@@ -33,6 +33,11 @@ class CourseFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
 
+        val dataCategory = arguments?.getString("CATEGORY")
+        if (!dataCategory.isNullOrEmpty()){
+            courseViewModel.addDataMapping("kategori",dataCategory)
+        }
+
         courseViewModel.dataFilter.observe(viewLifecycleOwner) { dataFilter ->
 
             checkMode()
@@ -41,6 +46,8 @@ class CourseFragment : Fragment() {
             val categoryString = dataFilter["kategori"]?.joinToString(",")
             val difficultyString = dataFilter["level"]?.joinToString(",")
             val typeString = dataFilter["type"]?.joinToString(",")
+
+            Log.e("categoryFilter",dataFilter.toString())
 
             if(typeString.isNullOrEmpty()){
                 binding.cpAll.isChecked = true

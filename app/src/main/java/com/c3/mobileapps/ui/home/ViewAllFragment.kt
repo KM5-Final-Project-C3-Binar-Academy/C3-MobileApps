@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +61,15 @@ class ViewAllFragment : Fragment() {
         categoryFilterAdapter = CategoryFilterAdapter{
             populerByCategory(it)
         }
-        categoryAdapter = CategoryAdapter(listener = null)
+        categoryAdapter = CategoryAdapter(
+            isAll = true,
+            listener = {category ->
+                val bundle = bundleOf("CATEGORY" to category)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.homeFragment, true)
+                    .build()
+                findNavController().navigate(R.id.courseFragment,bundle,navOptions)
+            })
         listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
