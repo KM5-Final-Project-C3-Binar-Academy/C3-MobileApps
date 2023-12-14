@@ -48,7 +48,6 @@ class HomeFragment : Fragment() {
         binding.lihatSemuaKategori.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean("ModeView", true)
-
             findNavController().navigate(R.id.viewAllFragment, bundle)
         }
 

@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.PagerAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailCourseBinding
@@ -21,7 +23,6 @@ class DetailCourseFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailCourseBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,26 +41,28 @@ class DetailCourseFragment : Fragment() {
             Glide.with(binding.root.context)
                 .load(dataDetail.image)
                 .into(binding.imageView2)
-
             val idCourse = dataDetail.id
-            getCourseDetail(idCourse)}
+            getCourseDetail(idCourse)
 
+            val urlIntro = dataDetail.introVideo
+            playIntro(urlIntro)
+        }
+
+        //* Setup ViewPager n passing data to viewpager *//
         val idcourse = dataDetail?.id
-
         val fragment = arrayListOf(DetailTentangFragment.newInstance(idcourse),
             DetailMateriFragment.newInstance(idcourse))
-
         val titleFragment = arrayListOf("Tentang", "Materi Kelas")
-
         val viewPager2AdapterAdapter = PagerAdapter(requireActivity(), fragment)
-
         binding.viewPager.adapter = viewPager2AdapterAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = titleFragment[position]
         }.attach()
 
 
-        buttonUpBack()
+        binding.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,8 +75,6 @@ class DetailCourseFragment : Fragment() {
                     binding.progressBar.isVisible = false
 
                     val data = it.data?.data
-
-
                     binding.tvNamaKelas.text = data?.courseCategory?.name
                     binding.deskripsiJudulKelas.text = data?.name
                     binding.creatorKelas.text = data?.author
@@ -82,9 +83,6 @@ class DetailCourseFragment : Fragment() {
                     binding.durasiKelas.text = "${ data?.totalDuration.toString()} Menit"
                     binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
 
-//                    it.data?.data?.course_chapter?.forEach{
-//                        it.
-//                    }
                 }
                 Status.ERROR -> {
                     Log.e("Cek Data Course", it.message.toString())
@@ -98,9 +96,12 @@ class DetailCourseFragment : Fragment() {
             }
         }
     }
-    private fun buttonUpBack() {
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressed()
+
+    private fun playIntro(id: String?){
+        binding.btnPlayIntro.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("Url", id)
+            findNavController().navigate(R.id.webViewFragment, bundle)
         }
     }
 }
