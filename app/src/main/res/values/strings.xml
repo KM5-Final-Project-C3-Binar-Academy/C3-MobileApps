@@ -11,4 +11,7 @@
     <string name="chip_category_name">Web Developer</string>
     <string name="content_description_media">Gambar preview kursus</string>
     <string name="kelas_berjalan">Kelas Berjalan</string>
+    <string name="oops_ada_kesalahan">Oops! ada kesalahan...</string>
+    <string name="kelas_lainnya">Kelas Lainnya</string>
+    <string name="next">Next</string>
 </resources>
