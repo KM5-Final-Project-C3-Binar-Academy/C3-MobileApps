@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.CourseMaterialAdapter
 import com.c3.mobileapps.databinding.FragmentDetailMateriBinding
 import com.c3.mobileapps.utils.Status
@@ -64,10 +67,13 @@ class DetailMateriFragment : Fragment() {
                                 materiList.add(material!!)
                             }
                         }
-
                     }
 
-                    courseMaterialAdapter = CourseMaterialAdapter(materiList)
+                    courseMaterialAdapter = CourseMaterialAdapter(materiList,
+                        listener  = {url ->
+                        val bundle = bundleOf("Url" to url)
+                        findNavController().navigate(R.id.webViewFragment,bundle)
+                    } )
 
                     binding.rvMateri.adapter = courseMaterialAdapter
                     binding.rvMateri.layoutManager = LinearLayoutManager(
@@ -89,6 +95,7 @@ class DetailMateriFragment : Fragment() {
             }
         }
     }
+
 
 
     companion object {

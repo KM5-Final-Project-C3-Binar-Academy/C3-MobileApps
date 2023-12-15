@@ -3,21 +3,25 @@ package com.c3.mobileapps.ui.detailCourse
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.PagerAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailCourseBinding
 import com.c3.mobileapps.utils.Status
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import org.koin.android.ext.android.inject
+
+
+
 
 class DetailCourseFragment : Fragment() {
 
@@ -38,14 +42,19 @@ class DetailCourseFragment : Fragment() {
 
         val dataDetail = arguments?.getParcelable<Course?>("pickItem")
         dataDetail?.let {
+
             Glide.with(binding.root.context)
                 .load(dataDetail.image)
                 .into(binding.imageView2)
+
+            //get id to retrieve courseId API
             val idCourse = dataDetail.id
             getCourseDetail(idCourse)
 
+            //get id youtube
             val urlIntro = dataDetail.introVideo
-            playIntro(urlIntro)
+            val convertId = convertId(urlIntro)
+            playIntro(convertId)
         }
 
         //* Setup ViewPager n passing data to viewpager *//
@@ -65,6 +74,7 @@ class DetailCourseFragment : Fragment() {
         }
     }
 
+    //retrieve courseId API
     @SuppressLint("SetTextI18n")
     private fun getCourseDetail(id: String?){
         detailCourseViewModel.getCourseById(id)
@@ -96,12 +106,36 @@ class DetailCourseFragment : Fragment() {
             }
         }
     }
-
+    //passing data to webViewFragment
     private fun playIntro(id: String?){
         binding.btnPlayIntro.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("Url", id)
-            findNavController().navigate(R.id.webViewFragment, bundle)
+            binding.btnPlayIntro.isVisible = false
+            binding.imageView2.isVisible = false
+
+            val youTubePlayerView = binding.webView
+            youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    youTubePlayer.loadVideo(id.toString(), 0f)
+                }
+            })
+
         }
     }
+    private fun convertId(text: String?): String {
+        val parts = text?.split("/")
+
+        if(text!!.contains("https://youtu.be/")){
+            return parts!![parts.size -1]
+        }
+
+        if(text.contains("https://www.youtube.com/") && text.contains("watch?v=")){
+            if (parts != null) {
+                return (parts[parts.size -1]).replace("watch?v=", "")
+            }
+        }
+
+        return ""
+    }
+
+
 }

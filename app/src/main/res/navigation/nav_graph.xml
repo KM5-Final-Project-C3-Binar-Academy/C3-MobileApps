@@ -73,4 +73,8 @@
         android:name="com.c3.mobileapps.ui.webView.WebViewFragment"
         android:label="fragment_web_view"
         tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/bottomsheetOnBoarding"
+        android:name="com.c3.mobileapps.ui.paymentCourse.confirmPaymentCourse.BottomsheetOnBoarding"
+        android:label="BottomsheetOnBoarding" />
 </navigation>

@@ -9,7 +9,7 @@ import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
 import com.c3.mobileapps.databinding.ItemMateriBinding
 import com.c3.mobileapps.databinding.ItemMateriHeaderBinding
 
-class CourseMaterialAdapter(private val data: List<Any>)
+class CourseMaterialAdapter(private val data: List<Any>,private var listener: ((String) -> Unit)? = null)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -71,10 +71,12 @@ class CourseMaterialAdapter(private val data: List<Any>)
 
             ITEM_MATERIAL -> {
                 val materialHolder = holder as MaterialViewHolder
-                materialHolder.onBind(
-                    data[position] as CourseMaterial,
+                val listenerItem = (data[position] as CourseMaterial)
+                materialHolder.onBind(listenerItem)
 
-                )
+                holder.itemView.setOnClickListener {
+                    listener?.invoke(listenerItem.video!!)
+                }
             }
 
             else -> throw IllegalArgumentException("Undefined view type")
