@@ -1,8 +1,11 @@
 package com.c3.mobileapps.data.remote.model.response.payment
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Payment(
     @SerializedName("course_id")
     var courseId: String?,
@@ -18,4 +21,4 @@ data class Payment(
     var updatedAt: String?,
     @SerializedName("user_id")
     var userId: String?
-)
+):Parcelable

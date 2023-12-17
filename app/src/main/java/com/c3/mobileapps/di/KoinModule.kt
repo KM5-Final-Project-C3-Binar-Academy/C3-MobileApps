@@ -9,6 +9,7 @@ import com.c3.mobileapps.data.repository.CourseRepository
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.data.repository.PaymentRepository
 import com.c3.mobileapps.data.repository.RoomRepository
+import com.c3.mobileapps.ui.confirm_payment.CfrmPaymentViewModel
 import com.c3.mobileapps.ui.course.CourseViewModel
 import com.c3.mobileapps.ui.detailCourse.DetailCourseViewModel
 import com.c3.mobileapps.ui.history.HistoryViewModel
@@ -67,5 +68,6 @@ object KoinModule {
             viewModel { KelasViewModel(get()) }
             viewModel { HistoryViewModel(get(),get()) }
             viewModel { PaymentViewModel(get(),get())}
+            viewModel { CfrmPaymentViewModel(get(),get()) }
         }
 }

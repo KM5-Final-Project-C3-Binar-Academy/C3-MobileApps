@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentCourseBinding
-import com.c3.mobileapps.ui.filter.FIlterBottomSheet
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.activityViewModel

@@ -1,4 +1,4 @@
-package com.c3.mobileapps.ui.filter
+package com.c3.mobileapps.ui.course
 
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.FilterAdapter
 import com.c3.mobileapps.data.local.filter.FilterCategory
 import com.c3.mobileapps.databinding.FilterBottomSheetBinding
-import com.c3.mobileapps.ui.course.CourseViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
