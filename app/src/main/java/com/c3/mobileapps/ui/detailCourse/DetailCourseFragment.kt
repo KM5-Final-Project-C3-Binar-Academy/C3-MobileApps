@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.PagerAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailCourseBinding
@@ -43,9 +45,9 @@ class DetailCourseFragment : Fragment() {
         val dataDetail = arguments?.getParcelable<Course?>("pickItem")
         dataDetail?.let {
 
-            Glide.with(binding.root.context)
-                .load(dataDetail.image)
-                .into(binding.imageView2)
+//            Glide.with(binding.root.context)
+//                .load(dataDetail.image)
+//                .into(binding.imageView2)
 
             //get id to retrieve courseId API
             val idCourse = dataDetail.id
@@ -54,7 +56,7 @@ class DetailCourseFragment : Fragment() {
             //get id youtube
             val urlIntro = dataDetail.introVideo
             val convertId = convertId(urlIntro)
-            playIntro(convertId)
+//            playIntro(convertId)
         }
 
         //* Setup ViewPager n passing data to viewpager *//
@@ -93,6 +95,11 @@ class DetailCourseFragment : Fragment() {
                     binding.durasiKelas.text = "${ data?.totalDuration.toString()} Menit"
                     binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
 
+                    binding.floatingActionButton.setOnClickListener {
+                        val bundle = bundleOf("COURSE_ID" to data?.id.toString())
+                        findNavController().navigate(R.id.paymentFragment, bundle)
+                    }
+
                 }
                 Status.ERROR -> {
                     Log.e("Cek Data Course", it.message.toString())
@@ -106,20 +113,18 @@ class DetailCourseFragment : Fragment() {
             }
         }
     }
-    //passing data to webViewFragment
+
+
     private fun playIntro(id: String?){
-        binding.btnPlayIntro.setOnClickListener {
-            binding.btnPlayIntro.isVisible = false
-            binding.imageView2.isVisible = false
 
-            val youTubePlayerView = binding.webView
-            youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-                    youTubePlayer.loadVideo(id.toString(), 0f)
-                }
-            })
 
-        }
+        val youTubePlayerView = binding.webView
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(id.toString(), 0f)
+            }
+        })
+
     }
     private fun convertId(text: String?): String {
         val parts = text?.split("/")

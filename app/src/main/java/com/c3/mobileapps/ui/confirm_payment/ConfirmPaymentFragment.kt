@@ -1,4 +1,4 @@
-package com.c3.mobileapps.ui.paymentCourse.confirmPaymentCourse
+package com.c3.mobileapps.ui.confirm_payment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

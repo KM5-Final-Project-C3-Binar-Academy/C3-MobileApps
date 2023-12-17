@@ -21,6 +21,8 @@ data class User(
     var password: String?,
     @SerializedName("phone_number")
     var phoneNumber: String?,
+    @SerializedName("token")
+    var token: String?,
     @SerializedName("updated_at")
     var updatedAt: String?
 ): Parcelable

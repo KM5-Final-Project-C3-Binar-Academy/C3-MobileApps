@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 				R.id.detailCourseFragment -> setBottomNav(true)
 				R.id.viewAllFragment -> setBottomNav(true)
 				R.id.webViewFragment -> setBottomNav(true)
+				R.id.paymentFragment -> setBottomNav(true)
 				else -> setBottomNav(false)
 			}
 		}

@@ -2,6 +2,7 @@ package com.c3.mobileapps.data.remote
 
 import com.c3.mobileapps.data.remote.service.ApiServiceAuth
 import com.c3.mobileapps.data.remote.service.ApiServiceCourse
+import com.c3.mobileapps.data.remote.service.ApiServicePayment
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,4 +29,7 @@ object ApiClient {
 
     fun setApiServiceAuth(retrofit: Retrofit): ApiServiceAuth =
         retrofit.create(ApiServiceAuth::class.java)
+
+    fun setApiServicePayment(retrofit: Retrofit): ApiServicePayment =
+        retrofit.create(ApiServicePayment::class.java)
 }

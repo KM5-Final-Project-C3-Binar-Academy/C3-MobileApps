@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/historyPaymentFragment"
-        android:name="com.c3.mobileapps.ui.paymentCourse.HistoryPaymentFragment"
+        android:name="com.c3.mobileapps.ui.history.HistoryPaymentFragment"
         android:label="fragment_history_payment"
         tools:layout="@layout/fragment_history_payment" />
     <fragment
@@ -75,6 +75,14 @@
         tools:layout="@layout/fragment_web_view" />
     <fragment
         android:id="@+id/bottomsheetOnBoarding"
-        android:name="com.c3.mobileapps.ui.paymentCourse.confirmPaymentCourse.BottomsheetOnBoarding"
+        android:name="com.c3.mobileapps.ui.confirm_payment.BottomsheetOnBoarding"
         android:label="BottomsheetOnBoarding" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.c3.mobileapps.ui.payment.PaymentFragment"
+        android:label="PaymentFragment" />
+    <fragment
+        android:id="@+id/confirmPaymentFragment"
+        android:name="com.c3.mobileapps.ui.confirm_payment.ConfirmPaymentFragment"
+        android:label="ConfirmPaymentFragment" />
 </navigation>

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
+import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.databinding.FragmentLoginBinding
 import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
 import com.c3.mobileapps.ui.home.HomeFragment
@@ -26,6 +27,7 @@ class LoginFragment : Fragment() {
 	private lateinit var binding: FragmentLoginBinding
 	private lateinit var customSnackbarBinding: ItemCustomSnackbarBinding
 	private val loginViewModel: LoginViewModel by inject()
+	private val sharedPreferences: SharedPref by inject()
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,6 +40,12 @@ class LoginFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		onAttach(requireContext())
+
+		val isLogin = sharedPreferences.getIsLogin()
+
+		if (isLogin){
+			findNavController().navigate(R.id.homeFragment)
+		}
 
 		// Some Logic Login Here
 		binding.btnLogin.setOnClickListener {
@@ -56,6 +64,10 @@ class LoginFragment : Fragment() {
 						200 -> {
 							showSnackbar("Login Berhasil!", false)
 
+							val data = res.body()?.data
+
+							sharedPreferences.setIsLogin(true)
+							sharedPreferences.setToken("Bearer ${data?.token}")
 							// Intent to Homepage
 							findNavController().navigate(R.id.homeFragment)
 						}

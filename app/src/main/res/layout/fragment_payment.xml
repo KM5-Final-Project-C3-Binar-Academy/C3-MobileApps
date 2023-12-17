@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/back"
@@ -23,14 +19,25 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/todo" />
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPriceCourse"
             android:layout_width="390dp"
             android:layout_height="250dp"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/back"
             tools:ignore="TextSizeCheck">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -197,7 +204,7 @@
             android:layout_marginTop="20dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/primary"
+            app:cardBackgroundColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="parent"
@@ -224,6 +231,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTransfer"
+            android:visibility="gone"
             android:layout_width="380dp"
             android:layout_height="280dp"
             android:layout_marginTop="5dp"
@@ -311,7 +319,7 @@
             android:id="@+id/metode2"
             android:layout_width="380dp"
             android:layout_height="48dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:clickable="true"
             android:focusable="true"
             app:cardBackgroundColor="@color/primary"
@@ -486,18 +494,20 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
         <ImageView
             android:id="@+id/btnPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="@+id/cardCreditPayment"
-            app:layout_constraintStart_toStartOf="@+id/cardCreditPayment"
-            app:layout_constraintTop_toBottomOf="@+id/cardCreditPayment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/button_payment" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

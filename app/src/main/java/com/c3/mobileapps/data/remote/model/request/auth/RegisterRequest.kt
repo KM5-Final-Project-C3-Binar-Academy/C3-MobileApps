@@ -1,4 +1,4 @@
-package com.c3.mobileapps.data.remote.model.request.register
+package com.c3.mobileapps.data.remote.model.request.auth
 
 data class RegisterRequest(
     val email: String,
