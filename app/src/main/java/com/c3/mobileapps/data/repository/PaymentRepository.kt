@@ -8,6 +8,10 @@ class PaymentRepository(private val apiServicePayment: ApiServicePayment) {
     suspend fun makePayment(token:String, courseId:String) = apiServicePayment.makePayment(token,
         PaymentRequest(courseId)
     )
+
+    suspend fun enrollFree(token:String, courseId:String) = apiServicePayment.enrollFree(token,
+        PaymentRequest(courseId)
+    )
     suspend fun getAllPayment(token:String) = apiServicePayment.getAllPayment(token)
 
     suspend fun getPayment(token: String, id:String) = apiServicePayment.getPaymentById(token,id)

@@ -7,6 +7,8 @@ class CourseRepository(private val apiServiceCourse: ApiServiceCourse) {
 
     suspend fun getCourseId(id: String?)= apiServiceCourse.getCourseById(id)
 
+    suspend fun getCourseUser(token:String) = apiServiceCourse.getCourseUser(token)
+
     suspend fun getCourse(
         type: String?,
         filter: String?,

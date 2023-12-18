@@ -17,4 +17,6 @@ interface ApiServiceAuth {
 	suspend fun sendRegister(
 		@Body registerRequest: RegisterRequest
 	): Response<AuthResponse>
+
+
 }

@@ -1,6 +1,7 @@
 package com.c3.mobileapps.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,14 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.FragmentProfileBinding
+import com.c3.mobileapps.utils.Status
+import com.google.gson.Gson
+import org.koin.android.ext.android.inject
 
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private val profileViewModel: ProfileViewModel by inject()
 
 
     override fun onCreateView(
@@ -41,6 +46,26 @@ class ProfileFragment : Fragment() {
 
         binding.tvLogout.setOnClickListener {
 
+        }
+
+        profileViewModel.getCurrentUser()
+        profileViewModel.userResp.observe(viewLifecycleOwner){
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("Cek Data Category", Gson().toJson(it.data))
+                    val data = it.data?.data
+
+                    binding.tvNama.text = data?.name
+                }
+
+                Status.ERROR -> {
+                    Log.e("Cek Data Category", it.message.toString())
+                }
+
+                Status.LOADING -> {
+
+                }
+            }
         }
     }
 }

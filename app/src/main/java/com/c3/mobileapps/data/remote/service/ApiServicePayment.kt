@@ -19,6 +19,12 @@ interface ApiServicePayment {
         @Body courseId: PaymentRequest
     ): PaymentResponse
 
+    @POST("user-payments/free")
+    suspend fun enrollFree(
+        @Header("Authorization") token: String,
+        @Body courseId: PaymentRequest
+    ): PaymentResponse
+
     @GET("user-payments/me")
     suspend fun getAllPayment(
         @Header("Authorization") token: String,

@@ -9,6 +9,7 @@ import com.c3.mobileapps.data.repository.CourseRepository
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.data.repository.PaymentRepository
 import com.c3.mobileapps.data.repository.RoomRepository
+import com.c3.mobileapps.data.repository.UserRepository
 import com.c3.mobileapps.ui.confirm_payment.CfrmPaymentViewModel
 import com.c3.mobileapps.ui.course.CourseViewModel
 import com.c3.mobileapps.ui.detailCourse.DetailCourseViewModel
@@ -18,6 +19,7 @@ import com.c3.mobileapps.ui.search.SearchViewModel
 import com.c3.mobileapps.ui.kelas.KelasViewModel
 import com.c3.mobileapps.ui.login.LoginViewModel
 import com.c3.mobileapps.ui.payment.PaymentViewModel
+import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -41,6 +43,7 @@ object KoinModule {
             single { ApiClient.setApiServiceCourse(get()) }
             single { ApiClient.setApiServiceAuth(get())}
             single { ApiClient.setApiServicePayment(get()) }
+            single { ApiClient.setApiServiceUser(get()) }
         }
 
     val remoteModule
@@ -50,6 +53,7 @@ object KoinModule {
             factory { RoomRepository(get(), get()) }
             factory { AuthRepository(get())}
             factory { PaymentRepository(get()) }
+            factory { UserRepository(get()) }
         }
 
     val sharedPreferences
@@ -65,9 +69,10 @@ object KoinModule {
             viewModel { RegisterViewModel(get())}
             viewModel { DetailCourseViewModel(get())}
             viewModel { SearchViewModel(get()) }
-            viewModel { KelasViewModel(get()) }
+            viewModel { KelasViewModel(get(),get()) }
             viewModel { HistoryViewModel(get(),get()) }
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
+            viewModel { ProfileViewModel(get(),get()) }
         }
 }

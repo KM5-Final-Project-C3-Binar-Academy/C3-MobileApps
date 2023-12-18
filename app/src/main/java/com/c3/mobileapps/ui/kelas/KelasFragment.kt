@@ -11,8 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.CategoryAdapter
+import com.c3.mobileapps.adapters.KelasAdapter
 import com.c3.mobileapps.databinding.FragmentKelasBinding
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -26,6 +28,7 @@ class KelasFragment : Fragment() {
 
     private val kelasViewModel: KelasViewModel by inject()
     private lateinit var categoryCourseAdapter: CategoryAdapter
+    private lateinit var kelasAdapter: KelasAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +53,7 @@ class KelasFragment : Fragment() {
 
         setupRecyclerView()
         loadDataCategory()
+        getKelasUser()
 
         binding.lihatSemuaKategori.setOnClickListener {
             val bundle = Bundle()
@@ -98,6 +102,30 @@ class KelasFragment : Fragment() {
         }
     }
 
+    private fun getKelasUser(){
+        kelasViewModel.getListKelas()
+        kelasViewModel.listKelas.observe(viewLifecycleOwner) { it ->
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("Cek Data Category", Gson().toJson(it.data))
+                    it.data?.let {
+                        kelasAdapter.setData(it.data)
+
+                    }
+                }
+
+                Status.ERROR -> {
+                    Log.e("Cek Data Category", it.message.toString())
+                }
+
+                Status.LOADING -> {
+
+                }
+            }
+
+        }
+    }
+
     private fun setupRecyclerView() {
         categoryCourseAdapter = CategoryAdapter(
             isAll = false,
@@ -108,6 +136,16 @@ class KelasFragment : Fragment() {
                     .build()
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
+
+        kelasAdapter = KelasAdapter(emptyList(), listener = { pickItem ->
+            val bundle = bundleOf("pickItem" to pickItem)
+
+            findNavController().navigate(R.id.detailCourseFragment, bundle)
+        })
+
+        binding.rvKelas.adapter = kelasAdapter
+        binding.rvKelas.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+
         binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCategoryCourse.adapter = categoryCourseAdapter
 
