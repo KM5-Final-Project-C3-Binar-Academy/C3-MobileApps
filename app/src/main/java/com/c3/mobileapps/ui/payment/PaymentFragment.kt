@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
-import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentPaymentBinding
 import com.c3.mobileapps.utils.Status
 import kotlinx.coroutines.launch

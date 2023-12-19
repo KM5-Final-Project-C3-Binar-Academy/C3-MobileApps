@@ -2,8 +2,8 @@ package com.c3.mobileapps.data.remote.service
 
 import com.c3.mobileapps.data.remote.model.request.payment.PaymentRequest
 import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
+import com.c3.mobileapps.data.remote.model.response.payment.PaymentIdResponse
 import com.c3.mobileapps.data.remote.model.response.payment.PaymentResponse
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -17,13 +17,13 @@ interface ApiServicePayment {
     suspend fun makePayment(
         @Header("Authorization") token: String,
         @Body courseId: PaymentRequest
-    ): PaymentResponse
+    ): PaymentIdResponse
 
     @POST("user-payments/free")
     suspend fun enrollFree(
         @Header("Authorization") token: String,
         @Body courseId: PaymentRequest
-    ): PaymentResponse
+    ): PaymentIdResponse
 
     @GET("user-payments/me")
     suspend fun getAllPayment(
@@ -34,12 +34,12 @@ interface ApiServicePayment {
     suspend fun getPaymentById(
         @Header("Authorization") token: String,
         @Path("id") id: String?
-    ): PaymentResponse
+    ): PaymentIdResponse
 
     @PUT("user-payments/{id}")
     suspend fun updatePayment(
         @Header("Authorization") token: String,
         @Path("id") id: String?,
         @Body paymentMethod: StatusRequest
-    ): PaymentResponse
+    ): PaymentIdResponse
 }

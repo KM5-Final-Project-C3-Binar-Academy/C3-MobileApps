@@ -21,6 +21,7 @@ import com.c3.mobileapps.ui.login.LoginViewModel
 import com.c3.mobileapps.ui.payment.PaymentViewModel
 import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
+import com.c3.mobileapps.ui.splash_screen.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -74,5 +75,6 @@ object KoinModule {
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
             viewModel { ProfileViewModel(get(),get()) }
+            viewModel { SplashViewModel(get(),get()) }
         }
 }
