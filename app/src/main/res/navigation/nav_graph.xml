@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    >
+    app:startDestination="@id/viewAllKelasFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.c3.mobileapps.ui.home.HomeFragment"
@@ -85,4 +85,9 @@
         android:id="@+id/confirmPaymentFragment"
         android:name="com.c3.mobileapps.ui.confirm_payment.ConfirmPaymentFragment"
         android:label="ConfirmPaymentFragment" />
+    <fragment
+        android:id="@+id/viewAllKelasFragment"
+        android:name="com.c3.mobileapps.ui.kelas.ViewAllKelasFragment"
+        android:label="fragment_view_all_kelas"
+        tools:layout="@layout/fragment_view_all_kelas" />
 </navigation>

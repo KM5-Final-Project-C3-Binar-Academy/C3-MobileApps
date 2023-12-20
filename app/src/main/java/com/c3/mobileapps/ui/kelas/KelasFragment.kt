@@ -16,6 +16,7 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.KelasAdapter
 import com.c3.mobileapps.databinding.FragmentKelasBinding
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -36,6 +37,12 @@ class KelasFragment : Fragment() {
     ): View{
         // Inflate the layout for this fragment
         binding = FragmentKelasBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
@@ -46,6 +53,8 @@ class KelasFragment : Fragment() {
 
         kelasViewModel.isLogin.observe(viewLifecycleOwner){
             if (it){
+
+                setupRecyclerView()
                 loadDataCategory()
                 kelasViewModel.typeFilter.observe(viewLifecycleOwner){
                     Log.e("KELAS",it.toString())
@@ -53,20 +62,22 @@ class KelasFragment : Fragment() {
                     getKelasUser(it)
                 }
 
-                setupRecyclerView()
-
-
                 binding.lihatSemuaKategori.setOnClickListener {
                     val bundle = Bundle()
                     bundle.putBoolean("ModeView", true)
 
                     findNavController().navigate(R.id.viewAllFragment, bundle)
                 }
+
+                binding.expandKursusPopuler.setOnClickListener {
+                    findNavController().navigate(R.id.viewAllKelasFragment)
+                }
+            }else{
+                val nonLoginBottomSheet = NonLoginBottomSheet()
+                nonLoginBottomSheet.isCancelable = false
+                nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
             }
         }
-
-
-        return binding.root
     }
 
     private fun checkMode() {
@@ -190,9 +201,8 @@ class KelasFragment : Fragment() {
 
         kelasAdapter = KelasAdapter(emptyList(), listener = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
-
             findNavController().navigate(R.id.detailCourseFragment, bundle)
-        })
+        }, isFull = false)
 
         binding.rvKelas.adapter = kelasAdapter
         binding.rvKelas.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)

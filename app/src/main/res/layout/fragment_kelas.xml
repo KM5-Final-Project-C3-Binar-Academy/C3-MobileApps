@@ -132,8 +132,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-                <include layout="@layout/shimmer_kelas" />
-                <include layout="@layout/shimmer_kelas" />
+                <include layout="@layout/shimmer_half" />
+                <include layout="@layout/shimmer_half" />
 
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>

@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 				R.id.webViewFragment -> setBottomNav(true)
 				R.id.paymentFragment -> setBottomNav(true)
 				R.id.confirmPaymentFragment -> setBottomNav(true)
+				R.id.viewAllKelasFragment -> setBottomNav(true)
 				else -> setBottomNav(false)
 			}
 		}
