@@ -69,13 +69,6 @@ class KelasFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-    }
-
     private fun checkMode() {
         binding.cpAll.setOnClickListener {
             binding.cpInProgress.isChecked = false
@@ -141,21 +134,33 @@ class KelasFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     it.data?.let {
+                        showRecyclerView()
                         kelasAdapter.setData(it.data)
 
                     }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.INVISIBLE
+                    }
                 }
 
                 Status.LOADING -> {
-
+                    binding.shimmerFrameLayout.startShimmer()
                 }
             }
 
         }
+    }
+
+    private fun showRecyclerView() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.INVISIBLE
+        }
+        binding.rvKelas.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {

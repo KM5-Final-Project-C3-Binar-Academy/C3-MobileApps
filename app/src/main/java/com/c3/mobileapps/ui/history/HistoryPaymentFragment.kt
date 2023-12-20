@@ -90,8 +90,9 @@ class HistoryPaymentFragment : Fragment() {
     private fun setRecyclerView() {
         historyAdapter = HistoryAdapter(emptyList(), listener = { pickItem ->
 
+            Log.e("History",pickItem.status.toString())
             if (pickItem.status != "COMPLETED"){
-                val bundle = bundleOf("pickItem" to pickItem)
+                val bundle = bundleOf("PAYMENT" to pickItem)
                 findNavController().navigate(R.id.confirmPaymentFragment, bundle)
             }
 

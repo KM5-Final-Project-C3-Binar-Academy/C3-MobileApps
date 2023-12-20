@@ -73,9 +73,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/shimmer_history_payment" />
-                <include layout="@layout/shimmer_history_payment" />
-                <include layout="@layout/shimmer_history_payment" />
+                <include layout="@layout/shimmer_course" />
+                <include layout="@layout/shimmer_course" />
+                <include layout="@layout/shimmer_course" />
 
 
             </LinearLayout>

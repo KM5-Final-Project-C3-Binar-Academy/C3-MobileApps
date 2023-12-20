@@ -157,7 +157,10 @@ class HomeFragment : Fragment() {
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.GONE
+                    }
                 }
 
                 Status.LOADING -> {

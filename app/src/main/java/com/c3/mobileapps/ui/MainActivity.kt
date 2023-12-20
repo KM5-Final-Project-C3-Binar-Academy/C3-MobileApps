@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 				R.id.viewAllFragment -> setBottomNav(true)
 				R.id.webViewFragment -> setBottomNav(true)
 				R.id.paymentFragment -> setBottomNav(true)
+				R.id.confirmPaymentFragment -> setBottomNav(true)
 				else -> setBottomNav(false)
 			}
 		}
@@ -64,6 +67,19 @@ class MainActivity : AppCompatActivity() {
 			binding.bottomNavigation.visibility = View.VISIBLE
 		}
 
+	}
+
+	override fun onSupportNavigateUp(): Boolean {
+		// Handle the back button event and return true to override
+		// the default behavior the same way as the OnBackPressedCallback.
+		// TODO(reason: handle custom back behavior here if desired.)
+
+		val navHostFragment =
+			supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+		val navController = navHostFragment.navController
+		val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+		return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 	}
 
 }

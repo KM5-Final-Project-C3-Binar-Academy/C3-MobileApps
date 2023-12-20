@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentConfirmPaymentBinding
@@ -74,6 +75,10 @@ class ConfirmPaymentFragment : Fragment() {
                 }
             }
 
+        }
+
+        binding.back.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }
