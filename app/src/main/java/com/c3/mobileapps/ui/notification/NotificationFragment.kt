@@ -5,15 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.c3.mobileapps.adapters.NotifAdapter
 import com.c3.mobileapps.databinding.FragmentNotificationBinding
+import com.c3.mobileapps.utils.Status
+import org.koin.android.ext.android.inject
 
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
 
+    private val notificationViewModel: NotificationViewModel by inject()
+    private lateinit var notifAdapter: NotifAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentNotificationBinding.inflate(inflater,container,false)
         return binding.root
@@ -22,32 +29,61 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val listItem = mutableListOf<filterCategory>()
-//        listItem.add(filterCategory("UI/UX Design"))
-//        listItem.add(filterCategory("Product Management"))
-//        listItem.add(filterCategory("Web Development"))
-//        listItem.add(filterCategory("Android Development"))
-//        listItem.add(filterCategory("AI Development"))
-//        listItem.add(filterCategory("Business Intelligent"))
-//        listItem.add(filterCategory("Fullstack Development"))
-//        listItem.add(filterCategory("Data Science"))
-//        listItem.add(filterCategory("Cyber security"))
-//        listItem.add(filterCategory("Mobile App Development"))
-//        listItem.add(filterCategory("Game Development"))
-//        listItem.add(filterCategory("Cloud Computing"))
-//        listItem.add(filterCategory("Machine Learning"))
-//        listItem.add(filterCategory("DevOps"))
-//        listItem.add(filterCategory("Blockchain"))
+        setRecyclerView()
+        getNotification()
+    }
 
-//		val adapter = ItemFilterAdapter(listItem)
-//		binding.rvViewAll.adapter = adapter
-//		binding.rvViewAll.layoutManager = GridLayoutManager(requireActivity(), 2)
-//
-//        binding.tvBottomSheet.setOnClickListener {
-//            val bottomSheet = BottomSheet()
-//            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-//            bottomSheet.show(fragmentManager, bottomSheet.tag)
-//        }
+    private fun getNotification(){
+        notificationViewModel.getListNotif()
+        notificationViewModel.notifResp.observe(viewLifecycleOwner){
+            when(it.status){
+                Status.SUCCESS -> {
+                    it.data?.let {resp ->
+                        if (resp.data.isNotEmpty()){
+                            notifAdapter.setData(resp.data)
+                            showRecyclerView()
+                        }else{
+                            binding.rvNotif.visibility = View.GONE
+                            binding.emptyData.visibility = View.VISIBLE
+                            binding.shimmerFrameLayout.apply {
+                                stopShimmer()
+                                visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+                Status.LOADING ->{
+                    binding.shimmerFrameLayout.startShimmer()
+                }
+
+                Status.ERROR ->{
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.GONE
+                    }
+                    binding.emptyData.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun showRecyclerView() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.emptyData.visibility = View.GONE
+        binding.rvNotif.visibility = View.VISIBLE
+    }
+
+    private fun setRecyclerView() {
+
+        notifAdapter = NotifAdapter(emptyList(), listener = null)
+
+        binding.rvNotif.apply {
+            adapter = notifAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
     }
 
 }

@@ -2,68 +2,93 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="328dp"
-    android:layout_height="56dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="2dp"
+    android:layout_margin="5dp"
     >
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
 
-    <ImageView
-        android:id="@+id/IconNotif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_notif"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="4dp"/>
+        <ImageView
+            android:id="@+id/IconNotif"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_notif"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTitleNotif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="3dp"
-        android:text="@string/promosi"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvTitleNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/promosi"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/IconNotif"
+            app:layout_constraintStart_toEndOf="@+id/IconNotif"
+            app:layout_constraintTop_toTopOf="@+id/IconNotif" />
 
-    <TextClock
-        android:id="@+id/TextClockNotif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:layout_marginStart="245dp"
-        android:format24Hour="EEEE MMMM, HH:mm"
-        android:text="@string/_2_maret_12_00"
-        tools:ignore="SmallSp" />
+        <TextView
+            android:id="@+id/DescNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:lines="2"
+            android:text="@string/dapatkan_potongan_50_selama_bulan_maret"
+            tools:ignore="SmallSp"
+            app:layout_constraintStart_toStartOf="@id/tvTitleNotif"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleNotif"/>
 
-    <ImageView
-        android:id="@+id/StatusBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_status_green"
-        android:layout_gravity="end"
-        android:layout_marginEnd="7dp"
-        android:layout_marginTop="3dp"/>
+        <TextView
+            android:id="@+id/HintSnK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/DescNotif"
+            app:layout_constraintTop_toBottomOf="@id/DescNotif"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
 
-    <TextView
-        android:id="@+id/DescNotif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:layout_marginTop="23dp"
-        android:layout_marginStart="40dp"
-        android:text="@string/dapatkan_potongan_50_selama_bulan_maret"
-        tools:ignore="SmallSp" />
+        <TextClock
+            android:id="@+id/TextClockNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format24Hour="EEEE MMMM, HH:mm"
+            android:text="@string/_2_maret_12_00"
+            android:textSize="10sp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitleNotif"
+            app:layout_constraintEnd_toStartOf="@+id/StatusBarGreen"
+            app:layout_constraintTop_toTopOf="@+id/tvTitleNotif"
+            tools:ignore="SmallSp" />
 
-    <TextView
-        android:id="@+id/HintSnK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginStart="40dp"
-        android:hint="@string/syarat_dan_ketentuan_berlaku"
-        android:textSize="10sp"
-        tools:ignore="SmallSp" />
+        <ImageView
+            android:id="@+id/StatusBarGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_status_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/TextClockNotif"
+            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"/>
+
+        <ImageView
+            android:id="@+id/StatusBarRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_status_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/TextClockNotif"
+            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

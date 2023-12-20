@@ -3,16 +3,11 @@ package com.c3.mobileapps.ui.splash_screen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import com.c3.mobileapps.R
-import com.c3.mobileapps.databinding.ActivityMainBinding
 import com.c3.mobileapps.databinding.ActivitySplashBinding
-import com.c3.mobileapps.ui.MainActivity
-import com.c3.mobileapps.ui.onboarding.OnBoardingActivity
+import com.c3.mobileapps.ui.main_activity.MainActivity
 import com.c3.mobileapps.utils.Status
-import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
 class SplashActivity : AppCompatActivity() {
@@ -37,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbLoading.visibility = View.INVISIBLE
-                    startActivity(Intent(this,MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
 
@@ -46,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
                     binding.pbLoading.visibility = View.INVISIBLE
                     splashViewModel.setIsLogin(false)
                     splashViewModel.setToken("Berear ")
-                    startActivity(Intent(this,MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
 
