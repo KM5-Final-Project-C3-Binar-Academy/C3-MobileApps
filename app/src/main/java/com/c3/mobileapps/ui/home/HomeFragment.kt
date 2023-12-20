@@ -108,6 +108,7 @@ class HomeFragment : Fragment() {
                     Log.d("data category", "list category view from database")
                     categoryAdapter.setData(database.first().categoryResponse.data)
                     categoryFilterAdapter.setData(database.first().categoryResponse.data)
+                    showRvCategory()
                 } else {
                     getCategory()
                 }
@@ -122,6 +123,7 @@ class HomeFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
+                    showRvCategory()
                     it.data?.let {
                         categoryAdapter.setData(it.data)
                         categoryFilterAdapter.setData(it.data)
@@ -131,11 +133,15 @@ class HomeFragment : Fragment() {
 
                 Status.ERROR -> {
                     Log.e("Cek Data Category", it.message.toString())
+                    binding.shimmerCategory.apply {
+                        stopShimmer()
+                        visibility = View.INVISIBLE
+                    }
                     loadDataCategory()
                 }
 
                 Status.LOADING -> {
-
+                    binding.shimmerCategory.startShimmer()
                 }
             }
 
@@ -150,7 +156,7 @@ class HomeFragment : Fragment() {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
 
                     it.data?.let {
-                        showRecyclerView()
+                        showRvCourse()
                         listCourseAdapter.setData(it.data)
 
                     }
@@ -172,12 +178,20 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showRecyclerView() {
+    private fun showRvCourse() {
         binding.shimmerFrameLayout.apply {
             stopShimmer()
-            visibility = View.GONE
+            visibility = View.INVISIBLE
         }
         binding.rvKelas.visibility = View.VISIBLE
+    }
+
+    private fun showRvCategory() {
+        binding.shimmerCategory.apply {
+            stopShimmer()
+            visibility = View.INVISIBLE
+        }
+        binding.rvCategoryCourse.visibility = View.VISIBLE
     }
 
 }

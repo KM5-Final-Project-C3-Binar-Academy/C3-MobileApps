@@ -95,6 +95,7 @@ class KelasFragment : Fragment() {
                 if (database.isNotEmpty()) {
                     Log.d("data category", "list category view from database")
                     categoryCourseAdapter.setData(database.first().categoryResponse.data)
+                    showRvCategory()
                 } else {
                     getCategory()
                 }
@@ -110,17 +111,22 @@ class KelasFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     it.data?.let {
+                        showRvCategory()
                         categoryCourseAdapter.setData(it.data)
                     }
                 }
 
                 Status.ERROR -> {
                     Log.e("Cek Data Category", it.message.toString())
+                    binding.shimmerCategory.apply {
+                        stopShimmer()
+                        visibility = View.INVISIBLE
+                    }
                     loadDataCategory()
                 }
 
                 Status.LOADING -> {
-
+                    binding.shimmerCategory.startShimmer()
                 }
             }
 
@@ -134,7 +140,7 @@ class KelasFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     it.data?.let {
-                        showRecyclerView()
+                        showRvCourse()
                         kelasAdapter.setData(it.data)
 
                     }
@@ -155,12 +161,20 @@ class KelasFragment : Fragment() {
         }
     }
 
-    private fun showRecyclerView() {
+    private fun showRvCourse() {
         binding.shimmerFrameLayout.apply {
             stopShimmer()
             visibility = View.INVISIBLE
         }
         binding.rvKelas.visibility = View.VISIBLE
+    }
+
+    private fun showRvCategory() {
+        binding.shimmerCategory.apply {
+            stopShimmer()
+            visibility = View.INVISIBLE
+        }
+        binding.rvCategoryCourse.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {

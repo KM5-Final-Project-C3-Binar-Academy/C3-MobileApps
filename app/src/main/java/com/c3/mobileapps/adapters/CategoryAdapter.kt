@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Category
-import com.c3.mobileapps.databinding.CategoryCourseItemBinding
+import com.c3.mobileapps.databinding.ItemCategoryCourseBinding
 import com.c3.mobileapps.utils.DiffUtils
 
 class CategoryAdapter(
@@ -19,7 +19,7 @@ class CategoryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            CategoryCourseItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCategoryCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
 
     }
@@ -47,7 +47,7 @@ class CategoryAdapter(
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(private val binding: CategoryCourseItemBinding) :
+    class ViewHolder(private val binding: ItemCategoryCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(data: Category) {
