@@ -145,21 +145,31 @@ class CourseFragment : Fragment() {
                 Status.SUCCESS -> {
                     listCourseAdapter.clearData()
                     Log.e("Cek Data Course", Gson().toJson(it.data))
-                    binding.progressBarMenu.isVisible = false
+                    showRecyclerView()
                     it.data?.let { listCourseAdapter.setData(it.data) }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Course", it.message.toString())
-                    binding.progressBarMenu.isVisible = false
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.GONE
+                    }
 
                 }
 
                 Status.LOADING -> {
-                    binding.progressBarMenu.isVisible = true
+                    binding.shimmerFrameLayout.startShimmer()
                 }
             }
         }
+    }
+
+    private fun showRecyclerView() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.rvCourse.visibility = View.VISIBLE
     }
 
     private fun setupRvCourse() {

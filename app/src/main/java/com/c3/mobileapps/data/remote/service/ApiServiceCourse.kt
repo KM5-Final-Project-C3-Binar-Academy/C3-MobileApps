@@ -18,6 +18,7 @@ interface ApiServiceCourse {
     @GET("courses/me")
     suspend fun getCourseUser(
         @Header("Authorization") token: String,
+        @Query("type") type: String?
     ): CourseResponse
 
     @GET("courses")

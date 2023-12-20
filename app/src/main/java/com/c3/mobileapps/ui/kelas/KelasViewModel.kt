@@ -18,6 +18,9 @@ class KelasViewModel(private val repository: DataRepository, private val sharedP
 
     private val token: String =  sharedPref.getToken()
 
+    private var _isLogin = MutableLiveData<Boolean>().apply { value = sharedPref.getIsLogin() }
+    val isLogin: LiveData<Boolean> get() = _isLogin
+
     // Category
     val readCategory: LiveData<List<TbCategory>> = repository.local.readCategory().asLiveData()
     private fun insertCategory(tbCategory: TbCategory) = viewModelScope.launch(Dispatchers.IO) {
@@ -26,6 +29,14 @@ class KelasViewModel(private val repository: DataRepository, private val sharedP
 
     private var _listCategory: MutableLiveData<Resource<CategoryResponse>> = MutableLiveData()
     val listCategory: LiveData<Resource<CategoryResponse>> get() = _listCategory
+
+    private var _typeFilter: MutableLiveData<String?> = MutableLiveData(null)
+
+    val typeFilter: LiveData<String?> = _typeFilter
+
+    fun setType(type: String?){
+        _typeFilter.value = type
+    }
     fun getListCategory() = viewModelScope.launch {
         getCategory()
     }
@@ -53,14 +64,14 @@ class KelasViewModel(private val repository: DataRepository, private val sharedP
 
     private var _listKelas: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
     val listKelas: LiveData<Resource<CourseResponse>> get() = _listKelas
-    fun getListKelas() = viewModelScope.launch {
-        getKelas()
+    fun getListKelas(type: String?) = viewModelScope.launch {
+        getKelas(type)
     }
 
-    private suspend fun getKelas() {
+    private suspend fun getKelas(type: String? = null) {
         try {
 
-            val responses = repository.remote.getCourseUser(token)
+            val responses = repository.remote.getCourseUser(token, type)
             _listKelas.value = Resource.success(responses)
 
         } catch (exception: Exception) {

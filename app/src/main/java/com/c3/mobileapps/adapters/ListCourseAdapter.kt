@@ -60,7 +60,7 @@ class ListCourseAdapter(private var data :List<Course>,
             binding.levelNameKelas.text = data.difficulty
             binding.rating.text = data.rating
             Glide.with(binding.root.context)
-                .load(data.image)
+                .load(data.image ?: data.courseCategory?.image)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.imageView)

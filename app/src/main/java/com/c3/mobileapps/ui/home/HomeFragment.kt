@@ -148,7 +148,9 @@ class HomeFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
+
                     it.data?.let {
+                        showRecyclerView()
                         listCourseAdapter.setData(it.data)
 
                     }
@@ -159,11 +161,20 @@ class HomeFragment : Fragment() {
                 }
 
                 Status.LOADING -> {
+                    binding.shimmerFrameLayout.startShimmer()
 
                 }
             }
 
         }
+    }
+
+    private fun showRecyclerView() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.rvKelas.visibility = View.VISIBLE
     }
 
 }

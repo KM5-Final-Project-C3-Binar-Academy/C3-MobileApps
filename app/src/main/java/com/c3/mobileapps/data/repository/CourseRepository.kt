@@ -5,9 +5,10 @@ import com.c3.mobileapps.data.remote.service.ApiServiceCourse
 class CourseRepository(private val apiServiceCourse: ApiServiceCourse) {
     suspend fun getCategory() = apiServiceCourse.getCategory()
 
-    suspend fun getCourseId(id: String?)= apiServiceCourse.getCourseById(id)
+    suspend fun getCourseId(id: String?) = apiServiceCourse.getCourseById(id)
 
-    suspend fun getCourseUser(token:String) = apiServiceCourse.getCourseUser(token)
+    suspend fun getCourseUser(token: String, type: String?) =
+        apiServiceCourse.getCourseUser(token, type)
 
     suspend fun getCourse(
         type: String?,

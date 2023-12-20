@@ -36,12 +36,6 @@ class KelasFragment : Fragment() {
     ): View{
         // Inflate the layout for this fragment
         binding = FragmentKelasBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
@@ -50,18 +44,56 @@ class KelasFragment : Fragment() {
 
         }
 
+        kelasViewModel.isLogin.observe(viewLifecycleOwner){
+            if (it){
+                loadDataCategory()
+                kelasViewModel.typeFilter.observe(viewLifecycleOwner){
+                    Log.e("KELAS",it.toString())
+                    checkMode()
+                    getKelasUser(it)
+                }
 
-        setupRecyclerView()
-        loadDataCategory()
-        getKelasUser()
+                setupRecyclerView()
 
-        binding.lihatSemuaKategori.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putBoolean("ModeView", true)
 
-            findNavController().navigate(R.id.viewAllFragment, bundle)
+                binding.lihatSemuaKategori.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putBoolean("ModeView", true)
+
+                    findNavController().navigate(R.id.viewAllFragment, bundle)
+                }
+            }
         }
 
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
+    }
+
+    private fun checkMode() {
+        binding.cpAll.setOnClickListener {
+            binding.cpInProgress.isChecked = false
+            binding.cpSelesai.isChecked = false
+            kelasViewModel.setType(null)
+
+        }
+        binding.cpInProgress.setOnClickListener {
+            binding.cpAll.isChecked = false
+            binding.cpSelesai.isChecked = false
+            kelasViewModel.setType("ongoing")
+        }
+
+        binding.cpSelesai.setOnClickListener {
+            binding.cpInProgress.isChecked = false
+            binding.cpAll.isChecked = false
+            kelasViewModel.setType("completed")
+        }
     }
 
     private fun loadDataCategory() {
@@ -102,8 +134,8 @@ class KelasFragment : Fragment() {
         }
     }
 
-    private fun getKelasUser(){
-        kelasViewModel.getListKelas()
+    private fun getKelasUser(type:String?){
+        kelasViewModel.getListKelas(type)
         kelasViewModel.listKelas.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 Status.SUCCESS -> {
