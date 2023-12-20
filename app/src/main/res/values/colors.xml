@@ -9,4 +9,6 @@
     <color name="red">#FF0000</color>
     <color name="background">#EBF3FC</color>
     <color name="soft_blue">#5FBDFF</color>
+    <color name="shimmerColorBase">#F2F9F9F9</color>
+    <color name="shimmerColor">#D1D1D1</color>
 </resources>

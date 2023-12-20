@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardMenuItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:backgroundTint="@color/shimmerColorBase"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_title"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_view" />
+
+            <View
+                android:id="@+id/view_star"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_title" />
+
+            <View
+                android:id="@+id/view_desc"
+                android:layout_width="200dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_title" />
+
+            <View
+                android:id="@+id/view_author"
+                android:layout_width="70dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_desc" />
+
+            <View
+                android:id="@+id/view_level"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_author" />
+
+            <View
+                android:id="@+id/view_level_text"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toEndOf="@id/view_level"
+                app:layout_constraintTop_toTopOf="@id/view_level" />
+
+            <View
+                android:id="@+id/view_module"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="25dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toEndOf="@id/view_level_text"
+                app:layout_constraintTop_toTopOf="@id/view_level" />
+
+            <View
+                android:id="@+id/view_module_text"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toEndOf="@id/view_module"
+                app:layout_constraintTop_toTopOf="@id/view_level" />
+
+            <View
+                android:id="@+id/view_time"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="25dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toEndOf="@id/view_module_text"
+                app:layout_constraintTop_toTopOf="@id/view_level" />
+
+            <View
+                android:id="@+id/view_time_text"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintStart_toEndOf="@id/view_time"
+                app:layout_constraintTop_toTopOf="@id/view_level" />
+
+            <View
+                android:id="@+id/view_button"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/shimmerColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_level" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

@@ -13,6 +13,8 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.HistoryAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentHistoryPaymentBinding
+import com.c3.mobileapps.ui.course.FIlterBottomSheet
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
 import com.c3.mobileapps.utils.Status
 import org.koin.android.ext.android.inject
 
@@ -34,31 +36,65 @@ class HistoryPaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.back.setOnClickListener {
+        setRecyclerView()
+        getHistory()
+
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
 
-        setRecyclerView()
-
+    private fun getHistory(){
         historyViewModel.getListPayment()
         historyViewModel.paymentResp.observe(viewLifecycleOwner){
             when(it.status){
                 Status.SUCCESS -> {
                     it.data?.let {resp ->
-                        historyAdapter.setData(resp.data)
+                        if (resp.data.isNotEmpty()){
+                            historyAdapter.setData(resp.data)
+                            showRecyclerView()
+                        }else{
+                            binding.rvHistory.visibility = View.GONE
+                            binding.emptyData.visibility = View.VISIBLE
+                            binding.shimmerFrameLayout.apply {
+                                stopShimmer()
+                                visibility = View.GONE
+                            }
+                        }
                     }
                 }
-                Status.LOADING ->{}
+                Status.LOADING ->{
+                    binding.shimmerFrameLayout.startShimmer()
 
-                Status.ERROR ->{}
+                }
+
+                Status.ERROR ->{
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.GONE
+                    }
+                }
             }
         }
     }
 
+    private fun showRecyclerView() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.emptyData.visibility = View.GONE
+        binding.rvHistory.visibility = View.VISIBLE
+    }
+
     private fun setRecyclerView() {
         historyAdapter = HistoryAdapter(emptyList(), listener = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
-            findNavController().navigate(R.id.confirmPaymentFragment, bundle)
+
+            if (pickItem.status != "COMPLETED"){
+                val bundle = bundleOf("pickItem" to pickItem)
+                findNavController().navigate(R.id.confirmPaymentFragment, bundle)
+            }
+
         })
 
         binding.rvHistory.layoutManager =

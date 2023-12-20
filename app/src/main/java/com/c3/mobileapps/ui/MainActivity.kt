@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 			graph.setStartDestination(R.id.loginFragment)
 		}
 
+		navController.setGraph(graph, startDestinationArgs = null)
+
 		binding.bottomNavigation.setupWithNavController(navController)
 
 		navController.addOnDestinationChangedListener{_,destination,_ ->

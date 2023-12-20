@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.FragmentProfileBinding
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
@@ -48,6 +49,23 @@ class ProfileFragment : Fragment() {
 
         }
 
+        checkIsLogin()
+
+
+    }
+    private fun checkIsLogin() {
+        profileViewModel.isLogin.observe(viewLifecycleOwner){isLogin ->
+            if (isLogin){
+                getCurrentUser()
+            }else{
+                val nonLoginBottomSheet = NonLoginBottomSheet()
+                nonLoginBottomSheet.isCancelable = false
+                nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
+            }
+        }
+    }
+
+    private fun getCurrentUser(){
         profileViewModel.getCurrentUser()
         profileViewModel.userResp.observe(viewLifecycleOwner){
             when (it.status) {

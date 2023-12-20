@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp">
+        android:paddingBottom="15dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -134,10 +134,10 @@
             android:id="@+id/icon_durasi_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintEnd_toEndOf="@id/level_icon_kelas"
-            app:layout_constraintStart_toStartOf="@id/level_icon_kelas"
-            app:layout_constraintTop_toBottomOf="@id/level_icon_kelas"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/jumlah_modul_kelas"
+            app:layout_constraintTop_toTopOf="@id/jumlah_modul_kelas"
+            app:layout_constraintStart_toEndOf="@id/jumlah_modul_kelas"
             app:srcCompat="@drawable/time_icon" />
 
         <TextView
@@ -156,18 +156,18 @@
             android:id="@+id/icWaitingPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toStartOf="@+id/icon_durasi_kelas"
-            app:layout_constraintTop_toBottomOf="@+id/icon_durasi_kelas"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
+            app:layout_constraintTop_toBottomOf="@+id/level_icon_kelas"
             app:srcCompat="@drawable/ic_waiting_payment" />
 
         <ImageView
             android:id="@+id/icPaid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toStartOf="@+id/icon_durasi_kelas"
-            app:layout_constraintTop_toBottomOf="@+id/icon_durasi_kelas"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
+            app:layout_constraintTop_toBottomOf="@+id/level_icon_kelas"
             app:srcCompat="@drawable/ic_paid" />
 
 

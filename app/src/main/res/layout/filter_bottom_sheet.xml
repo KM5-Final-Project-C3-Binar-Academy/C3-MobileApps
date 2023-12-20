@@ -36,6 +36,7 @@
                     android:layout_width="275dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="15dp"
+                    android:backgroundTint="@color/blue"
                     android:text="@string/terapkan_filter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

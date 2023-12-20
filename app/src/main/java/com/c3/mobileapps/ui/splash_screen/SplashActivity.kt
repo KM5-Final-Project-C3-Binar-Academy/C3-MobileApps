@@ -46,7 +46,7 @@ class SplashActivity : AppCompatActivity() {
                     binding.pbLoading.visibility = View.INVISIBLE
                     splashViewModel.setIsLogin(false)
                     splashViewModel.setToken("Berear ")
-                    startActivity(Intent(this,OnBoardingActivity::class.java))
+                    startActivity(Intent(this,MainActivity::class.java))
                     finish()
                 }
 

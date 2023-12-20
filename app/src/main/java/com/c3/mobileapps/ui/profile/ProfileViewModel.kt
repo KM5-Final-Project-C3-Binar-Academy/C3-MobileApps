@@ -14,6 +14,9 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(private val userRepository: UserRepository, private val sharedPref: SharedPref): ViewModel(){
     private val token: String =  sharedPref.getToken()
 
+    private var _isLogin = MutableLiveData<Boolean>().apply { value = sharedPref.getIsLogin() }
+    val isLogin: LiveData<Boolean> get() = _isLogin
+
     private var _userResp: MutableLiveData<Resource<AuthResponse>> = MutableLiveData()
     val userResp: LiveData<Resource<AuthResponse>> get() = _userResp
     fun getCurrentUser() = viewModelScope.launch {

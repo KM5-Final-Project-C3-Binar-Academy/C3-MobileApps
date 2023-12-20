@@ -46,5 +46,8 @@
     <string name="todo">TODO</string>
     <string name="ppn_11">PPN 11%</string>
     <string name="harga">Harga</string>
+    <string name="tidak_ada_riwayat_pembayaran_yang_ditemukan">Tidak ada riwayat pembayaran yang ditemukan.</string>
+    <string name="login">Login</string>
+    <string name="maaf_anda_harus_login_terlebih_dahulu">Maaf, Anda harus login terlebih dahulu!</string>
 
 </resources>

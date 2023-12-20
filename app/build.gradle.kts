@@ -93,6 +93,9 @@ dependencies {
 	// SnackBar
 //	implementation ("com.google.android.material:material:1.3.0")
 
+	//shimmer
+	implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
 	//youtubePlayer
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
