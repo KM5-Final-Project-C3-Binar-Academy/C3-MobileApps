@@ -53,5 +53,7 @@ data class Course(
     @SerializedName("user")
     var user: User?,
     @SerializedName("user_id")
-    var userId: String?
+    var userId: String?,
+    @SerializedName("total_completed_materials")
+    var totalCompletedMaterial: Int?
 ): Parcelable

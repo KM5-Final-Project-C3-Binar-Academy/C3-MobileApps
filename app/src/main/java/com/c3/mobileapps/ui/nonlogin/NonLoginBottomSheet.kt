@@ -36,7 +36,7 @@ class NonLoginBottomSheet : BottomSheetDialogFragment() {
 
         binding.btnClose.setOnClickListener {
             val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.homeFragment, true)
+                .setPopUpTo(R.id.profileFragment, true)
                 .build()
 
             dismiss()
