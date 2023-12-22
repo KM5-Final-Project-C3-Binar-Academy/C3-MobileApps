@@ -22,6 +22,8 @@ class MainViewModel(private val notificationRepository: NotificationRepository, 
     private val _notifResp = MutableLiveData<Resource<NotificationResponse>>()
     val notifResp: LiveData<Resource<NotificationResponse>> get() = _notifResp
 
+    val refreshNotif: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun getListNotif() = viewModelScope.launch {
         getAllNotif()
     }

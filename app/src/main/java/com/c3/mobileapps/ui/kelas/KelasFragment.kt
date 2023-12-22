@@ -73,7 +73,7 @@ class KelasFragment : Fragment() {
                     findNavController().navigate(R.id.viewAllKelasFragment)
                 }
             }else{
-                val nonLoginBottomSheet = NonLoginBottomSheet()
+                val nonLoginBottomSheet = NonLoginBottomSheet(R.id.kelasFragment)
                 nonLoginBottomSheet.isCancelable = false
                 nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
             }

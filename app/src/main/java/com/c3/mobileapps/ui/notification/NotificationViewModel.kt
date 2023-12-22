@@ -34,4 +34,19 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
             _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
         }
     }
+
+    fun readAllNotif() = viewModelScope.launch {
+        updateNotif()
+    }
+
+    private suspend fun updateNotif() {
+        try {
+
+            val responses = notificationRepository.readAllNotif(token)
+            _notifResp.value = Resource.success(responses)
+
+        } catch (exception: Exception) {
+            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+        }
+    }
 }

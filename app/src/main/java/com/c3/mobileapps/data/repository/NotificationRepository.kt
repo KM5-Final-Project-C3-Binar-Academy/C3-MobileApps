@@ -6,7 +6,7 @@ class NotificationRepository(private val apiServiceNotification: ApiServiceNotif
 
     suspend fun getNotification(token:String) = apiServiceNotification.getNotification(token)
 
-    suspend fun readAllNotif(token: String, id:String) = apiServiceNotification.readAllNotification(token)
+    suspend fun readAllNotif(token: String) = apiServiceNotification.readAllNotification(token)
 
     suspend fun updateNotif(token: String, id:String) = apiServiceNotification.updateNotification(token,id)
 

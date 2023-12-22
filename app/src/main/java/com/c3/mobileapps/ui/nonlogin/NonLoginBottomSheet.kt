@@ -11,7 +11,7 @@ import com.c3.mobileapps.databinding.NonLoginBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class NonLoginBottomSheet : BottomSheetDialogFragment() {
+class NonLoginBottomSheet(private val currentFragment: Int) : BottomSheetDialogFragment() {
 
     private lateinit var binding: NonLoginBottomSheetBinding
 
@@ -36,20 +36,18 @@ class NonLoginBottomSheet : BottomSheetDialogFragment() {
 
         binding.btnClose.setOnClickListener {
             val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.profileFragment, true)
+                .setPopUpTo(currentFragment, true)
                 .build()
 
-            dismiss()
             findNavController().navigate(R.id.homeFragment, args = null, navOptions = navOptions)
+            dismiss()
+
         }
 
         binding.btnToLogin.setOnClickListener {
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.loginFragment, true)
-                .build()
-
+            findNavController().navigate(R.id.loginFragment)
             dismiss()
-            findNavController().navigate(R.id.loginFragment, args = null, navOptions = navOptions)
+
         }
     }
 }

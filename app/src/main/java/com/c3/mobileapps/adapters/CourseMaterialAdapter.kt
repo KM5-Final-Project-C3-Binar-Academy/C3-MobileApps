@@ -2,6 +2,7 @@ package com.c3.mobileapps.adapters
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.remote.model.response.course.CourseChapter
@@ -11,6 +12,12 @@ import com.c3.mobileapps.databinding.ItemMateriHeaderBinding
 
 class CourseMaterialAdapter(private val data: List<Any>,private var listener: ((String) -> Unit)? = null)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        private var enrolled: Boolean = false
+
+    fun setEnrolled(isEnrolled:Boolean){
+        enrolled = isEnrolled
+    }
 
     companion object {
         private const val ITEM_HEADER = 0
@@ -28,8 +35,15 @@ class CourseMaterialAdapter(private val data: List<Any>,private var listener: ((
 
     class MaterialViewHolder(private val binding: ItemMateriBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CourseMaterial) {
-            binding.tvMateri.text = data.name
+        fun onBind(data: CourseMaterial, enrolled: Boolean) {
+
+            if (enrolled){
+                binding.tvMateri.text = data.name
+            }else{
+                binding.tvMateri.text = "not enrolled"
+
+            }
+
 
         }
     }
@@ -72,7 +86,7 @@ class CourseMaterialAdapter(private val data: List<Any>,private var listener: ((
             ITEM_MATERIAL -> {
                 val materialHolder = holder as MaterialViewHolder
                 val listenerItem = (data[position] as CourseMaterial)
-                materialHolder.onBind(listenerItem)
+                materialHolder.onBind(listenerItem, enrolled)
 
                 holder.itemView.setOnClickListener {
                     listener?.invoke(listenerItem.video!!)

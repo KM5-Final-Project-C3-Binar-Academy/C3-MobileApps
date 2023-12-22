@@ -75,6 +75,14 @@ class DetailMateriFragment : Fragment() {
                         findNavController().navigate(R.id.webViewFragment,bundle)
                     } )
 
+                    Log.e("Enrolled",data?.totalCompletedMaterial.toString())
+
+                    if (data?.totalCompletedMaterial == null){
+                        courseMaterialAdapter.setEnrolled(false)
+                    }else{
+                        courseMaterialAdapter.setEnrolled(true)
+                    }
+
                     binding.rvMateri.adapter = courseMaterialAdapter
                     binding.rvMateri.layoutManager = LinearLayoutManager(
                         requireActivity(),

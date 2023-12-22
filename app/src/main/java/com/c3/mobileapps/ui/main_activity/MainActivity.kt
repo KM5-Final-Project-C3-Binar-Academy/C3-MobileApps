@@ -10,10 +10,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.ActivityMainBinding
+import com.c3.mobileapps.utils.NotifHelper
 import com.c3.mobileapps.utils.Status
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
 
@@ -72,8 +73,12 @@ class MainActivity : AppCompatActivity() {
                     val unViewed = res.data?.data?.count {
                         it.viewed == false
                     }
-                    val badge = binding.bottomNavigation.getOrCreateBadge(R.id.notificationFragment)
-                    badge.number = unViewed!!
+
+                    if (unViewed != 0){
+                        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.notificationFragment)
+                        badge.number = unViewed!!
+                    }
+
 
                 }
 
@@ -106,6 +111,11 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun onClearBadge() {
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.notificationFragment)
+        badge.clearNumber()
     }
 
 }

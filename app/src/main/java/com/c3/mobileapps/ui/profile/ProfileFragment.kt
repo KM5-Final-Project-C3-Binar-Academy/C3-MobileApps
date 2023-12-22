@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
             if (isLogin){
                 getCurrentUser()
             }else{
-                val nonLoginBottomSheet = NonLoginBottomSheet()
+                val nonLoginBottomSheet = NonLoginBottomSheet(R.id.profileFragment)
                 nonLoginBottomSheet.isCancelable = false
                 nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
             }

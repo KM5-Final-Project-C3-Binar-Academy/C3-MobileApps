@@ -26,6 +26,16 @@
             />
 
         <TextView
+            android:id="@+id/readAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="10sp"
+            android:text="Tandai Semua Telah Dibaca"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
             android:id="@+id/empty_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
