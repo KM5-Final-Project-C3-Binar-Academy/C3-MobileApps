@@ -134,10 +134,9 @@
             android:id="@+id/icon_durasi_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintEnd_toEndOf="@id/level_icon_kelas"
-            app:layout_constraintStart_toStartOf="@id/level_icon_kelas"
-            app:layout_constraintTop_toBottomOf="@id/level_icon_kelas"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toEndOf="@+id/jumlah_modul_kelas"
+            app:layout_constraintTop_toTopOf="@+id/jumlah_modul_kelas"
             app:srcCompat="@drawable/time_icon" />
 
         <TextView
@@ -157,33 +156,34 @@
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:backgroundTint="@color/secondary"
             android:drawableLeft="@drawable/icon_diamond"
             android:paddingHorizontal="25dp"
             android:text="Premium"
             android:textSize="10sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/durasi_kelas"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas"
+            app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
 
-            />
+            app:layout_constraintTop_toBottomOf="@+id/level_name_kelas"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/btn_mulaiKelas"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:backgroundTint="@color/primary"
             android:paddingHorizontal="25dp"
             android:text="Mulai Kelas"
             android:textSize="10sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/durasi_kelas"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/icon_durasi_kelas" />
+            app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
+            app:layout_constraintTop_toBottomOf="@+id/level_name_kelas"
+            app:layout_constraintVertical_bias="0.687" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,32 +9,71 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="5dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
             android:fontFamily="@font/poppins_bold"
             android:text="deskripsi"
             android:textColor="@color/primary"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvmin"
+            app:layout_constraintStart_toEndOf="@+id/tvmin"
+            app:layout_constraintTop_toTopOf="@+id/tvmin"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tvmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="-"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvChapterSize"
+            app:layout_constraintStart_toEndOf="@+id/tvChapterSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tvChapterSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="deskripsi"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTotallWaktu"
+            android:id="@+id/tvMenit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:textColor="@color/primary"
             android:fontFamily="@font/poppins_regular"
-            android:text="60 Menit"
+            android:text="Menit"
+            android:textColor="@color/primary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvHeader" />
+
+        <TextView
+            android:id="@+id/tvTotalMenit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="60"
+            android:textColor="@color/primary"
+            app:layout_constraintEnd_toStartOf="@+id/tvMenit"
+            app:layout_constraintTop_toTopOf="@+id/tvMenit" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

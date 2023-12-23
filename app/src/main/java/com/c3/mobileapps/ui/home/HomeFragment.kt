@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        loadDataCategory()
+        getCategory()
         populerByCategory("All")
 
         binding.lihatSemuaKategori.setOnClickListener {
@@ -117,7 +117,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategory() {
-
         homeViewModel.getListCategory()
         homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
             when (it.status) {
@@ -125,6 +124,7 @@ class HomeFragment : Fragment() {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     showRvCategory()
                     it.data?.let {
+
                         categoryAdapter.setData(it.data)
                         categoryFilterAdapter.setData(it.data)
 

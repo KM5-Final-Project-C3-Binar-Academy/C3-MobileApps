@@ -23,4 +23,8 @@ class RoomRepository(private val courseDao: CourseDao, private val categoryDao: 
     suspend fun insertCategory(tbCategory: TbCategory) {
         categoryDao.insertCategory(tbCategory)
     }
+
+    suspend fun deleteCategory() {
+        categoryDao.deleteAll()
+    }
 }

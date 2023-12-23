@@ -9,7 +9,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.c3.mobileapps.adapters.CourseMaterialAdapter
 import com.c3.mobileapps.databinding.FragmentDetailTentangBinding
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.ui.webView.WebView
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
@@ -31,6 +36,7 @@ class DetailTentangFragment : Fragment() {
 
         val simpleArgs = arguments?.getString("ARGS_ID")
         getCourseDetail(simpleArgs)
+
 
     }
 

@@ -12,6 +12,7 @@ import com.c3.mobileapps.data.remote.model.response.course.CategoryResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,6 +42,10 @@ class HomeViewModel(private val repository: DataRepository): ViewModel() {
         repository.local.insertCategory(tbCategory)
     }
 
+    private fun deleteCategory() = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.deleteCategory()
+    }
+
     private var _listCategory: MutableLiveData<Resource<CategoryResponse>> = MutableLiveData()
     val listCategory: LiveData<Resource<CategoryResponse>> get() = _listCategory
     fun getListCategory() = viewModelScope.launch {
@@ -49,6 +54,7 @@ class HomeViewModel(private val repository: DataRepository): ViewModel() {
 
     private suspend fun getCategory() {
         try {
+            deleteCategory()
             val responses = repository.remote.getCategory()
             _listCategory.value = Resource.success(responses)
 

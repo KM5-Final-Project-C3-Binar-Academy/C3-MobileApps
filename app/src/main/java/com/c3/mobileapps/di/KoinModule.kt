@@ -73,7 +73,7 @@ object KoinModule {
             viewModel { CourseViewModel(get())}
             viewModel { LoginViewModel(get())}
             viewModel { RegisterViewModel(get())}
-            viewModel { DetailCourseViewModel(get())}
+            viewModel { DetailCourseViewModel(get(), get())}
             viewModel { SearchViewModel(get()) }
             viewModel { KelasViewModel(get(),get()) }
             viewModel { HistoryViewModel(get(),get()) }

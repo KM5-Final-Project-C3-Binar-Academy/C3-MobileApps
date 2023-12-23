@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.PagerAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
@@ -27,14 +26,15 @@ import org.koin.android.ext.android.inject
 
 class DetailCourseFragment : Fragment() {
 
-    private lateinit var binding: FragmentDetailCourseBinding
+    private  var _binding: FragmentDetailCourseBinding? = null
+    private val binding get() = _binding!!
     private val detailCourseViewModel:DetailCourseViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
-        binding = FragmentDetailCourseBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailCourseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,7 +56,7 @@ class DetailCourseFragment : Fragment() {
             //get id youtube
             val urlIntro = dataDetail.introVideo
             val convertId = convertId(urlIntro)
-//            playIntro(convertId)
+            playIntro(convertId)
         }
 
         //* Setup ViewPager n passing data to viewpager *//
@@ -117,14 +117,14 @@ class DetailCourseFragment : Fragment() {
 
     private fun playIntro(id: String?){
 
-
         val youTubePlayerView = binding.webView
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                youTubePlayer.loadVideo(id.toString(), 0f)
+                youTubePlayer.cueVideo(id.toString(), 0f)
             }
         })
 
+        viewLifecycleOwner.lifecycle.addObserver(youTubePlayerView)
     }
     private fun convertId(text: String?): String {
         val parts = text?.split("/")
@@ -138,9 +138,12 @@ class DetailCourseFragment : Fragment() {
                 return (parts[parts.size -1]).replace("watch?v=", "")
             }
         }
-
         return ""
     }
 
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
 }

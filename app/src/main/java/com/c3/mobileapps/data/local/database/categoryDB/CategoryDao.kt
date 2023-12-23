@@ -14,4 +14,7 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category_table ORDER BY id ASC")
     fun readCategory(): Flow<List<TbCategory>>
+
+    @Query("DELETE FROM category_table")
+    suspend fun deleteAll()
 }

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @TypeConverters(ConverterCategory::class)
-@Database(entities = [TbCategory::class], version = 2, exportSchema = false)
+@Database(entities = [TbCategory::class], version = 3, exportSchema = false)
 abstract class CategoryDatabase : RoomDatabase() {
     abstract val categoryDao: CategoryDao
 

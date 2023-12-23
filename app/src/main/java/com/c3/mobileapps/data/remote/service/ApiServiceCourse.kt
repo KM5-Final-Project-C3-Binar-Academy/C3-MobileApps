@@ -3,6 +3,7 @@ package com.c3.mobileapps.data.remote.service
 import com.c3.mobileapps.data.remote.model.response.course.CategoryResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseIdResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
+import com.c3.mobileapps.data.remote.model.response.courseMe.CourseMaterialResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -14,6 +15,12 @@ interface ApiServiceCourse {
 
     @GET("courses/{id}")
     suspend fun getCourseById(@Path("id") id: String?) : CourseIdResponse
+
+    @GET("courses/{id}")
+    suspend fun getCourseByIdUser(
+        @Header("Authorization") token: String,
+        @Path("id") id: String?
+    ) : CourseMaterialResponse
 
     @GET("courses/me")
     suspend fun getCourseUser(

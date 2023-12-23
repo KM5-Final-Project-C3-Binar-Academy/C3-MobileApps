@@ -99,7 +99,6 @@ class KelasFragment : Fragment() {
             kelasViewModel.setType("completed")
         }
     }
-
     private fun loadDataCategory() {
         lifecycleScope.launch {
             kelasViewModel.readCategory.observe(viewLifecycleOwner) { database ->
@@ -113,7 +112,6 @@ class KelasFragment : Fragment() {
             }
         }
     }
-
     private fun getCategory() {
 
         kelasViewModel.getListCategory()
@@ -168,7 +166,6 @@ class KelasFragment : Fragment() {
                     binding.shimmerFrameLayout.startShimmer()
                 }
             }
-
         }
     }
 

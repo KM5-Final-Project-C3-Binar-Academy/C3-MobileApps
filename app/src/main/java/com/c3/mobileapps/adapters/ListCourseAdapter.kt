@@ -1,6 +1,7 @@
 package com.c3.mobileapps.adapters
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +54,15 @@ class ListCourseAdapter(private var data :List<Course>,
     class CourseHolder(private val binding: ItemKelasFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bindContent(data: Course) {
             binding.tvNamaKelas.text = data.courseCategory?.name
             binding.deskripsiJudulKelas.text = data.name
             binding.creatorKelas.text = "by ${data.author}"
             binding.levelNameKelas.text = data.difficulty
             binding.rating.text = data.rating
+            binding.durasiKelas.text = data.totalDuration.toString()
+            binding.jumlahModulKelas.text = data.totalMaterials.toString()
             Glide.with(binding.root.context)
                 .load(data.image ?: data.courseCategory?.image)
                 .centerCrop()

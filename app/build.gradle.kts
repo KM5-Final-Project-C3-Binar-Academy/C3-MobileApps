@@ -9,6 +9,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+
 android {
 	namespace = "com.c3.mobileapps"
 	compileSdk = 34
