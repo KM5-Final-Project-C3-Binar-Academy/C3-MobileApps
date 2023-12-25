@@ -96,7 +96,7 @@ class DetailCourseFragment : Fragment() {
                     binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
 
                     binding.floatingActionButton.setOnClickListener {
-                        val bundle = bundleOf("COURSE_ID" to data?.id.toString())
+                        val bundle = bundleOf("COURSE" to data)
                         findNavController().navigate(R.id.paymentFragment, bundle)
                     }
 

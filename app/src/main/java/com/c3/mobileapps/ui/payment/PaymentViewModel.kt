@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.c3.mobileapps.data.local.SharedPref
+import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.payment.PaymentIdResponse
 import com.c3.mobileapps.data.remote.model.response.payment.PaymentResponse
 import com.c3.mobileapps.data.repository.PaymentRepository
@@ -23,8 +24,19 @@ class PaymentViewModel(private val paymentRepository: PaymentRepository, private
     suspend fun makePayment(courseId: String) {
         try {
             Log.e("Payment",token)
-
             val responses = paymentRepository.makePayment(token, courseId)
+            _paymentResp.value = Resource.success(responses)
+
+        } catch (exception: Exception) {
+            _paymentResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+        }
+    }
+
+    suspend fun updateStatus(courseId: String, method: StatusRequest) {
+        try {
+            Log.e("Payment",token)
+
+            val responses = paymentRepository.updatePayment(token, courseId, method)
             _paymentResp.value = Resource.success(responses)
 
         } catch (exception: Exception) {

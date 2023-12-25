@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_back"
@@ -19,10 +19,18 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/todo" />
 
+    <TextView
+        android:id="@+id/batas"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/back"
+        app:layout_constraintTop_toBottomOf="@+id/batas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -189,7 +197,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tvHarga" />
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
@@ -264,13 +272,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edtNamaRekening"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="BCA"
-                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:text="BCA"
+                    android:inputType="none"
+                    android:textIsSelectable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintStart_toStartOf="@+id/textView27"
                     app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
@@ -279,8 +290,10 @@
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Billi Eilish"
-                    android:inputType="text"
+                    android:text="Asep Surasep"
+                    android:inputType="none"
+                    android:textIsSelectable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintStart_toStartOf="@+id/textView23"
                     app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
@@ -289,8 +302,10 @@
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="2201987265"
-                    android:inputType="text"
+                    android:text="2201987265"
+                    android:inputType="none"
+                    android:textIsSelectable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintStart_toStartOf="@+id/textView24"
                     app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
@@ -386,7 +401,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="2500 00000 0000 0000"
-                    android:inputType="text"
+                    android:inputType="number"
                     app:layout_constraintStart_toStartOf="@+id/textView16"
                     app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -430,26 +445,26 @@
                     app:layout_constraintTop_toTopOf="@+id/textView19" />
 
                 <EditText
-                    android:id="@+id/editTextText6"
+                    android:id="@+id/etCvv"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:ems="10"
-                    android:inputType="text"
-                    android:text="@string/star"
+                    android:inputType="number"
+                    android:hint="@string/star"
                     app:layout_constraintStart_toStartOf="@+id/textView19"
                     app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
                 <EditText
-                    android:id="@+id/editTextText7"
+                    android:id="@+id/etExpired"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:ems="10"
                     android:inputType="text"
-                    android:text="@string/_10_05"
+                    android:hint="@string/_10_05"
                     app:layout_constraintEnd_toEndOf="@+id/textView20"
-                    app:layout_constraintTop_toTopOf="@+id/editTextText6" />
+                    app:layout_constraintTop_toTopOf="@+id/etCvv" />
 
                 <ImageView
                     android:id="@+id/imageView9"
@@ -457,8 +472,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="88dp"
                     android:layout_marginTop="15dp"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText6"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText6"
+                    app:layout_constraintStart_toStartOf="@+id/etCvv"
+                    app:layout_constraintTop_toBottomOf="@+id/etCvv"
                     app:srcCompat="@drawable/mastercard_logo" />
 
                 <ImageView
