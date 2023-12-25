@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentCourseBinding
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -173,10 +174,14 @@ class CourseFragment : Fragment() {
     }
 
     private fun setupRvCourse() {
-        listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
+        listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
-        })
+        },
+            onBadgelick = { course ->
+                val bottomSheetPayment = BottomSheetPayment()
+                bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
+            })
 
         binding.rvCourse.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

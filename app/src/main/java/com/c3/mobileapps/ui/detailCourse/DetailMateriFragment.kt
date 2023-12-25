@@ -135,6 +135,7 @@ class DetailMateriFragment : Fragment() {
                             materiList.add(chapter)
                             chapter.courseMaterial?.forEach {material ->
                                 chapter.orderIndex?.let { it1 ->
+                                    Log.e("Materi",material?.video.toString())
                                     MateriKursus(it1, material) }
                                     ?.let { it2 -> materiList.add(it2) }
                             }
@@ -149,14 +150,6 @@ class DetailMateriFragment : Fragment() {
                             startActivity(intent)
 //                        findNavController().navigate(R.id.webViewFragment,bundle)
                         })
-
-                    Log.e("Enrolled",data?.totalCompletedMaterial.toString())
-
-                    if (data?.totalCompletedMaterial == null){
-                        courseMaterialAdapter.setEnrolled(false)
-                    }else{
-                        courseMaterialAdapter.setEnrolled(true)
-                    }
 
                     Log.e("Enrolled",data?.totalCompletedMaterial.toString())
 

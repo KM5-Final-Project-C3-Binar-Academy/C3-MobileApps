@@ -17,6 +17,8 @@ import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentHomeBinding
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -55,10 +57,10 @@ class HomeFragment : Fragment() {
             val bundle = Bundle()
             bundle.putBoolean("ModeView", false)
 
-            findNavController().navigate(R.id.viewAllFragment,bundle)
+            findNavController().navigate(R.id.viewAllFragment, bundle)
         }
 
-        binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
+        binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
                 findNavController().navigate(R.id.searchFragment)
@@ -70,23 +72,27 @@ class HomeFragment : Fragment() {
 
     private fun setupRecyclerView() {
 
-        categoryFilterAdapter = CategoryFilterAdapter{
-                populerByCategory(it)
+        categoryFilterAdapter = CategoryFilterAdapter {
+            populerByCategory(it)
         }
         categoryAdapter = CategoryAdapter(
             isAll = false,
-            listener = {category ->
+            listener = { category ->
                 val bundle = bundleOf("CATEGORY" to category)
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.homeFragment, true)
                     .build()
-                findNavController().navigate(R.id.courseFragment,bundle,navOptions)
+                findNavController().navigate(R.id.courseFragment, bundle, navOptions)
             })
-        listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
+        listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
 
             findNavController().navigate(R.id.detailCourseFragment, bundle)
-        })
+        },
+            onBadgelick = { course ->
+                val bottomSheetPayment = BottomSheetPayment(course)
+                bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
+            })
 
         binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCategoryCourse.adapter = categoryAdapter
@@ -148,7 +154,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun populerByCategory(cat: String){
+    private fun populerByCategory(cat: String) {
         homeViewModel.getListCourse(cat)
         homeViewModel.listCourse.observe(viewLifecycleOwner) { it ->
             when (it.status) {

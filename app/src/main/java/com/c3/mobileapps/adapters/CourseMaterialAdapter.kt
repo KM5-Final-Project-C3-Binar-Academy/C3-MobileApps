@@ -49,11 +49,22 @@ class CourseMaterialAdapter(private val data: List<Any>,private var listener: ((
                     data.materi?.video?.let { it1 -> listener?.invoke(it1) }
                     Log.e("check listener", data.materi?.video.toString())
                 }
+                Log.e("check listener", data.materi?.courseMaterialStatus?.first()?.completed.toString())
+
+                val isCompleted = data.materi?.courseMaterialStatus?.first()?.completed
+                if (isCompleted == true){
+                    //set icon to checklist
+                    binding.btnPlay.visibility = View.GONE
+                    binding.btnLock.visibility = View.VISIBLE
+                }
+
+
             }else {
                 if (data.idKursus >= 2) {
                     binding.tvListNumber.text = data.materi?.orderIndex.toString()
                     binding.btnPlay.visibility = View.GONE
                     binding.btnLock.visibility = View.VISIBLE
+                    binding.tvMateri.text = data.materi?.name
                     binding.root.setOnClickListener {
                         listener?.invoke(false)
                     }

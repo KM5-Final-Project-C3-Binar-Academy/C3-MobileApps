@@ -19,6 +19,7 @@ import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentViewAllBinding
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -73,10 +74,14 @@ class ViewAllFragment : Fragment() {
                     .build()
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
-        listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
+        listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
-        })
+        },
+            onBadgelick = { course ->
+                val bottomSheetPayment = BottomSheetPayment()
+                bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
+            })
 
         if (isCategory){
             binding.title.text = "List Semua Kategori"

@@ -15,7 +15,9 @@ import com.c3.mobileapps.utils.DiffUtils
 
 
 class ListCourseAdapter(private var data :List<Course>,
-                        private var listener: (Course) -> Unit)
+                        private var onItemClick: (Course) -> Unit,
+                    private var onBadgelick: (Course) -> Unit)
+
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -28,11 +30,11 @@ class ListCourseAdapter(private var data :List<Course>,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewCourseHolder = holder as CourseHolder
-        viewCourseHolder.bindContent(data[position])
+        viewCourseHolder.bindContent(data[position], onBadgelick)
         val listenerItem = data[position]
 
         holder.itemView.setOnClickListener {
-            listener(listenerItem)
+            onItemClick(listenerItem)
         }
     }
 
@@ -55,7 +57,7 @@ class ListCourseAdapter(private var data :List<Course>,
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bindContent(data: Course) {
+        fun bindContent(data: Course, onBadgelick: (Course) -> Unit?) {
             binding.tvNamaKelas.text = data.courseCategory?.name
             binding.deskripsiJudulKelas.text = data.name
             binding.creatorKelas.text = "by ${data.author}"
@@ -74,10 +76,16 @@ class ListCourseAdapter(private var data :List<Course>,
                 binding.btnPremium.text = price
                 binding.btnPremium.visibility = View.VISIBLE
                 binding.btnMulaiKelas.visibility = View.GONE
+                binding.btnPremium.setOnClickListener {
+                    onBadgelick.invoke(data)
+                }
 
             }else{
                 binding.btnPremium.visibility = View.GONE
                 binding.btnMulaiKelas.visibility = View.VISIBLE
+                binding.btnMulaiKelas.setOnClickListener {
+                    onBadgelick.invoke(data)
+                }
             }
         }
 
