@@ -45,16 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/webView" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/btnPlayIntro"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="160dp"-->
-<!--                android:src="@drawable/ic_playvideo"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imageView2"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imageView2"-->
-<!--                app:layout_constraintVertical_bias="0.504" />-->
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMenuItem"
@@ -193,7 +183,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="624dp"
+                        android:layout_height="850dp"
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -227,11 +217,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center"
+        android:textColor="@color/primary"
         android:layout_margin="16dp"
-        android:contentDescription="Floating Button" />
+        android:text="@string/ambil_kelas_ini"
+        android:fontFamily="@font/poppins_bold"
+        android:contentDescription="@string/floating_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

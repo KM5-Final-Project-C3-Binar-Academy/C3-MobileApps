@@ -130,10 +130,8 @@ class HomeFragment : Fragment() {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     showRvCategory()
                     it.data?.let {
-
                         categoryAdapter.setData(it.data)
                         categoryFilterAdapter.setData(it.data)
-
                     }
                 }
 

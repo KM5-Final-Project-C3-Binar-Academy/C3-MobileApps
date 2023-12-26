@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -79,7 +78,7 @@ class ViewAllFragment : Fragment() {
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
-                val bottomSheetPayment = BottomSheetPayment()
+                val bottomSheetPayment = BottomSheetPayment(course)
                 bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
             })
 

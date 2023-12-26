@@ -98,7 +98,7 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
         },
                 onBadgelick = { course ->
-            val bottomSheetPayment = BottomSheetPayment()
+            val bottomSheetPayment = BottomSheetPayment(course)
             bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
         })
 

@@ -44,11 +44,6 @@ class DetailCourseFragment : Fragment() {
 
         val dataDetail = arguments?.getParcelable<Course?>("pickItem")
         dataDetail?.let {
-
-//            Glide.with(binding.root.context)
-//                .load(dataDetail.image)
-//                .into(binding.imageView2)
-
             //get id to retrieve courseId API
             val idCourse = dataDetail.id
             getCourseDetail(idCourse)
@@ -58,6 +53,7 @@ class DetailCourseFragment : Fragment() {
             val convertId = convertId(urlIntro)
             playIntro(convertId)
         }
+
 
         //* Setup ViewPager n passing data to viewpager *//
         val idcourse = dataDetail?.id
@@ -79,8 +75,8 @@ class DetailCourseFragment : Fragment() {
     //retrieve courseId API
     @SuppressLint("SetTextI18n")
     private fun getCourseDetail(id: String?){
-        detailCourseViewModel.getCourseById(id)
-        detailCourseViewModel.courseById.observe(viewLifecycleOwner){
+        detailCourseViewModel.getCourseByUser(id)
+        detailCourseViewModel.listKelas.observe(viewLifecycleOwner){
             when(it.status){
                 Status.SUCCESS -> {
                     Log.e("Cek Data Course", Gson().toJson(it.data))
@@ -95,11 +91,14 @@ class DetailCourseFragment : Fragment() {
                     binding.durasiKelas.text = "${ data?.totalDuration.toString()} Menit"
                     binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
 
-                    binding.floatingActionButton.setOnClickListener {
-                        val bundle = bundleOf("COURSE_ID" to data?.id.toString())
-                        findNavController().navigate(R.id.paymentFragment, bundle)
+                    if (data?.totalCompletedMaterial == null){
+                        binding.floatingActionButton.setOnClickListener {
+                            val bundle = bundleOf("COURSE_ID" to data?.id.toString())
+                            findNavController().navigate(R.id.paymentFragment, bundle)
+                        }
+                    }else{
+                        binding.floatingActionButton.visibility = View.GONE
                     }
-
                 }
                 Status.ERROR -> {
                     Log.e("Cek Data Course", it.message.toString())
@@ -141,9 +140,5 @@ class DetailCourseFragment : Fragment() {
         return ""
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 
 }

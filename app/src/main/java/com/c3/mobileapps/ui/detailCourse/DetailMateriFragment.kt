@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.CourseMaterialAdapter
@@ -75,17 +76,21 @@ class DetailMateriFragment : Fragment() {
                         }
 
                         courseMaterialAdapter = CourseMaterialAdapter(materiList,
-                            listener  = {data ->
-                                if (data == false){
-                                    Log.e("check listener", data.toString())
-                                }else{
-                                    val bundle = bundleOf("Url" to data)
+                            listener = { data ->
+                                Log.e("check listener", data.toString())
+                                if (data == false) {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Silahkan Checkout Terlebih dahulu!", Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else {
+                                    Log.e("check data material", data.toString())
+                                    val bundle = bundleOf("courseMaterial" to data)
                                     val intent = Intent(activity, WebView::class.java)
-                                    intent.putExtra("Url", bundle)
+                                    intent.putExtra("courseMaterial", bundle)
                                     startActivity(intent)
                                 }
-
-//                        findNavController().navigate(R.id.webViewFragment,bundle)
                             })
 
                         Log.e("Enrolled",data.totalCompletedMaterial.toString())
@@ -143,12 +148,21 @@ class DetailMateriFragment : Fragment() {
                     }
 
                     courseMaterialAdapter = CourseMaterialAdapter(materiList,
-                        listener  = {url ->
-                            val bundle = bundleOf("Url" to url)
-                            val intent = Intent(activity, WebView::class.java)
-                            intent.putExtra("Url", bundle)
-                            startActivity(intent)
-//                        findNavController().navigate(R.id.webViewFragment,bundle)
+                        listener = { data ->
+                            Log.e("check listener", data.toString())
+                            if (data == false) {
+
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Anda Belum Login!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                val bundle = bundleOf("courseMaterial" to data)
+                                val intent = Intent(activity, WebView::class.java)
+                                intent.putExtra("courseMaterial", bundle)
+                                startActivity(intent)
+                            }
                         })
 
                     Log.e("Enrolled",data?.totalCompletedMaterial.toString())

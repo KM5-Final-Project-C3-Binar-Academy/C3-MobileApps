@@ -49,5 +49,10 @@
     <string name="tidak_ada_riwayat_pembayaran_yang_ditemukan">Tidak ada riwayat pembayaran yang ditemukan.</string>
     <string name="login">Login</string>
     <string name="maaf_anda_harus_login_terlebih_dahulu">Maaf, Anda harus login terlebih dahulu!</string>
+    <string name="floating_button">Floating Button</string>
+    <string name="ambil_kelas_ini">AMBIL KELAS INI</string>
+    <string name="selamat">Selamat!</string>
+    <string name="transaksi_pembayaran_kelas_premium_berhasil">Transaksi pembayaran kelas premium berhasil!</string>
+    <string name="yey_sekarang_kamu_sudah_bisa_mengikuti_kelas">Yey sekarang kamu sudah bisa mengikuti kelas!</string>
 
 </resources>

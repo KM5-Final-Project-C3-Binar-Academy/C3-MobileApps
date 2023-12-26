@@ -6,22 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.c3.mobileapps.R
-import com.c3.mobileapps.data.remote.model.response.course.Course
-import com.c3.mobileapps.databinding.FragmentBottomsheetOnBoardingBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.c3.mobileapps.databinding.FragmentBottomSheetPaymentBinding
+import com.c3.mobileapps.databinding.FragmentPaymentSuccessBottomSheetBinding
 
+class paymentSuccessBottomSheet : Fragment() {
 
-class OnBoardingBottomSheet() : BottomSheetDialogFragment() {
-    private lateinit var binding: FragmentBottomsheetOnBoardingBinding
+    private lateinit var binding : FragmentPaymentSuccessBottomSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentBottomsheetOnBoardingBinding.inflate(inflater, container, false)
+       binding= FragmentPaymentSuccessBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
 }

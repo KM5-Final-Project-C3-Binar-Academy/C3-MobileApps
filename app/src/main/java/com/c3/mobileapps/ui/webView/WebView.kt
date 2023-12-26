@@ -7,16 +7,20 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.c3.mobileapps.R
+import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
 import com.c3.mobileapps.databinding.ActivityWebViewBinding
+import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
+import org.koin.android.ext.android.inject
 
 
 @Suppress("DEPRECATION")
 class WebView : AppCompatActivity() {
     private lateinit var binding: ActivityWebViewBinding
+    private val webViewViewModel: WebViewViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +32,17 @@ class WebView : AppCompatActivity() {
         setContentView(binding.root)
 
         //get data passing from detail materi
-        val bundle = intent.extras?.getBundle("Url")
-        val urlIntro = bundle?.getString("Url")
+        val bundle = intent.extras?.getBundle("courseMaterial")
+        val data = bundle?.getParcelable<CourseMaterial>("courseMaterial")
         Log.e("Cek Data yutub", bundle.toString())
-        val idConvert = convertId(urlIntro)
+        val idConvert = convertId(data?.video.toString())
+        val idMaterial = data?.courseMaterialStatus .toString()
 
-        playVideo(idConvert)
+
+        playVideo(idConvert, idMaterial)
         buttonBack()
-
     }
-    private fun playVideo(id: String?){
+    private fun playVideo(id: String?, idMaterial: String?){
 
             val youTubePlayerView = binding.youtubePlayerView
             youTubePlayerView.enableAutomaticInitialization = false
@@ -46,8 +51,8 @@ class WebView : AppCompatActivity() {
 
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     youTubePlayer.cueVideo(id.toString(), 0f)
+                    putCourseMaterial(idMaterial)
                 }
-
                 override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
                     super.onVideoDuration(youTubePlayer, duration)
                     val tracker = YouTubePlayerTracker()
@@ -69,7 +74,23 @@ class WebView : AppCompatActivity() {
 
     }
 
+    private fun putCourseMaterial(id: String?) {
+        webViewViewModel.getUpdateMaterial(id)
+        webViewViewModel.materialResp.observe(this) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("Cek Data Material", Gson().toJson(it.data))
 
+                }
+
+                Status.ERROR -> {
+                    Log.e("Cek Data Material", it.message.toString())
+                }
+                Status.LOADING -> {
+                }
+            }
+        }
+    }
 
     private fun convertId(text: String?): String {
         val parts = text?.split("/")

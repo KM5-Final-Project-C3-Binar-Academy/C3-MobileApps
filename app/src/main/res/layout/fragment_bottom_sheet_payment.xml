@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/bg_payment"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -28,7 +28,7 @@
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView10"
+            app:layout_constraintTop_toBottomOf="@id/tvKelas"
           >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -195,7 +195,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/tvKelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
@@ -211,7 +211,7 @@
             android:id="@+id/btnNextPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/button_nextpayment"
             app:layout_constraintEnd_toEndOf="@+id/cardMenuItem"
             app:layout_constraintHorizontal_bias="0.49"
@@ -222,13 +222,25 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Selangkah Lagi Menuju"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
+            android:text="Selangkah Lagi Menuju"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnMulaiBelajar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/cardMenuItem"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="@+id/cardMenuItem"
+            app:layout_constraintTop_toBottomOf="@+id/cardMenuItem"
+            app:srcCompat="@drawable/button_mulai_belajar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

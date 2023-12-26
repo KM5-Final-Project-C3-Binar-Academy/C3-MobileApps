@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="OnBoarding..."
+        android:text="@string/selamat"
         android:textColor="@color/primary"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="@+id/viewBottomSheet"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Persiapkan hal berikut untuk belajar yang maksimal:"
+        android:text="@string/transaksi_pembayaran_kelas_premium_berhasil"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintHorizontal_bias="0.496"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Mempunyai akun Figma atau Install Adobe XD Menggunakan internet minimal kecepatan 2Mbps Belajar di tempat yang nyaman"
+        android:text="@string/yey_sekarang_kamu_sudah_bisa_mengikuti_kelas"
         android:textAlignment="center"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/textView26"
@@ -74,11 +74,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:src="@drawable/btnikutikelas"
+        android:src="@drawable/button_mulai_belajar"
         app:layout_constraintEnd_toEndOf="@+id/viewBottomSheet"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="@+id/viewBottomSheet"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Kembali ke Beranda"
+        android:textColor="@color/secondary"
+        app:layout_constraintEnd_toEndOf="@+id/imageView13"
+        app:layout_constraintStart_toStartOf="@+id/imageView13"
+        app:layout_constraintTop_toBottomOf="@+id/imageView13" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,4 +21,7 @@ CourseRepository(private val apiServiceCourse: ApiServiceCourse) {
         search: String?,
         difficulty: String?
     ) = apiServiceCourse.getCourse(type, filter, category, search, difficulty)
+
+    suspend fun updateCourseMaterial (token: String, id: String?)=
+        apiServiceCourse.updateCoursesMaterial(token, id)
 }
