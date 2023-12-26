@@ -22,5 +22,5 @@ data class CourseMaterial(
     @SerializedName("video")
     var video: String?,
     @SerializedName("course_material_status")
-    var courseMaterialStatus: List<CourseMaterialStatus?>
+    var courseMaterialStatus: List<CourseMaterialStatus?>?
 ): Parcelable
