@@ -35,43 +35,101 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val courseId = arguments?.getString("COURSE_ID")
+        val course = arguments?.getParcelable<Course>("COURSE")
+        val payment = arguments?.getParcelable<Payment>("PAYMENT")
+
+        setView(course)
 
 
         binding.metode1.setOnClickListener {
             binding.cardTransfer.visibility = View.VISIBLE
             binding.cardCreditPayment.visibility = View.GONE
+            binding.edtNoRek.keyListener = null
+            binding.edtAtasNama.keyListener = null
+            binding.edtNamaRekening.keyListener = null
+            binding.metode1.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.primary))
+            binding.metode2.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.red))
+            paymentMethod = "BANK_TRANSFER"
         }
 
         binding.metode2.setOnClickListener {
             binding.cardTransfer.visibility = View.GONE
             binding.cardCreditPayment.visibility = View.VISIBLE
+            binding.metode2.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.primary))
+            binding.metode1.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.red))
+            paymentMethod = "CREDIT_CARD"
         }
 
         binding.btnPayment.setOnClickListener {
-            Log.e("Payment", courseId.toString())
-            createPayment(courseId.toString())
+            Log.e("Payment", course.toString())
+            if (paymentMethod == "BANK_TRANSFER"){
+                createPayment(payment?.id.toString())
+            }else{
+                validatePayment(payment?.id.toString())
+            }
+
+//
         }
+
+
 
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-//    private fun validatePayment() {
-//
-//    }
+    private fun setView(course: Course?) {
+        binding.tvNamaKelas.text = course?.courseCategory?.name
+        binding.deskripsiJudulKelas.text = course?.name
+        binding.creatorKelas.text = "by ${course?.author}"
+        binding.rating.text = course?.rating
 
-    private fun createPayment(courseId: String) {
+        val price = course?.price
+        binding.tvHarga.text = price?.formatAsPrice()
+
+        val ppn = price?.times(0.11)
+        binding.tvPpn.text = ppn?.formatAsPrice()
+
+        val total = ppn?.let { price.plus(it) }
+        binding.total.text = total?.formatAsPrice()
+        Glide.with(binding.root)
+            .load(course?.image ?: course?.courseCategory?.image)
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.imageView)
+
+    }
+
+    private fun validatePayment(id:String) {
+        binding.apply {
+            if (edtCardNumber.text.isNullOrEmpty()){
+                edtCardNumber.error = "Card number cannot be empty"
+                edtCardNumber.requestFocus()
+            }else if (edtCardName.text.isNullOrEmpty()){
+                edtCardName.error = "Card name cannot be empty"
+                edtCardName.requestFocus()
+            }else if (etCvv.text.isNullOrEmpty()){
+                etCvv.error = "CVV cannot be empty"
+                etCvv.requestFocus()
+            }else if (etExpired.text.isNullOrEmpty()){
+                etExpired.error = "CVV cannot be empty"
+                etExpired.requestFocus()
+            }else{
+                createPayment(paymentId = id)
+            }
+        }
+
+
+    }
+
+    private fun createPayment(paymentId: String) {
         lifecycleScope.launch {
-            paymentViewModel.makePayment(courseId)
+            paymentViewModel.updateStatus(paymentId, StatusRequest(paymentMethod))
             paymentViewModel.paymentResp.observe(viewLifecycleOwner) {
                 when (it.status) {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
-                        val data = it.data?.data
-                        val bundle = bundleOf("PAYMENT" to data)
-                        findNavController().navigate(R.id.confirmPaymentFragment, bundle)
+                        //show success payment
                     }
 
                     Status.LOADING -> {
@@ -97,5 +155,8 @@ class PaymentFragment : Fragment() {
             }
         }
     }
+
+
+
 }
 

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -14,7 +15,11 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.adapters.PagerAdapter
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailCourseBinding
+import com.c3.mobileapps.ui.confirm_payment.OnBoardingBottomSheet
+import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.ui.payment.PaymentViewModel
 import com.c3.mobileapps.utils.Status
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -29,6 +34,7 @@ class DetailCourseFragment : Fragment() {
     private  var _binding: FragmentDetailCourseBinding? = null
     private val binding get() = _binding!!
     private val detailCourseViewModel:DetailCourseViewModel by inject()
+    private val paymentViewModel:PaymentViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +72,15 @@ class DetailCourseFragment : Fragment() {
             tab.text = titleFragment[position]
         }.attach()
 
+        detailCourseViewModel.isLogin.observe(viewLifecycleOwner){
+            if (it){
+
+            }else{
+
+            }
+        }
+
+
 
         binding.back.setOnClickListener {
             findNavController().popBackStack()
@@ -90,15 +105,7 @@ class DetailCourseFragment : Fragment() {
                     binding.rating.text =  data?.rating.toString()
                     binding.durasiKelas.text = "${ data?.totalDuration.toString()} Menit"
                     binding.jumlahModulKelas.text =  "${ data?.totalMaterials.toString()} Modul "
-
-                    if (data?.totalCompletedMaterial == null){
-                        binding.floatingActionButton.setOnClickListener {
-                            val bundle = bundleOf("COURSE_ID" to data?.id.toString())
-                            findNavController().navigate(R.id.paymentFragment, bundle)
-                        }
-                    }else{
-                        binding.floatingActionButton.visibility = View.GONE
-                    }
+                    enrolledCourse(data)
                 }
                 Status.ERROR -> {
                     Log.e("Cek Data Course", it.message.toString())
@@ -109,6 +116,93 @@ class DetailCourseFragment : Fragment() {
                     binding.progressBar.isVisible = true
 
                 }
+            }
+        }
+    }
+
+    private fun enrolledCourse(data: Course?) {
+
+                if (data?.premium == true){
+                    //beli sekarang
+                    if (data.totalCompletedMaterial == null){
+                        binding.floatingActionButton.visibility = View.VISIBLE
+                        binding.floatingActionButton.setOnClickListener {
+
+                            enrollPremium(data)
+                        }
+                    }else{
+                        binding.floatingActionButton.visibility = View.GONE
+                    }
+                }else{
+                    //ikutikelas
+                    if (data?.totalCompletedMaterial == null){
+                        binding.floatingActionButton.visibility = View.VISIBLE
+                        binding.floatingActionButton.setOnClickListener {
+                            enrollFree(data)
+                        }
+                    }else{
+                        binding.floatingActionButton.visibility = View.GONE
+                    }
+
+                }
+
+
+
+    }
+
+    private fun enrollFree(data: Course?) {
+        paymentViewModel.enrollFree(data?.id.toString())
+        paymentViewModel.paymentResp.observe(viewLifecycleOwner){
+            when (it.status) {
+                Status.SUCCESS -> {
+                    //onboarding bottom sheet
+                    val onBoardingBottomSheet = OnBoardingBottomSheet()
+                    onBoardingBottomSheet.show(childFragmentManager,onBoardingBottomSheet.tag)
+                    findNavController().navigate(R.id.detailCourseFragment)
+
+                }
+
+                Status.LOADING -> {}
+
+                Status.ERROR -> {
+                    Snackbar.make(binding.root, "Anda Sudah Bergabung Dengan Kelas", Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
+                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        .show()
+                }
+
+            }
+        }
+    }
+
+    private fun enrollPremium(data: Course) {
+        paymentViewModel.createPayment(data.id.toString())
+        paymentViewModel.paymentResp.observe(viewLifecycleOwner){
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val bundle = bundleOf("COURSE" to data,"PAYMENT" to it.data?.data)
+                    findNavController().navigate(R.id.paymentFragment, bundle)
+                }
+
+                Status.LOADING -> {}
+
+                Status.ERROR -> {
+                    Snackbar.make(binding.root, "Anda Sudah Bergabung Dengan Kelas", Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
+                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        .show()
+                }
+
             }
         }
     }

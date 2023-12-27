@@ -221,6 +221,7 @@
         android:id="@+id/floating_action_button"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:visibility="invisible"
         android:layout_gravity="bottom|center"
         android:textColor="@color/primary"
         android:layout_margin="16dp"

@@ -57,6 +57,9 @@ class DetailCourseViewModel(private val repository: DataRepository, private val 
         }
     }
 
+    //enrolled free
+    //enrolled premium
+
 
 
 }

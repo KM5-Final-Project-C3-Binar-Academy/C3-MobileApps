@@ -1,4 +1,4 @@
-package com.c3.mobileapps.data.local.filter
+package com.c3.mobileapps.data.local.model
 
 data class FilterCategory(
 	var name: String,
