@@ -10,9 +10,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.R
+import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
+import com.c3.mobileapps.data.remote.model.response.course.Course
+import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentPaymentBinding
 import com.c3.mobileapps.utils.Status
+import com.c3.mobileapps.utils.formatAsPrice
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -22,6 +28,7 @@ class PaymentFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentBinding
     private val paymentViewModel: PaymentViewModel by inject()
+    private var paymentMethod = "CREDIT_CARD"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
