@@ -93,4 +93,6 @@ dependencies {
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 
+	//ViewPager
+	implementation ("androidx.viewpager2:viewpager2:1.0.0")
 }

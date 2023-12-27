@@ -46,5 +46,14 @@
     <string name="todo">TODO</string>
     <string name="ppn_11">PPN 11%</string>
     <string name="harga">Harga</string>
+    <string name="logo">logo</string>
+    <string name="next">next</string>
+    <string name="belajar">BELAJAR</string>
+    <string name="dari_pengalaman_terbaik">dari Pengalaman Terbaik</string>
+    <string name="page1">page1</string>
+    <string name="imgsplash3">imgSplash3</string>
+    <string name="splash3">splash3</string>
+    <string name="imgsplash2">imgsplash2</string>
+    <string name="description_apps">Description apps</string>
 
 </resources>

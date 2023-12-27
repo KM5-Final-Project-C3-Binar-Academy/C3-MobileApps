@@ -11,7 +11,7 @@ import com.c3.mobileapps.ui.home.HomeFragment
 
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreen1 : AppCompatActivity(){
+class SplashScreen1Activity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
@@ -20,10 +20,11 @@ class SplashScreen1 : AppCompatActivity(){
         supportActionBar?.hide()
 
         Handler().postDelayed({
-            val intent = Intent(this@SplashScreen1, HomeFragment::class.java)
+            val intent = Intent(this@SplashScreen1Activity, SplashScreen::class.java)
             startActivity(intent)
             finish()
         },2000)
+
 
     }
 }
