@@ -1,7 +1,9 @@
 package com.c3.mobileapps.ui.payment
 
 import android.graphics.Color
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,18 +18,21 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.course.Course
+import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentPaymentBinding
 import com.c3.mobileapps.utils.Status
 import com.c3.mobileapps.utils.formatAsPrice
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.util.Locale
 
 
 class PaymentFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentBinding
     private val paymentViewModel: PaymentViewModel by inject()
+    private var paymentMethod = "CREDIT_CARD"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +47,7 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val course = arguments?.getParcelable<Course>("COURSE")
+        val payment = arguments?.getParcelable<Payment>("PAYMENT")
 
         setView(course)
 
@@ -54,6 +60,7 @@ class PaymentFragment : Fragment() {
             binding.edtNamaRekening.keyListener = null
             binding.metode1.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.primary))
             binding.metode2.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.red))
+            paymentMethod = "BANK_TRANSFER"
         }
 
         binding.metode2.setOnClickListener {
@@ -61,13 +68,21 @@ class PaymentFragment : Fragment() {
             binding.cardCreditPayment.visibility = View.VISIBLE
             binding.metode2.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.primary))
             binding.metode1.setCardBackgroundColor(ContextCompat.getColor(requireContext(),R.color.red))
+            paymentMethod = "CREDIT_CARD"
         }
 
         binding.btnPayment.setOnClickListener {
             Log.e("Payment", course.toString())
-            validatePayment(course?.id.toString())
-//            createPayment(course?.id.toString())
+            if (paymentMethod == "BANK_TRANSFER"){
+                createPayment(payment?.id.toString())
+            }else{
+                validatePayment(payment?.id.toString())
+            }
+
+//
         }
+
+
 
         binding.back.setOnClickListener {
             findNavController().popBackStack()
@@ -111,23 +126,21 @@ class PaymentFragment : Fragment() {
                 etExpired.error = "CVV cannot be empty"
                 etExpired.requestFocus()
             }else{
-                createPayment(courseId = id)
+                createPayment(paymentId = id)
             }
         }
 
 
     }
 
-    private fun createPayment(courseId: String) {
+    private fun createPayment(paymentId: String) {
         lifecycleScope.launch {
-            paymentViewModel.updateStatus(courseId, StatusRequest("BANK_TRANSFER"))
+            paymentViewModel.updateStatus(paymentId, StatusRequest(paymentMethod))
             paymentViewModel.paymentResp.observe(viewLifecycleOwner) {
                 when (it.status) {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
-                        val data = it.data?.data
-                        val bundle = bundleOf("PAYMENT" to data)
-                        findNavController().navigate(R.id.confirmPaymentFragment, bundle)
+                        //show success payment
                     }
 
                     Status.LOADING -> {

@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
                     //masuk ke onboarding
                     binding.pbLoading.visibility = View.INVISIBLE
                     splashViewModel.setIsLogin(false)
-                    splashViewModel.setToken("Berear ")
+                    splashViewModel.setToken("")
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }

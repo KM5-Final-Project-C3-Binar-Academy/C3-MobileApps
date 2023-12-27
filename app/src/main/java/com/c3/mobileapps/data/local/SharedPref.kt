@@ -21,7 +21,7 @@ class SharedPref(context: Context) {
     }
 
     fun getToken(): String {
-        return preferences.getString(TOKEN,"Bearer ").toString()
+        return preferences.getString(TOKEN,"").toString()
     }
 
     fun clearPreferences(){

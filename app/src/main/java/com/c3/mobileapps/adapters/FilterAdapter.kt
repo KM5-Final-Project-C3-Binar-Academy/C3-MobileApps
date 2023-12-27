@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.c3.mobileapps.data.local.filter.FilterCategory
+import com.c3.mobileapps.data.local.model.FilterCategory
 import com.c3.mobileapps.databinding.ItemCheckboxBinding
 import com.c3.mobileapps.databinding.ItemHeaderBinding
 import com.c3.mobileapps.utils.DiffUtils

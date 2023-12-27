@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.FilterAdapter
-import com.c3.mobileapps.data.local.filter.FilterCategory
+import com.c3.mobileapps.data.local.model.FilterCategory
 import com.c3.mobileapps.databinding.FilterBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
