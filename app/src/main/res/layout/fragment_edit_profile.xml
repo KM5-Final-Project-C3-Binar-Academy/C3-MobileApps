@@ -96,62 +96,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputTlp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Nomer Tlp"
+            android:hint="Nomor Telepon"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutKewarganegaraan"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTlp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputKewarganegaraan"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Kewarganegaraan Tempat Tinggal"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutKota"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutKewarganegaraan">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputKota"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Kewarganegaraan Tempat Tinggal"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/btnSimpan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/btnsimpanprofile"
-        app:layout_constraintEnd_toEndOf="@+id/layoutKota"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/layoutKota"
-        app:layout_constraintTop_toBottomOf="@+id/layoutKota" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTlp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

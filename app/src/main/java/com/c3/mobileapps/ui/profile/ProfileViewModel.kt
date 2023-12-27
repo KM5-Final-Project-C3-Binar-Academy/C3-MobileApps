@@ -25,7 +25,6 @@ class ProfileViewModel(private val userRepository: UserRepository, private val s
 
     private suspend fun getUser() {
         try {
-
             val responses = userRepository.getUser(token)
             _userResp.value = Resource.success(responses)
 

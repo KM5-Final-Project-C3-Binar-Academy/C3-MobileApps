@@ -1,5 +1,8 @@
 package com.c3.mobileapps.ui.profile
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,9 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
+import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.databinding.FragmentProfileBinding
 import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
+import com.c3.mobileapps.utils.CustomSnackbar
 import com.c3.mobileapps.utils.Status
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
@@ -18,7 +25,8 @@ import org.koin.android.ext.android.inject
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val profileViewModel: ProfileViewModel by inject()
-
+    private val sharedPreferences: SharedPref by inject()
+    private val snackbar = CustomSnackbar()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +50,10 @@ class ProfileFragment : Fragment() {
 
         binding.tvHistoryPayment.setOnClickListener {
             findNavController().navigate(R.id.historyPaymentFragment)
-
         }
 
         binding.tvLogout.setOnClickListener {
-
+            alertDialog()
         }
 
         checkIsLogin()
@@ -85,5 +92,24 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun alertDialog(){
+        val builder = AlertDialog.Builder(context)
+
+        builder.setTitle("Konfirmasi")
+            .setMessage("Apakah kamu yakin untuk keluar akun?")
+            .setPositiveButton("YA") { dialog, which ->
+                sharedPreferences.setIsLogin(false)
+                findNavController().navigate(R.id.loginFragment)
+                snackbar.showSnackbarUtils("Berhasil Logout!", false, layoutInflater, requireView(), requireContext())
+            }
+            .setNegativeButton("TIDAK") { dialog, which ->
+                dialog.dismiss()
+            }
+
+        // Create and show the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
     }
 }

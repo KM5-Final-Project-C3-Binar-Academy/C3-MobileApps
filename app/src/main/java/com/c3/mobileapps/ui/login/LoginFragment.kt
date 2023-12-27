@@ -1,5 +1,6 @@
 package com.c3.mobileapps.ui.login
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -17,6 +18,7 @@ import com.c3.mobileapps.databinding.FragmentLoginBinding
 import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
 import com.c3.mobileapps.ui.home.HomeFragment
 import com.c3.mobileapps.ui.register.RegisterFragment
+import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
@@ -28,6 +30,7 @@ class LoginFragment : Fragment() {
 	private lateinit var customSnackbarBinding: ItemCustomSnackbarBinding
 	private val loginViewModel: LoginViewModel by inject()
 	private val sharedPreferences: SharedPref by inject()
+	private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,6 +44,7 @@ class LoginFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		onAttach(requireContext())
 
+		binding.constraintLogin.visibility = View.INVISIBLE
 		val isLogin = sharedPreferences.getIsLogin()
 
 		if (isLogin){
@@ -49,20 +53,19 @@ class LoginFragment : Fragment() {
 
 		// Some Logic Login Here
 		binding.btnLogin.setOnClickListener {
-			// Mengaktifkan ProgressBar
-			binding.constraintLogin.visibility = View.VISIBLE
-
 			// Ambil nilai dari Form
 			val email  = binding.etEmail.text
 			val pass   = binding.etPassword.text
 
 			try {
+				// Mengaktifkan ProgressBar
+				binding.constraintLogin.visibility = View.VISIBLE
 				loginViewModel.login(email.toString(),pass.toString())
 				loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
 
 					when (res.code()) {
 						200 -> {
-							showSnackbar("Login Berhasil!", false)
+							snackbar.showSnackbarUtils("Login Berhasil!", false, layoutInflater, requireView(), requireContext())
 
 							val data = res.body()?.data
 
@@ -73,19 +76,22 @@ class LoginFragment : Fragment() {
 						}
 
 						400 -> {
-							showSnackbar("Email dan Password diperlukan!", true)
+							snackbar.showSnackbarUtils("Email dan Password diperlukan!", true, layoutInflater, requireView(), requireContext())
 						}
 
 						401 -> {
-							showSnackbar("Email atau Password salah!", true)
+							snackbar.showSnackbarUtils("Email atau Password salah!",true, layoutInflater,requireView(),requireContext())
+						}
+						404 -> {
+							snackbar.showSnackbarUtils("Akun Tidak Ditemukan!", true, layoutInflater,requireView(),requireContext())
 						}
 
 						500 -> {
-							showSnackbar("Aplikasi dalam perbaikan. Mohon Coba Lagi", true)
+							snackbar.showSnackbarUtils("Aplikasi dalam perbaikan. Mohon Coba Lagi!", true, layoutInflater, requireView(), requireContext())
 						}
 					}
 
-					binding.constraintLogin.visibility = View.GONE
+					binding.constraintLogin.visibility = View.INVISIBLE
 				})
 			} catch (e: Exception) {
 				Log.e("Auth Issues", e.toString())
@@ -103,29 +109,23 @@ class LoginFragment : Fragment() {
 	}
 
 	// Additional Function
-	private fun showSnackbar(message: String?, error: Boolean) {
-		val customSnackbarBinding = ItemCustomSnackbarBinding.inflate(layoutInflater)
-		val customSnackbarView = customSnackbarBinding.root
+	private fun alertDialog(){
+		val builder = AlertDialog.Builder(context)
 
-		// Set teks pada Snackbar kustom
-		customSnackbarBinding.tvMessage.text = message.toString()
+		builder.setTitle("Reset Password")
+			.setMessage("Apakah kamu yakin untuk keluar akun?")
+			.setPositiveButton("YA") { dialog, which ->
+				sharedPreferences.setIsLogin(false)
+				findNavController().navigate(R.id.loginFragment)
+				snackbar.showSnackbarUtils("Berhasil Logout!", false, layoutInflater, requireView(), requireContext())
+			}
+			.setNegativeButton("TIDAK") { dialog, which ->
+				dialog.dismiss()
+			}
 
-		// Create a Snackbar with the root view of the fragment
-		val snackbar = Snackbar.make(requireView(), "", Snackbar.LENGTH_SHORT)
-		val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-
-		// Set warna latar belakang Snackbar
-		if (error) {
-			customSnackbarBinding.layoutSnackbar.background = ColorDrawable(Color.parseColor("#F31559"))
-		} else {
-			customSnackbarBinding.ivLogo.setImageDrawable(resources.getDrawable(R.drawable.check_circle_24, requireContext().theme))
-			customSnackbarBinding.layoutSnackbar.background = ColorDrawable(Color.parseColor("#8ADAB2"))
-		}
-		snackbarLayout.setPadding(0,0,0,0)
-
-		// Add the custom view to SnackbarLayout
-		snackbarLayout.addView(customSnackbarView, 0)
-		snackbar.show()
+		// Create and show the AlertDialog
+		val alertDialog: AlertDialog = builder.create()
+		alertDialog.show()
 	}
 
 	override fun onAttach(context: Context) {

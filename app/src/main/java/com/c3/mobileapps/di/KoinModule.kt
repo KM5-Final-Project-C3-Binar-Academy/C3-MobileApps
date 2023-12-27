@@ -22,6 +22,7 @@ import com.c3.mobileapps.ui.login.LoginViewModel
 import com.c3.mobileapps.ui.main_activity.MainViewModel
 import com.c3.mobileapps.ui.notification.NotificationViewModel
 import com.c3.mobileapps.ui.payment.PaymentViewModel
+import com.c3.mobileapps.ui.profile.EditProfileViewModel
 import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
 import com.c3.mobileapps.ui.splash_screen.SplashViewModel
@@ -80,6 +81,7 @@ object KoinModule {
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
             viewModel { ProfileViewModel(get(),get()) }
+            viewModel { EditProfileViewModel(get(), get())}
             viewModel { SplashViewModel(get(),get()) }
             viewModel { MainViewModel(get(),get()) }
             viewModel { NotificationViewModel(get(),get()) }
