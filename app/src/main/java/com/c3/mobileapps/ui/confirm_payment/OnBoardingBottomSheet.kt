@@ -11,7 +11,7 @@ import com.c3.mobileapps.databinding.FragmentBottomsheetOnBoardingBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class OnBoardingBottomSheet() : BottomSheetDialogFragment() {
+class OnBoardingBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentBottomsheetOnBoardingBinding
 
     override fun onCreateView(

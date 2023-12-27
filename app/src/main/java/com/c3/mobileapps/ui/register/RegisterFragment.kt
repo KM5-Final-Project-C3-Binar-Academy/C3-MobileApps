@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 //import .RegisterSuccessBottomSheet
 
+@Suppress("SameParameterValue")
 class RegisterFragment : Fragment() {
 	private lateinit var binding: FragmentRegister1Binding
 	private val registerViewModel: RegisterViewModel by inject()

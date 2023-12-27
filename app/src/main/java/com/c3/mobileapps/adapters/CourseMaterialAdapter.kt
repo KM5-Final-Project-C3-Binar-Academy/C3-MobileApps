@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.remote.model.response.course.CourseChapter
-import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
-import com.c3.mobileapps.data.remote.model.response.courseMe.MateriKursus
+import com.c3.mobileapps.data.remote.model.response.course.MateriKursus
 import com.c3.mobileapps.databinding.ItemMateriBinding
 import com.c3.mobileapps.databinding.ItemMateriHeaderBinding
 

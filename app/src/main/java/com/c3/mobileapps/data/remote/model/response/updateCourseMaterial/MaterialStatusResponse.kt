@@ -1,6 +1,6 @@
 package com.c3.mobileapps.data.remote.model.response.updateCourseMaterial
 
 data class MaterialStatusResponse(
-    val `data`: Data?,
+    val dataMaterialStatus: DataMaterialStatus?,
     val message: String?
 )

@@ -63,8 +63,8 @@ class ListCourseAdapter(private var data :List<Course>,
             binding.creatorKelas.text = "by ${data.author}"
             binding.levelNameKelas.text = data.difficulty
             binding.rating.text = data.rating
-            binding.durasiKelas.text = data.totalDuration.toString()
-            binding.jumlahModulKelas.text = data.totalMaterials.toString()
+            binding.durasiKelas.text = "${data.totalDuration.toString()} Menit"
+            binding.jumlahModulKelas.text = "${data.totalMaterials.toString()} Modul"
             Glide.with(binding.root.context)
                 .load(data.image ?: data.courseCategory?.image)
                 .centerCrop()

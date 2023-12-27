@@ -1,5 +1,6 @@
 package com.c3.mobileapps.data.repository
 
+import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.DataMaterialStatus
 import com.c3.mobileapps.data.remote.service.ApiServiceCourse
 
 class

@@ -57,7 +57,7 @@ class DetailCourseFragment : Fragment() {
 
         //* Setup ViewPager n passing data to viewpager *//
         val idcourse = dataDetail?.id
-        val fragment = arrayListOf(DetailTentangFragment.newInstance(idcourse),
+        val fragment = arrayListOf(DetailTentangFragment.newInstance(dataDetail),
             DetailMateriFragment.newInstance(idcourse))
         val titleFragment = arrayListOf("Tentang", "Materi Kelas")
         val viewPager2AdapterAdapter = PagerAdapter(requireActivity(), fragment)

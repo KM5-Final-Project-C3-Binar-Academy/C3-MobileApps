@@ -24,7 +24,7 @@ class BottomSheetPayment(private val dataCourse: Course) : BottomSheetDialogFrag
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentBottomSheetPaymentBinding.inflate(inflater, container, false)
         return  binding.root
@@ -39,8 +39,8 @@ class BottomSheetPayment(private val dataCourse: Course) : BottomSheetDialogFrag
         binding.creatorKelas.text = "by ${dataCourse.author}"
         binding.levelNameKelas.text = dataCourse.difficulty
         binding.rating.text = dataCourse.rating
-        binding.durasiKelas.text = dataCourse.totalDuration.toString()
-        binding.jumlahModulKelas.text = dataCourse.totalMaterials.toString()
+        binding.durasiKelas.text = "${dataCourse.totalDuration.toString()} Menit"
+        binding.jumlahModulKelas.text = "${dataCourse.totalMaterials.toString()} Modul"
         Glide.with(binding.root.context)
             .load(dataCourse.image ?: dataCourse.courseCategory?.image)
             .centerCrop()

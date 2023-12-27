@@ -1,6 +1,8 @@
 package com.c3.mobileapps.ui.webView
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
+import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.DataMaterialStatus
 import com.c3.mobileapps.databinding.ActivityWebViewBinding
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -36,10 +39,11 @@ class WebView : AppCompatActivity() {
         val data = bundle?.getParcelable<CourseMaterial>("courseMaterial")
         Log.e("Cek Data yutub", bundle.toString())
         val idConvert = convertId(data?.video.toString())
-        val idMaterial = data?.courseMaterialStatus .toString()
+        data?.courseMaterialStatus?.forEach{
+            val idMaterial = it?.id
+            playVideo(idConvert, idMaterial)
+        }
 
-
-        playVideo(idConvert, idMaterial)
         buttonBack()
     }
     private fun playVideo(id: String?, idMaterial: String?){
@@ -51,23 +55,25 @@ class WebView : AppCompatActivity() {
 
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     youTubePlayer.cueVideo(id.toString(), 0f)
-                    putCourseMaterial(idMaterial)
+
+                        putCourseMaterial(idMaterial)
+
                 }
-                override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
-                    super.onVideoDuration(youTubePlayer, duration)
-                    val tracker = YouTubePlayerTracker()
-                    youTubePlayer.addListener(tracker)
-
-                    tracker.videoDuration
-                    tracker.currentSecond
-
-                    Log.e("Youtube duration ", tracker.videoDuration.toString())
-                    Log.e("Youtube second ", tracker.currentSecond.toString())
-
-//                    if (tracker.videoDuration == tracker.currentSecond){
+//                override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+//                    super.onVideoDuration(youTubePlayer, duration)
+//                    val tracker = YouTubePlayerTracker()
+//                    youTubePlayer.addListener(tracker)
 //
-//                    }
-                }
+//                    tracker.videoDuration
+//                    tracker.currentSecond
+//
+//                    Log.e("Youtube duration ", tracker.videoDuration.toString())
+//                    Log.e("Youtube second ", tracker.currentSecond.toString())
+//
+////                    if (tracker.videoDuration == tracker.currentSecond){
+////
+////                    }
+//                }
             })
 
         lifecycle.addObserver(youTubePlayerView)
@@ -80,7 +86,6 @@ class WebView : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Material", Gson().toJson(it.data))
-
                 }
 
                 Status.ERROR -> {

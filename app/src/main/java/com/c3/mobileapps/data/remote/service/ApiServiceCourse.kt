@@ -3,7 +3,7 @@ package com.c3.mobileapps.data.remote.service
 import com.c3.mobileapps.data.remote.model.response.course.CategoryResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseIdResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
-import com.c3.mobileapps.data.remote.model.response.courseMe.CourseMaterialResponse
+import com.c3.mobileapps.data.remote.model.response.course.CourseMaterialResponse
 import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.MaterialStatusResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -43,5 +43,6 @@ interface ApiServiceCourse {
     suspend fun updateCoursesMaterial(
         @Header("Authorization") token: String,
         @Path("id") id: String?,
+//        @Body dataMaterialStatus: DataMaterialStatus
     ): MaterialStatusResponse
 }

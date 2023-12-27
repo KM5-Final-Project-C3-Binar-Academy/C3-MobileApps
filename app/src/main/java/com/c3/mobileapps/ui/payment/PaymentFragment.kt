@@ -58,9 +58,9 @@ class PaymentFragment : Fragment() {
         }
     }
 
-    private fun validatePayment() {
-
-    }
+//    private fun validatePayment() {
+//
+//    }
 
     private fun createPayment(courseId: String) {
         lifecycleScope.launch {
