@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:ignore="Autofill,LabelFor">
 
         <ImageView
             android:id="@+id/back"
@@ -105,10 +106,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
+                            android:contentDescription="@string/rating"
                             android:src="@drawable/icon_star"
                             app:layout_constraintBottom_toBottomOf="@id/rating"
                             app:layout_constraintEnd_toStartOf="@id/rating"
-                            app:layout_constraintTop_toTopOf="@id/rating" />
+                            app:layout_constraintTop_toTopOf="@id/rating"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/rating"
@@ -117,7 +120,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginEnd="15dp"
                             android:fontFamily="@font/poppins_bold"
-                            android:text="4.7"
+                            android:text="@string/_4_7"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/imageView" />
 
@@ -175,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Total Bayar"
+                    android:text="@string/total_bayar"
                     app:layout_constraintEnd_toEndOf="@+id/cardMenuItem"
                     app:layout_constraintTop_toTopOf="@+id/textView13" />
 
@@ -191,7 +194,7 @@
                     android:id="@+id/tvPpn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="."
+                    android:text="@string/titik"
                     app:layout_constraintEnd_toEndOf="@+id/textView13"
                     app:layout_constraintStart_toStartOf="@+id/textView13"
                     app:layout_constraintTop_toTopOf="@+id/tvHarga" />
@@ -201,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="."
+                    android:text="@string/titik"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
                     app:layout_constraintTop_toTopOf="@+id/tvPpn" />
 
@@ -231,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Bank Transfer"
+                    android:text="@string/bank_transfer"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -268,7 +271,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Bank Transfer"
+                    android:text="@string/bank_transfer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -278,7 +281,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:textSize="20sp"
-                    android:text="BCA"
+                    android:text="@string/bca"
                     android:inputType="none"
                     android:textIsSelectable="true"
                     android:focusableInTouchMode="true"
@@ -290,19 +293,20 @@
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:text="Asep Surasep"
+                    android:text="@string/asep_surasep"
                     android:inputType="none"
                     android:textIsSelectable="true"
                     android:focusableInTouchMode="true"
                     app:layout_constraintStart_toStartOf="@+id/textView23"
-                    app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView23"
+                    />
 
                 <EditText
                     android:id="@+id/edtNoRek"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:text="2201987265"
+                    android:text="@string/_2201987265"
                     android:inputType="none"
                     android:textIsSelectable="true"
                     android:focusableInTouchMode="true"
@@ -315,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Pemilik Rekening"
+                    android:text="@string/nama_pemilik_rekening"
                     app:layout_constraintStart_toStartOf="@+id/edtNamaRekening"
                     app:layout_constraintTop_toBottomOf="@+id/edtNamaRekening" />
 
@@ -325,7 +329,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nomer Rekening"
+                    android:text="@string/nomer_rekening"
                     app:layout_constraintStart_toStartOf="@+id/edtAtasNama"
                     app:layout_constraintTop_toBottomOf="@+id/edtAtasNama" />
 
@@ -356,7 +360,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Credit Card"
+                    android:text="@string/credit_card"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -391,7 +395,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Card Number"
+                    android:text="@string/card_number"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -400,8 +404,9 @@
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="2500 00000 0000 0000"
+                    android:hint="@string/_2500_00000_0000_0000"
                     android:inputType="number"
+                    android:textColorHint="#78909C"
                     app:layout_constraintStart_toStartOf="@+id/textView16"
                     app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -410,8 +415,9 @@
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Billie Eilish"
+                    android:hint="@string/billie_eilish"
                     android:inputType="text"
+                    android:textColorHint="#78909C"
                     app:layout_constraintStart_toStartOf="@+id/textView18"
                     app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -421,7 +427,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Card holder name"
+                    android:text="@string/card_holder_name"
                     app:layout_constraintStart_toStartOf="@+id/edtCardNumber"
                     app:layout_constraintTop_toBottomOf="@+id/edtCardNumber" />
 
@@ -431,7 +437,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="CVV"
+                    android:text="@string/cvv"
                     app:layout_constraintStart_toStartOf="@+id/edtCardName"
                     app:layout_constraintTop_toBottomOf="@+id/edtCardName" />
 
@@ -440,7 +446,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Expiry date"
+                    android:text="@string/expiry_date"
                     app:layout_constraintEnd_toEndOf="@+id/edtCardName"
                     app:layout_constraintTop_toTopOf="@+id/textView19" />
 
@@ -461,8 +467,9 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:ems="10"
-                    android:inputType="text"
                     android:hint="@string/_10_05"
+                    android:inputType="text"
+                    android:textColorHint="#78909C"
                     app:layout_constraintEnd_toEndOf="@+id/textView20"
                     app:layout_constraintTop_toTopOf="@+id/etCvv" />
 
@@ -472,9 +479,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="88dp"
                     android:layout_marginTop="15dp"
+                    android:contentDescription="@string/master_card"
                     app:layout_constraintStart_toStartOf="@+id/etCvv"
                     app:layout_constraintTop_toBottomOf="@+id/etCvv"
-                    app:srcCompat="@drawable/mastercard_logo" />
+                    app:srcCompat="@drawable/mastercard_logo"
+                    tools:ignore="ImageContrastCheck" />
 
                 <ImageView
                     android:id="@+id/imageView10"
@@ -485,7 +494,8 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView9"
                     app:layout_constraintTop_toTopOf="@+id/imageView9"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/visa__logo" />
+                    app:srcCompat="@drawable/visa__logo"
+                    android:contentDescription="@string/visa" />
 
                 <ImageView
                     android:id="@+id/imageView11"
@@ -496,7 +506,8 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView10"
                     app:layout_constraintTop_toTopOf="@+id/imageView10"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/amex_logo" />
+                    app:srcCompat="@drawable/amex_logo"
+                    android:contentDescription="@string/american_expres" />
 
                 <ImageView
                     android:id="@+id/imageView12"
@@ -507,7 +518,8 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView11"
                     app:layout_constraintTop_toTopOf="@+id/imageView11"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/paypal_logo" />
+                    app:srcCompat="@drawable/paypal_logo"
+                    android:contentDescription="@string/paypal" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -516,15 +528,16 @@
 
     </androidx.core.widget.NestedScrollView>
 
-        <ImageView
-            android:id="@+id/btnPayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toStartOf="@id/pb_loading"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/button_payment" />
+    <ImageView
+        android:id="@+id/btnPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/button_bayar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pb_loading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/button_payment"
+        tools:ignore="RedundantDescriptionCheck" />
 
     <ProgressBar
         android:id="@+id/pb_loading"

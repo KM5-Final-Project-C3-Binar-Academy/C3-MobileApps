@@ -2,6 +2,8 @@ package com.c3.mobileapps.data.remote.model.response.course
 
 
 import android.os.Parcelable
+import com.c3.mobileapps.data.local.model.CategoryLocal
+import com.c3.mobileapps.data.remote.model.response.user.User
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -18,3 +20,5 @@ data class Category(
     @SerializedName("updated_at")
     var updatedAt: String?
 ): Parcelable
+
+fun Category.toDomain() = CategoryLocal(id = id?.toInt(), name = name, image=image)

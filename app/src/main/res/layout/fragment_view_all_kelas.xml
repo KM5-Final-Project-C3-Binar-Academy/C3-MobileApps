@@ -22,14 +22,15 @@
             android:layout_gravity="center|start"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back"
-            tools:ignore="DuplicateSpeakableTextCheck,RedundantDescriptionCheck" />
+            tools:ignore="DuplicateSpeakableTextCheck,RedundantDescriptionCheck"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="List Kategori"
+            android:text="@string/list_kategori"
             android:textSize="18sp"
             android:textStyle="bold" />
 

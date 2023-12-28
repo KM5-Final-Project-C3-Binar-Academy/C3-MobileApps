@@ -2,6 +2,7 @@ package com.c3.mobileapps.di
 
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.data.local.database.categoryDB.CategoryDatabase
+import com.c3.mobileapps.data.local.database.categoryDB2.CategoryDB
 import com.c3.mobileapps.data.local.database.courseDB.CourseDatabase
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.AuthRepository
@@ -40,6 +41,9 @@ object KoinModule {
             /*Database offline first category course*/
             single { CategoryDatabase.getInstance(context = get())}
             factory { get<CategoryDatabase>().categoryDao }
+
+            single { CategoryDB.getInstance(get()) }
+            factory { get<CategoryDB>().categorydao }
         }
 
     val apiModule
@@ -70,7 +74,7 @@ object KoinModule {
 
     val viewModelModule
         get() = module {
-            viewModel { HomeViewModel(get()) }
+            viewModel { HomeViewModel(get(), get()) }
             viewModel { CourseViewModel(get())}
             viewModel { LoginViewModel(get())}
             viewModel { RegisterViewModel(get())}

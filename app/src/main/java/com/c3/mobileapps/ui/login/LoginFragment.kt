@@ -1,5 +1,6 @@
 package com.c3.mobileapps.ui.login
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -103,6 +104,7 @@ class LoginFragment : Fragment() {
 	}
 
 	// Additional Function
+	@SuppressLint("UseCompatLoadingForDrawables")
 	private fun showSnackbar(message: String?, error: Boolean) {
 		val customSnackbarBinding = ItemCustomSnackbarBinding.inflate(layoutInflater)
 		val customSnackbarView = customSnackbarBinding.root

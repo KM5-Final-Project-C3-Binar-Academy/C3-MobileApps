@@ -1,5 +1,6 @@
 package com.c3.mobileapps.ui.splash_screen
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.c3.mobileapps.ui.main_activity.MainActivity
 import com.c3.mobileapps.utils.Status
 import org.koin.android.ext.android.inject
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding

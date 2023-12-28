@@ -22,7 +22,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Materi Belajar"
+        android:text="@string/materi_belajar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

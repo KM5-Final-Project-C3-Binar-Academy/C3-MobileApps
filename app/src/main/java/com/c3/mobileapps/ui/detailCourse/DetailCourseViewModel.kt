@@ -37,8 +37,6 @@ class DetailCourseViewModel(private val repository: DataRepository, private val 
         }
     }
 
-
-
     private var _listKelas: MutableLiveData<Resource<CourseMaterialResponse>> = MutableLiveData()
     val listKelas: LiveData<Resource<CourseMaterialResponse>> get() = _listKelas
 
@@ -46,7 +44,6 @@ class DetailCourseViewModel(private val repository: DataRepository, private val 
     fun getCourseByUser(id: String?) = viewModelScope.launch {
         getCourseMe(id)
     }
-
 
     private suspend fun getCourseMe(id: String? = null) {
         try {
@@ -56,10 +53,5 @@ class DetailCourseViewModel(private val repository: DataRepository, private val 
             _listKelas.value = Resource.error(null, exception.message ?: "Error Occurred!")
         }
     }
-
-    //enrolled free
-    //enrolled premium
-
-
 
 }

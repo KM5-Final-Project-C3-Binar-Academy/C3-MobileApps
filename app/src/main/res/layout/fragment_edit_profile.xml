@@ -17,7 +17,8 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/back" />
 
 
     <com.google.android.material.card.MaterialCardView
@@ -42,7 +43,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/ayam_oven" />
+                tools:srcCompat="@drawable/ayam_oven"
+                android:contentDescription="@string/foto" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -63,7 +65,7 @@
             android:id="@+id/inputUsername"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Nama"
+            android:hint="@string/nama"
             android:textColorHint="#8D6E63"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +85,7 @@
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email"
+            android:hint="@string/email"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,58 +102,23 @@
             android:id="@+id/inputTlp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Nomer Tlp"
+            android:hint="@string/nomer_tlp"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutKewarganegaraan"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTlp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputKewarganegaraan"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Kewarganegaraan Tempat Tinggal"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutKota"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutKewarganegaraan">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputKota"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Kewarganegaraan Tempat Tinggal"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/button"
         android:src="@drawable/btnsimpanprofile"
-        app:layout_constraintEnd_toEndOf="@+id/layoutKota"
+        app:layout_constraintEnd_toEndOf="@+id/layoutTlp"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/layoutKota"
-        app:layout_constraintTop_toBottomOf="@+id/layoutKota" />
+        app:layout_constraintStart_toStartOf="@+id/layoutTlp"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTlp"
+        tools:ignore="RedundantDescriptionCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

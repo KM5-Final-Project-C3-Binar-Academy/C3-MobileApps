@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         getCategory()
+        getCategory2()
         populerByCategory("All")
 
         binding.lihatSemuaKategori.setOnClickListener {
@@ -115,8 +116,6 @@ class HomeFragment : Fragment() {
                     categoryAdapter.setData(database.first().categoryResponse.data)
                     categoryFilterAdapter.setData(database.first().categoryResponse.data)
                     showRvCategory()
-                } else {
-                    getCategory()
                 }
             }
         }
@@ -128,11 +127,7 @@ class HomeFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
-                    showRvCategory()
-                    it.data?.let {
-                        categoryAdapter.setData(it.data)
-                        categoryFilterAdapter.setData(it.data)
-                    }
+                    loadDataCategory()
                 }
 
                 Status.ERROR -> {
@@ -146,6 +141,28 @@ class HomeFragment : Fragment() {
 
                 Status.LOADING -> {
                     binding.shimmerCategory.startShimmer()
+                }
+            }
+
+        }
+    }
+
+    private fun getCategory2() {
+        homeViewModel.getListCategory2()
+        homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("Data Category2", Gson().toJson(it.data))
+
+                }
+
+                Status.ERROR -> {
+                    Log.e("Data Category2", it.message.toString())
+
+                }
+
+                Status.LOADING -> {
+
                 }
             }
 
