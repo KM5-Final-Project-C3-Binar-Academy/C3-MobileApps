@@ -17,6 +17,7 @@ import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailCourseBinding
 import com.c3.mobileapps.ui.payment.OnBoardingBottomSheet
 import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.ui.payment.PaymentViewModel
 import com.c3.mobileapps.utils.Status
 import com.google.android.material.snackbar.Snackbar
@@ -32,7 +33,6 @@ class DetailCourseFragment : Fragment() {
     private var _binding: FragmentDetailCourseBinding? = null
     private val binding get() = _binding!!
     private val detailCourseViewModel: DetailCourseViewModel by inject()
-    private val paymentViewModel: PaymentViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,8 +66,11 @@ class DetailCourseFragment : Fragment() {
             DetailMateriFragment.newInstance(idcourse, clicked = {
                 detailCourseViewModel.isLogin.observe(viewLifecycleOwner) {
                     if (it) {
-
+                        val bottomSheetPayment = BottomSheetPayment(dataDetail!!,R.id.detailCourseFragment)
+                        bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
                     } else {
+                        val nonLoginBottomSheet = NonLoginBottomSheet(R.id.detailCourseFragment)
+                        nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
 
                     }
                 }
@@ -107,7 +110,7 @@ class DetailCourseFragment : Fragment() {
                     binding.rating.text = data?.rating.toString()
                     binding.durasiKelas.text = "${data?.totalDuration.toString()} Menit"
                     binding.jumlahModulKelas.text = "${data?.totalMaterials.toString()} Modul "
-                    enrolledCourse(data)
+
                 }
 
                 Status.ERROR -> {
@@ -119,100 +122,6 @@ class DetailCourseFragment : Fragment() {
                     binding.progressBar.isVisible = true
 
                 }
-            }
-        }
-    }
-
-    private fun enrolledCourse(data: Course?) {
-
-        if (data?.premium == true) {
-            //beli sekarang
-            if (data.totalCompletedMaterial == null) {
-                binding.floatingActionButton.visibility = View.VISIBLE
-                binding.floatingActionButton.setOnClickListener {
-
-                    enrollPremium(data)
-                }
-            } else {
-                binding.floatingActionButton.visibility = View.GONE
-            }
-        } else {
-            //ikutikelas
-            if (data?.totalCompletedMaterial == null) {
-                binding.floatingActionButton.visibility = View.VISIBLE
-                binding.floatingActionButton.setOnClickListener {
-                    enrollFree(data!!)
-                }
-            } else {
-                binding.floatingActionButton.visibility = View.GONE
-            }
-
-        }
-
-
-    }
-
-    private fun enrollFree(data: Course) {
-        paymentViewModel.enrollFree(data.id.toString())
-        paymentViewModel.paymentResp.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    //onboarding bottom sheet
-                    val onBoardingBottomSheet = OnBoardingBottomSheet(data)
-                    onBoardingBottomSheet.show(childFragmentManager, onBoardingBottomSheet.tag)
-                    findNavController().navigate(R.id.detailCourseFragment)
-
-                }
-
-                Status.LOADING -> {}
-
-                Status.ERROR -> {
-                    Snackbar.make(
-                        binding.root,
-                        "Anda Sudah Bergabung Dengan Kelas",
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .setBackgroundTint(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
-                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        .show()
-                }
-
-            }
-        }
-    }
-
-    private fun enrollPremium(data: Course) {
-        paymentViewModel.createPayment(data.id.toString())
-        paymentViewModel.paymentResp.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val bundle = bundleOf("COURSE" to data, "PAYMENT" to it.data?.data)
-                    findNavController().navigate(R.id.paymentFragment, bundle)
-                }
-
-                Status.LOADING -> {}
-
-                Status.ERROR -> {
-                    Snackbar.make(
-                        binding.root,
-                        "Anda Sudah Bergabung Dengan Kelas",
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .setBackgroundTint(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
-                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        .show()
-                }
-
             }
         }
     }
