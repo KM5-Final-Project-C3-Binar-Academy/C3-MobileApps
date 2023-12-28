@@ -20,7 +20,7 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
 
-class DetailMateriFragment : Fragment() {
+class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentDetailMateriBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
@@ -69,6 +69,7 @@ class DetailMateriFragment : Fragment() {
                             listener = { data ->
                                 Log.e("check listener", data.toString())
                                 if (data == false) {
+                                    clicked.invoke()
                                     Toast.makeText(
                                         requireActivity(),
                                         "Silahkan Checkout Terlebih dahulu!", Toast.LENGTH_SHORT
@@ -112,81 +113,11 @@ class DetailMateriFragment : Fragment() {
 
     }
 
-//    private fun getCourseDetail(id: String?){
-//        detailCourseViewModel.getCourseById(id)
-//        detailCourseViewModel.courseById.observe(viewLifecycleOwner){
-//            when(it.status){
-//                Status.SUCCESS -> {
-//                    Log.e("Cek Data Course", Gson().toJson(it.data))
-//
-//                    val data = it.data?.data
-//
-//                    data?.courseChapter?.forEach {chapter ->
-//                        if (chapter != null) {
-//                            materiList.add(chapter)
-//                            chapter.courseMaterial?.forEach {material ->
-//                                chapter.orderIndex?.let { it1 ->
-//                                    Log.e("Materi",material?.video.toString())
-//                                    MateriKursus(it1, material) }
-//                                    ?.let { it2 -> materiList.add(it2) }
-//                            }
-//                        }
-//                    }
-//
-//                    courseMaterialAdapter = CourseMaterialAdapter(materiList,
-//                        listener = { data ->
-//                            Log.e("check listener", data.toString())
-//                            if (data == false) {
-//
-//                                Toast.makeText(
-//                                    requireActivity(),
-//                                    "Anda Belum Login!",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            } else {
-//                                val bundle = bundleOf("courseMaterial" to data)
-//                                val intent = Intent(activity, WebView::class.java)
-//                                intent.putExtra("courseMaterial", bundle)
-//                                startActivity(intent)
-//                            }
-//                        })
-//
-//                    Log.e("Enrolled",data?.totalCompletedMaterial.toString())
-//
-//                    if (data?.totalCompletedMaterial == null){
-//                        courseMaterialAdapter.setEnrolled(false)
-//                    }else{
-//                        courseMaterialAdapter.setEnrolled(true)
-//                    }
-//
-//                    binding.rvMateri.adapter = courseMaterialAdapter
-//                    binding.rvMateri.layoutManager = LinearLayoutManager(
-//                        requireActivity(),
-//                        LinearLayoutManager.VERTICAL,
-//                        false
-//                    )
-//
-//                    Log.e("ListMateri",materiList.toString())
-//
-//                }
-//                Status.ERROR -> {
-//                    Log.e("Cek Data Course", it.message.toString())
-//                }
-//
-//                Status.LOADING -> {
-//
-//                }
-//            }
-//        }
-//    }
-
-
-
     companion object {
-        fun newInstance(simpleArgs: String?): Fragment {
+        fun newInstance(simpleArgs: String?, clicked: ()-> Unit): Fragment {
             val args = Bundle()
             args.putString("ARGS_ID", simpleArgs)
-            val fragment = DetailMateriFragment()
+            val fragment = DetailMateriFragment(clicked)
             fragment.arguments = args
             return fragment
         }

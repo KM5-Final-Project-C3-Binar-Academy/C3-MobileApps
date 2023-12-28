@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentConfirmPaymentBinding
+import com.c3.mobileapps.ui.payment.OnBoardingBottomSheet
 import com.c3.mobileapps.utils.Status
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -65,8 +66,8 @@ class ConfirmPaymentFragment : Fragment() {
                 cfrmPaymentViewModel.paymentResp.observe(viewLifecycleOwner){
                     when(it.status){
                         Status.SUCCESS -> {
-                            val onBoarding = OnBoardingBottomSheet()
-                            onBoarding.show(childFragmentManager, onBoarding.tag)
+//                            val onBoarding = OnBoardingBottomSheet()
+//                            onBoarding.show(childFragmentManager, onBoarding.tag)
                         }
                         Status.LOADING ->{}
 

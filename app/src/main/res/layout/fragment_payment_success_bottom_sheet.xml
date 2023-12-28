@@ -69,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/btnMulaiBelajar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -80,16 +80,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/btnKembaliKeberanda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_bold"
         android:text="Kembali ke Beranda"
         android:textColor="@color/secondary"
-        app:layout_constraintEnd_toEndOf="@+id/imageView13"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toBottomOf="@+id/imageView13" />
+        app:layout_constraintEnd_toEndOf="@+id/btnMulaiBelajar"
+        app:layout_constraintStart_toStartOf="@+id/btnMulaiBelajar"
+        app:layout_constraintTop_toBottomOf="@+id/btnMulaiBelajar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

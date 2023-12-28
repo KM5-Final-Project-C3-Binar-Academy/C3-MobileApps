@@ -75,7 +75,7 @@
         tools:layout="@layout/fragment_web_view" />
     <fragment
         android:id="@+id/bottomsheetOnBoarding"
-        android:name="com.c3.mobileapps.ui.confirm_payment.OnBoardingBottomSheet"
+        android:name="com.c3.mobileapps.ui.payment.OnBoardingBottomSheet"
         android:label="BottomsheetOnBoarding" />
     <fragment
         android:id="@+id/paymentFragment"
