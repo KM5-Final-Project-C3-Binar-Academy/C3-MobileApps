@@ -48,7 +48,6 @@ class EditProfileFragment : Fragment() {
 
             // Verified Data
 
-
             // Wrap to Dataclass
             val modelData = EditUser(name)
 
@@ -62,7 +61,7 @@ class EditProfileFragment : Fragment() {
                 // Display to Snackbar or Log
                 when (it.status) {
                     Status.SUCCESS -> {
-                        snackbar.showSnackbarUtils(res,false, layoutInflater, requireView(), requireContext())
+                        snackbar.showSnackbarUtils(it.message,false, layoutInflater, requireView(), requireContext())
                         Log.i("Edit Profile Issues", res)
                     }
 

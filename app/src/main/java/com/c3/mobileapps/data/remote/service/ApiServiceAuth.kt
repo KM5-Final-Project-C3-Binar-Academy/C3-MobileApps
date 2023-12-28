@@ -1,6 +1,7 @@
 package com.c3.mobileapps.data.remote.service
 
 import com.c3.mobileapps.data.remote.model.request.auth.LoginRequest
+import com.c3.mobileapps.data.remote.model.request.auth.OtpRequest
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.data.remote.model.response.user.AuthResponse
 import retrofit2.Response
@@ -16,6 +17,11 @@ interface ApiServiceAuth {
 	@POST("auth/register")
 	suspend fun sendRegister(
 		@Body registerRequest: RegisterRequest
+	): Response<AuthResponse>
+
+	@POST("auth/otp/verify")
+	suspend fun sendOTP(
+		@Body otpRequest: OtpRequest
 	): Response<AuthResponse>
 
 

@@ -19,7 +19,6 @@ import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
-//import .RegisterSuccessBottomSheet
 
 class RegisterFragment : Fragment() {
 	private lateinit var binding: FragmentRegister1Binding
@@ -64,14 +63,18 @@ class RegisterFragment : Fragment() {
 					phone_number = verifiedPhone
 				)
 
+				val bundle = Bundle().apply {
+					putParcelable("RegisterModel", modelData)
+				}
+
 				registerViewModel.sendData(modelData)
 				registerViewModel.registerResponse.observe(viewLifecycleOwner, Observer {res ->
 
 					when (res.code()) {
-						200 -> {
-							snackbar.showSnackbarUtils("Pendaftaran Berhasil!", false, layoutInflater, requireView(), requireContext())
+						201 -> {
+							snackbar.showSnackbarUtils("Pendaftaran Berhasil! Silahkan cek kode OTP di Email!", false, layoutInflater, requireView(), requireContext())
 							// Intent to Loginpage
-							findNavController().navigate(R.id.loginFragment)
+							findNavController().navigate(R.id.otpFragment, bundle)
 						}
 
 						400 -> {
