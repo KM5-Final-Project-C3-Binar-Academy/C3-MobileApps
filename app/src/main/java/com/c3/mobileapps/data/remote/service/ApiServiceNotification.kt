@@ -20,13 +20,13 @@ interface ApiServiceNotification {
         @Header("Authorization") token: String,
     ): NotificationResponse
 
-    @PUT("user-notifications")
+    @PUT("user-notifications/{id}")
     suspend fun updateNotification(
         @Header("Authorization") token: String,
         @Path("id") id: String?
     ): NotificationResponse
 
-    @DELETE("user-notifications")
+    @DELETE("user-notifications/{id}")
     suspend fun deleteNotification(
         @Header("Authorization") token: String,
         @Path("id") id: String?

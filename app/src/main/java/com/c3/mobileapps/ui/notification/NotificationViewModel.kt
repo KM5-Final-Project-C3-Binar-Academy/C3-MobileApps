@@ -36,13 +36,43 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
     }
 
     fun readAllNotif() = viewModelScope.launch {
-        updateNotif()
+        updateAllNotif()
     }
 
-    private suspend fun updateNotif() {
+    private suspend fun updateAllNotif() {
         try {
 
             val responses = notificationRepository.readAllNotif(token)
+            _notifResp.value = Resource.success(responses)
+
+        } catch (exception: Exception) {
+            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+        }
+    }
+
+    fun readNotif(id:String) = viewModelScope.launch {
+        updateNotif(id)
+    }
+
+    private suspend fun updateNotif(idNotif: String) {
+        try {
+
+            val responses = notificationRepository.updateNotif(token, idNotif)
+            _notifResp.value = Resource.success(responses)
+
+        } catch (exception: Exception) {
+            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+        }
+    }
+
+    fun deleteNotif(id:String) = viewModelScope.launch {
+        deletedNotif(id)
+    }
+
+    private suspend fun deletedNotif(idNotif: String) {
+        try {
+
+            val responses = notificationRepository.deleteNotif(token, idNotif)
             _notifResp.value = Resource.success(responses)
 
         } catch (exception: Exception) {
