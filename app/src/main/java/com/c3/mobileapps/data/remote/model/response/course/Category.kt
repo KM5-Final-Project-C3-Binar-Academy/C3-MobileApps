@@ -21,4 +21,4 @@ data class Category(
     var updatedAt: String?
 ): Parcelable
 
-fun Category.toDomain() = CategoryLocal(id = id?.toInt(), name = name, image=image)
+fun Category.toDomain() = CategoryLocal(itemId = null, id = id, name = name, image=image)

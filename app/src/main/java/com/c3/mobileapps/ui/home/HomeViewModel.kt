@@ -106,14 +106,17 @@ class HomeViewModel(private val repository: DataRepository, private val category
             val responses = repository.remote.getCategory().data
             _listCategory2.value = Resource.success(responses)
 
+
+
             val listCategory2 = _listCategory2.value!!.data
-            if (listCategory2 == null) {
+            if (!listCategory2.isNullOrEmpty()) {
                 responses.let {
                     val category = arrayListOf<CategoryLocal>()
                     categorydao.deleteAll()
-                    it.forEach {
-                        category.add(it.toDomain())
-                        categorydao.insert(CategoryEntity(name = it.name, image = it.image))
+                    it.forEach {ct->
+                        category.add(ct.toDomain())
+                        Log.e("NEWLOCAL", category.toString())
+                        categorydao.insert(CategoryEntity(id = ct.id, name = ct.name, image = ct.image))
                     }
                     listUsers.postValue(category)
                 }

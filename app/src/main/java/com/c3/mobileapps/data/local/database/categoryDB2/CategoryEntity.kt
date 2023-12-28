@@ -8,7 +8,10 @@ import com.c3.mobileapps.data.local.model.CategoryLocal
 @Entity("table_category")
 class CategoryEntity (
     @PrimaryKey(autoGenerate = true)
-    var itemId: Int? = null,
+    var itemId: Long? = null,
+
+    @ColumnInfo(name = "id")
+    var id: String? = null,
 
     @ColumnInfo(name = "name")
     var name: String? = null,
@@ -17,4 +20,4 @@ class CategoryEntity (
     var image: String? = null
 )
 
-fun CategoryEntity.toDomain() = CategoryLocal(id = itemId, name = name, image=image)
+fun CategoryEntity.toDomain() = CategoryLocal(itemId = itemId?.toInt(), id = id, name = name, image=image)
