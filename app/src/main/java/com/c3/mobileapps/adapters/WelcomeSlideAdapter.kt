@@ -14,7 +14,7 @@ class WelcomeSlideAdapter(private val introSlide: List<IntroSlide>): RecyclerVie
     inner class WelcomeSlideViewHolder(private val binding: SlideItemPagerBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bindContent(data: IntroSlide) {
-            binding.icLogo.setImageResource(data.logo)
+//            binding.icLogo.setImageResource(data.logo)
             binding.icWelcome.setImageResource(data.gambar)
             binding.learnify.text = data.nama
             binding.text.text = data.desc

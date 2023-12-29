@@ -21,19 +21,16 @@ class WelcomeActivity : AppCompatActivity() {
     private val welcomeSlideAdapter = WelcomeSlideAdapter(
         listOf(
             IntroSlide(
-                R.drawable.visa__logo,
                 "LEARNIFY",
                 "dari Pengalaman Terbaik!",
                 R.drawable.welcome1
             ),
             IntroSlide(
-                R.drawable.visa__logo,
                 "LEARNIFY",
                 "dari Praktisi Terbaik!",
                 R.drawable.welcome2
             ),
             IntroSlide(
-                R.drawable.visa__logo,
                 "LEARNIFY",
                 "darimana saja!",
                 R.drawable.welcome3
@@ -101,7 +98,7 @@ class WelcomeActivity : AppCompatActivity() {
         val childCount = binding.indicator.childCount
         for(i in 0 until childCount){
             val imageView = binding.indicator[i] as ImageView
-            if (i == index ){
+            if (i == index){
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
