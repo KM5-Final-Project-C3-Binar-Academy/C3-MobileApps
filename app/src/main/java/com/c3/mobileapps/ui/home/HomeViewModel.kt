@@ -41,72 +41,18 @@ class HomeViewModel(private val repository: DataRepository, private val category
     }
 
 
-    // Category
-    val readCategory: LiveData<List<TbCategory>> = repository.local.readCategory().asLiveData()
-    private fun insertCategory(tbCategory: TbCategory) = viewModelScope.launch(Dispatchers.IO) {
-        repository.local.insertCategory(tbCategory)
-    }
-
-    private fun deleteCategory() = viewModelScope.launch(Dispatchers.IO) {
-        repository.local.deleteCategory()
-    }
-
-    private var _listCategory: MutableLiveData<Resource<CategoryResponse>> = MutableLiveData()
-    val listCategory: LiveData<Resource<CategoryResponse>> get() = _listCategory
-    fun getListCategory() = viewModelScope.launch {
-        getCategory()
-    }
-
-    private suspend fun getCategory() {
-        try {
-            deleteCategory()
-            Log.e("delete category", deleteCategory().toString())
-            val responses = repository.remote.getCategory()
-            _listCategory.value = Resource.success(responses)
-
-            val listCategory = _listCategory.value!!.data
-            if (listCategory != null) {
-                offlineCategory(listCategory)
-            }
-
-        } catch (exception: Exception) {
-            _listCategory.value = Resource.error( null,  exception.message ?: "Error Occurred!")
-        }
-    }
-
-    private fun offlineCategory(categoryResponse: CategoryResponse) {
-        val category = TbCategory(categoryResponse)
-        insertCategory(category)
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private var _listCategory2: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
+    val listCategory2: LiveData<Resource<List<Category>>> get() = _listCategory2
+    private var _listCategoryLocal = MutableLiveData<List<CategoryLocal>>()
+    val lisCategoryLocal : LiveData<List<CategoryLocal>>get() = _listCategoryLocal
     fun getListCategory2() = viewModelScope.launch {
         getCategori()
     }
-    private var _listCategory2: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
-    val listCategory2: LiveData<Resource<List<Category>>> get() = _listCategory2
-    var listUsers = MutableLiveData<List<CategoryLocal>>()
 
     private suspend fun getCategori() {
         try {
-
             val responses = repository.remote.getCategory().data
             _listCategory2.value = Resource.success(responses)
-
-
 
             val listCategory2 = _listCategory2.value!!.data
             if (!listCategory2.isNullOrEmpty()) {
@@ -118,14 +64,14 @@ class HomeViewModel(private val repository: DataRepository, private val category
                         Log.e("NEWLOCAL", category.toString())
                         categorydao.insert(CategoryEntity(id = ct.id, name = ct.name, image = ct.image))
                     }
-                    listUsers.postValue(category)
+                    _listCategoryLocal.postValue(category)
                 }
             }else{
                 getLocalItem()
             }
 
         } catch (exception: Exception) {
-            _listCategory.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _listCategory2.value = Resource.error( null,  exception.message ?: "Error Occurred!")
             getLocalItem()
         }
 
@@ -138,6 +84,6 @@ class HomeViewModel(private val repository: DataRepository, private val category
         localData.forEach {
             category.add(it.toDomain())
         }
-        listUsers.postValue(category)
+        _listCategoryLocal.postValue(category)
     }
 }

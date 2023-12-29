@@ -17,7 +17,6 @@ import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentHomeBinding
-import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
 import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -44,7 +43,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        getCategory()
+        loadDataCategory()
         getCategory2()
         populerByCategory("All")
 
@@ -108,51 +107,25 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun loadDataCategory() {
+   private fun loadDataCategory() {
         lifecycleScope.launch {
-            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("data category", "list category view from database")
-                    categoryAdapter.setData(database.first().categoryResponse.data)
-                    categoryFilterAdapter.setData(database.first().categoryResponse.data)
-                    showRvCategory()
+                        categoryAdapter.setData(database)
+                        categoryFilterAdapter.setData(database)
+                        showRvCategory()
                 }
             }
         }
     }
 
-    private fun getCategory() {
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    loadDataCategory()
-                }
-
-                Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
-                }
-
-                Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
-                }
-            }
-
-        }
-    }
 
     private fun getCategory2() {
         homeViewModel.getListCategory2()
         homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 Status.SUCCESS -> {
-                    Log.e("Data Category2", Gson().toJson(it.data))
 
                 }
 

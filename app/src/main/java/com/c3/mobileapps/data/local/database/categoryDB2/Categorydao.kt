@@ -4,12 +4,15 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.c3.mobileapps.data.local.database.categoryDB.TbCategory
+import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface Categorydao {
     @Insert
     fun insert(categoryEntity: CategoryEntity)
 
-    @Query("SELECT * FROM table_category ORDER BY itemId DESC")
+    @Query("SELECT * FROM table_category ORDER BY itemId ASC")
     fun getAllItem(): List<CategoryEntity>
 
     @Delete

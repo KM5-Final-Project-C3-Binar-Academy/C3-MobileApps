@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.c3.mobileapps.data.remote.model.response.course.Category
+import com.c3.mobileapps.data.local.model.CategoryLocal
 import com.c3.mobileapps.databinding.ItemCategoryCourseBinding
 import com.c3.mobileapps.utils.DiffUtils
 
@@ -15,7 +15,7 @@ class CategoryAdapter(
     private var isAll: Boolean
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    private var listCategory = emptyList<Category>()
+    private var listCategory = emptyList<CategoryLocal>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -39,8 +39,7 @@ class CategoryAdapter(
 
     }
 
-    fun setData(newCategory: List<Category>) {
-
+    fun setData(newCategory: List<CategoryLocal>) {
         val diffUtil = DiffUtils(listCategory, newCategory)
         val diffUtilResult = DiffUtil.calculateDiff(diffUtil)
         listCategory = newCategory
@@ -50,7 +49,7 @@ class CategoryAdapter(
     class ViewHolder(private val binding: ItemCategoryCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(data: Category) {
+        fun onBind(data: CategoryLocal) {
             binding.tvNameCategory.text = data.name
             Glide.with(binding.root.context)
                 .load(data.image)

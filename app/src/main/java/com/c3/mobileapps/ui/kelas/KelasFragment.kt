@@ -55,6 +55,7 @@ class KelasFragment : Fragment() {
             if (it) {
 
                 setupRecyclerView()
+                getCategory2()
                 loadDataCategory()
                 kelasViewModel.typeFilter.observe(viewLifecycleOwner) {
                     Log.e("KELAS", it.toString())
@@ -102,19 +103,49 @@ class KelasFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
+            kelasViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    Log.d("data category", "list category view from database")
+                    categoryCourseAdapter.setData(database)
+                    showRvCategory()
+                }
+            }
+        }
+    }
+
+
+    private fun getCategory2() {
+        kelasViewModel.getListCategory2()
+        kelasViewModel.listCategory2.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                }
+
+                Status.ERROR -> {
+                    Log.e("Data Category2", it.message.toString())
+                }
+
+                Status.LOADING -> {
+
+                }
+            }
+        }
+    }
+
+ /*   private fun loadDataCategory() {
+        lifecycleScope.launch {
             kelasViewModel.readCategory.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("data category", "list category view from database")
                     categoryCourseAdapter.setData(database.first().categoryResponse.data)
                     showRvCategory()
                 } else {
-                    getCategory()
+
                 }
             }
         }
-    }
-
-    private fun getCategory() {
+    }*/
+  /*  private fun getCategory() {
 
         kelasViewModel.getListCategory()
         kelasViewModel.listCategory.observe(viewLifecycleOwner) { it ->
@@ -143,7 +174,7 @@ class KelasFragment : Fragment() {
 
         }
     }
-
+*/
     private fun getKelasUser(type: String?) {
         kelasViewModel.getListKelas(type)
         kelasViewModel.listKelas.observe(viewLifecycleOwner) { it ->

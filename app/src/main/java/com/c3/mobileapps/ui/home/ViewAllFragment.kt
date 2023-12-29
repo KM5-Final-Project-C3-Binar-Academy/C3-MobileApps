@@ -49,6 +49,7 @@ class ViewAllFragment : Fragment() {
         //check bundle bawa data iscategory/ iskelas favorit
         val isCategory = arguments?.getBoolean("ModeView")
         setupRecyclerView(isCategory!!)
+        getCategory2()
         loadDataCategory()
         populerByCategory("All")
 
@@ -105,50 +106,38 @@ class ViewAllFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
-            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("data category", "list category view from database")
-                    categoryAdapter.setData(database.first().categoryResponse.data)
-                    categoryFilterAdapter.setData(database.first().categoryResponse.data)
+                    categoryAdapter.setData(database)
+                    categoryFilterAdapter.setData(database)
                     showRvCategory()
-                } else {
-                    getCategory()
+
                 }
             }
         }
     }
 
-    private fun getCategory() {
 
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
+    private fun getCategory2() {
+        homeViewModel.getListCategory2()
+        homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    it.data?.let {
-                        categoryAdapter.setData(it.data)
-                        categoryFilterAdapter.setData(it.data)
-                        showRvCategory()
-
-                    }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
+                    Log.e("Data Category2", it.message.toString())
                 }
 
                 Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
+
                 }
             }
 
         }
     }
+
 
     private fun populerByCategory(cat: String){
         homeViewModel.getListCourse(cat)

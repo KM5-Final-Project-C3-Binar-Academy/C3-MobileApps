@@ -3,7 +3,6 @@ package com.c3.mobileapps.di
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.data.local.database.categoryDB.CategoryDatabase
 import com.c3.mobileapps.data.local.database.categoryDB2.CategoryDB
-import com.c3.mobileapps.data.local.database.courseDB.CourseDatabase
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.AuthRepository
 import com.c3.mobileapps.data.repository.CourseRepository
@@ -34,10 +33,6 @@ object KoinModule {
 
     val dataModule
         get() = module{
-            /*Database offline first list course*/
-            single { CourseDatabase.getInstance(context = get())}
-            factory { get<CourseDatabase>().courseDao }
-
             /*Database offline first category course*/
             single { CategoryDatabase.getInstance(context = get())}
             factory { get<CategoryDatabase>().categoryDao }
@@ -60,7 +55,7 @@ object KoinModule {
         get() = module {
             factory { CourseRepository(get()) }
             factory { DataRepository(get(), get()) }
-            factory { RoomRepository(get(), get()) }
+            factory { RoomRepository(get()) }
             factory { AuthRepository(get())}
             factory { PaymentRepository(get()) }
             factory { UserRepository(get()) }
@@ -80,7 +75,7 @@ object KoinModule {
             viewModel { RegisterViewModel(get())}
             viewModel { DetailCourseViewModel(get(), get())}
             viewModel { SearchViewModel(get()) }
-            viewModel { KelasViewModel(get(),get()) }
+            viewModel { KelasViewModel(get(),get(), get()) }
             viewModel { HistoryViewModel(get(),get()) }
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
