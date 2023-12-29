@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         loadDataCategory()
-        getCategory2()
         populerByCategory("All")
 
         binding.lihatSemuaKategori.setOnClickListener {
@@ -109,36 +108,18 @@ class HomeFragment : Fragment() {
 
    private fun loadDataCategory() {
         lifecycleScope.launch {
+            homeViewModel.getLocalItem()
             homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
                     Log.d("data category", "list category view from database")
                         categoryAdapter.setData(database)
                         categoryFilterAdapter.setData(database)
                         showRvCategory()
+                }else{
+                    homeViewModel.getListCategory2()
                 }
             }
-        }
-    }
-
-
-    private fun getCategory2() {
-        homeViewModel.getListCategory2()
-        homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-
-                }
-
-                Status.ERROR -> {
-                    Log.e("Data Category2", it.message.toString())
-
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-
         }
     }
 

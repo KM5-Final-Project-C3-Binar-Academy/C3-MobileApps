@@ -17,7 +17,8 @@ import com.c3.mobileapps.utils.Resource
 import kotlinx.coroutines.launch
 
 
-class HomeViewModel(private val repository: DataRepository, private val categorydao: Categorydao): ViewModel() {
+class HomeViewModel(private val repository: DataRepository, private val categorydao: Categorydao) :
+    ViewModel() {
 
     private var _listCourse: MutableLiveData<Resource<CourseResponse>> = MutableLiveData()
     val listCourse: LiveData<Resource<CourseResponse>> get() = _listCourse
@@ -28,21 +29,31 @@ class HomeViewModel(private val repository: DataRepository, private val category
     private suspend fun getCourse(cat: String? = "All") {
         try {
 
-            val responses = repository.remote.getCourse(type = null, category =  if (cat != "All") cat else null, filter = null, difficulty =  null, search = null)
+            val responses = repository.remote.getCourse(
+                type = null,
+                category = if (cat != "All") cat else null,
+                filter = null,
+                difficulty = null,
+                search = null
+            )
             _listCourse.value = Resource.success(responses)
 
         } catch (exception: Exception) {
-            _listCourse.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _listCourse.value = Resource.error(null, exception.message ?: "Error Occurred!")
         }
     }
 
 
     private var _listCategory2: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
     val listCategory2: LiveData<Resource<List<Category>>> get() = _listCategory2
+
     private var _listCategoryLocal = MutableLiveData<List<CategoryLocal>>()
-    val lisCategoryLocal : LiveData<List<CategoryLocal>>get() = _listCategoryLocal
+    val lisCategoryLocal: LiveData<List<CategoryLocal>> get() = _listCategoryLocal
     fun getListCategory2() = viewModelScope.launch {
+        Log.e("NEWLOCAL", _listCategoryLocal.value?.size.toString())
         getCategori()
+
+
     }
 
     private suspend fun getCategori() {
@@ -51,29 +62,37 @@ class HomeViewModel(private val repository: DataRepository, private val category
             _listCategory2.value = Resource.success(responses)
 
             val listCategory2 = _listCategory2.value!!.data
+            Log.e("NEWLOCAL", listCategory2?.size.toString())
             if (!listCategory2.isNullOrEmpty()) {
                 responses.let {
                     val category = arrayListOf<CategoryLocal>()
                     categorydao.deleteAll()
-                    it.forEach {ct->
+                    it.forEach { ct ->
                         category.add(ct.toDomain())
                         Log.e("NEWLOCAL", category.toString())
-                        categorydao.insert(CategoryEntity(id = ct.id, name = ct.name, image = ct.image))
+                        categorydao.insert(
+                            CategoryEntity(
+                                id = ct.id,
+                                name = ct.name,
+                                image = ct.image
+                            )
+                        )
                     }
                     _listCategoryLocal.postValue(category)
                 }
-            }else{
+            } else {
+                Log.e("NEWLOCAL", "LOAD FROM ROOM")
                 getLocalItem()
             }
 
         } catch (exception: Exception) {
-            _listCategory2.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _listCategory2.value = Resource.error(null, exception.message ?: "Error Occurred!")
             getLocalItem()
         }
 
     }
 
-    private fun getLocalItem() {
+    fun getLocalItem() {
         val localData = categorydao.getAllItem()
         Log.e("cekdb", localData.toString())
         val category = arrayListOf<CategoryLocal>()
