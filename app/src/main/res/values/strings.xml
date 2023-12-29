@@ -55,5 +55,12 @@
     <string name="splash3">splash3</string>
     <string name="imgsplash2">imgsplash2</string>
     <string name="description_apps">Description apps</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="masuk_di_sini">Masuk di sini</string>
+    <string name="image_ilustration">Image Ilustration</string>
+    <string name="app_logo">App Logo</string>
+    <string name="masuk">Masuk</string>
+    <string name="maaf_anda_harus_login_terlebih_dahulu">Maaf, Anda harus login terlebih dahulu!</string>
+    <string name="oopps">Oopps!</string>
 
 </resources>

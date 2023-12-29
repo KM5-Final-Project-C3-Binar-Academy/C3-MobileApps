@@ -2,10 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.splashScreen.SplashScreen">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/appLogoSplash"
@@ -15,7 +12,8 @@
         app:layout_constraintBottom_toTopOf="@+id/titleSplash"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/logo_binar"/>
+        android:src="@drawable/logo_binar"
+        android:contentDescription="@string/app_logo" />
 
     <ImageView
         android:id="@+id/imgIlust"
@@ -26,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="220dp"
         android:src="@drawable/project_planning"
-        />
+        android:contentDescription="@string/image_ilustration" />
 
     <TextView
         android:id="@+id/titleSplash"
@@ -53,45 +51,59 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerSplash"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="475dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="155dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutSplash"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/group_11"
+        app:layout_constraintTop_toTopOf="@id/btnNextSplash"
+        app:layout_constraintStart_toStartOf="@+id/btnNextSplash"
+        />
+    <TextView
+        android:id="@+id/btnNextSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/group_11"
+        app:layout_constraintTop_toBottomOf="@+id/imgIlust"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="500dp">
+        android:layout_marginTop="65dp"
+        android:contentDescription="@string/next"
+        />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/btn_next_splashscreen"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabIndicatorHeight="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/linearSdhPunyaAkun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/btnNextSlide"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/next"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:gravity="center"
+            android:id="@+id/sdhpunyaakun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:text="@string/sudah_punya_akun"
+            android:layout_marginBottom="35dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvLoginSplash"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/blue"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/masuk_di_sini"/>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

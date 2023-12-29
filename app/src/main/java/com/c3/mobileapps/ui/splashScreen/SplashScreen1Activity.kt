@@ -1,30 +1,27 @@
 package com.c3.mobileapps.ui.splashScreen
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.PersistableBundle
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.ProgressBar
 import com.c3.mobileapps.R
-import com.c3.mobileapps.ui.home.HomeFragment
 
+class SplashScreen1Activity : AppCompatActivity() {
+    private lateinit var progressBar: ProgressBar
 
-@SuppressLint("CustomSplashScreen")
-class SplashScreen1Activity : AppCompatActivity(){
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen1)
+
+        progressBar = findViewById(R.id.loadingSplash)
 
         supportActionBar?.hide()
 
         Handler().postDelayed({
-            val intent = Intent(this@SplashScreen1Activity, SplashScreen::class.java)
+            val intent = Intent(this@SplashScreen1Activity, onBoarding::class.java)
             startActivity(intent)
             finish()
-        },2000)
-
-
+        }, 2000)
     }
 }

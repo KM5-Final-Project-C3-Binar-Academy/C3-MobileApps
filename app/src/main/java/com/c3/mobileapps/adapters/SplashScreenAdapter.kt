@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.c3.mobileapps.R
-import com.c3.mobileapps.ui.splashScreen.SplashScreen
 import com.c3.mobileapps.ui.splashScreen.SplashScreenData
 
 
@@ -29,7 +28,7 @@ class SplashScreenAdapter(
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view:View = LayoutInflater.from(context).inflate(R.layout.splash_screen, null);
+        val view:View = LayoutInflater.from(context).inflate(R.layout.layout_splash_screen, null);
         val title : TextView
         var imageView : ImageView
         val desc : TextView
