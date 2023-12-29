@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbLoading.visibility = View.INVISIBLE
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, WelcomeActivity::class.java))
                     finish()
                 }
 
@@ -42,7 +42,7 @@ class SplashActivity : AppCompatActivity() {
                     binding.pbLoading.visibility = View.INVISIBLE
                     splashViewModel.setIsLogin(false)
                     splashViewModel.setToken("")
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, WelcomeActivity::class.java))
                     finish()
                 }
 
