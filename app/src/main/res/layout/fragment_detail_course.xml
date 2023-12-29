@@ -229,16 +229,4 @@
                 app:layout_constraintTop_toTopOf="@+id/webView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:visibility="invisible"
-        android:layout_gravity="bottom|center"
-        android:textColor="@color/primary"
-        android:layout_margin="16dp"
-        android:text="@string/ambil_kelas_ini"
-        android:fontFamily="@font/poppins_bold"
-        android:contentDescription="@string/floating_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

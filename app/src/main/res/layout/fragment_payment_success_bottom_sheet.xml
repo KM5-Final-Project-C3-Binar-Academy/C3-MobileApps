@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -28,8 +27,7 @@
         app:layout_constraintEnd_toEndOf="@+id/viewBottomSheet"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/viewBottomSheet"
-        app:layout_constraintTop_toBottomOf="@+id/textView25"
-        android:contentDescription="@string/gambar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
     <TextView
         android:id="@+id/textView25"
@@ -71,30 +69,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/btnMulaiBelajar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:contentDescription="@string/button"
         android:src="@drawable/button_mulai_belajar"
         app:layout_constraintEnd_toEndOf="@+id/viewBottomSheet"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="@+id/viewBottomSheet"
-        app:layout_constraintTop_toBottomOf="@+id/textView28"
-        tools:ignore="RedundantDescriptionCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/btnKembaliKeberanda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="@string/kembali_ke_beranda"
+        android:text="Kembali ke Beranda"
         android:textColor="@color/secondary"
-        app:layout_constraintEnd_toEndOf="@+id/imageView13"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toBottomOf="@+id/imageView13"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintEnd_toEndOf="@+id/btnMulaiBelajar"
+        app:layout_constraintStart_toStartOf="@+id/btnMulaiBelajar"
+        app:layout_constraintTop_toBottomOf="@+id/btnMulaiBelajar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
-                val bottomSheetPayment = BottomSheetPayment(course)
+                val bottomSheetPayment = BottomSheetPayment(course, R.id.homeFragment)
                 bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
             })
 

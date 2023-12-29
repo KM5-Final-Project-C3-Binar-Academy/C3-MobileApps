@@ -70,9 +70,9 @@ class PaymentFragment : Fragment() {
         binding.btnPayment.setOnClickListener {
             Log.e("Payment", course.toString())
             if (paymentMethod == "BANK_TRANSFER"){
-                createPayment(payment?.id.toString())
+                createPayment(payment?.id.toString(), course)
             }else{
-                validatePayment(payment?.id.toString())
+                validatePayment(payment?.id.toString(), course)
             }
 
 //
@@ -107,7 +107,7 @@ class PaymentFragment : Fragment() {
 
     }
 
-    private fun validatePayment(id:String) {
+    private fun validatePayment(id:String, dataCourse: Course?) {
         binding.apply {
             if (edtCardNumber.text.isNullOrEmpty()){
                 edtCardNumber.error = "Card number cannot be empty"
@@ -122,14 +122,14 @@ class PaymentFragment : Fragment() {
                 etExpired.error = "CVV cannot be empty"
                 etExpired.requestFocus()
             }else{
-                createPayment(paymentId = id)
+                createPayment(paymentId = id, dataCourse)
             }
         }
 
 
     }
 
-    private fun createPayment(paymentId: String) {
+    private fun createPayment(paymentId: String, course: Course?) {
         lifecycleScope.launch {
             paymentViewModel.updateStatus(paymentId, StatusRequest(paymentMethod))
             paymentViewModel.paymentResp.observe(viewLifecycleOwner) {
@@ -137,6 +137,10 @@ class PaymentFragment : Fragment() {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
                         //show success payment
+                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!)
+                        paymentSuccessBottomSheet.isCancelable = false
+                        paymentSuccessBottomSheet.show(childFragmentManager, paymentSuccessBottomSheet.tag)
+
                     }
 
                     Status.LOADING -> {
