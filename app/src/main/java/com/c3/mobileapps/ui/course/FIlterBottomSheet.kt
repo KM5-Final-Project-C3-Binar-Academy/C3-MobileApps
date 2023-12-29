@@ -26,7 +26,7 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FilterBottomSheetBinding.inflate(inflater, container, false)
         // Update checkedItemsMap with old
 
@@ -101,17 +101,21 @@ class FIlterBottomSheet(private val oldCheckedItemsMap: MutableMap<String, Mutab
 
             courseViewModel.readCategory.observe(viewLifecycleOwner) { data ->
 
-                val listCategory = data.first().categoryResponse.data
 
-                listCategory.forEach {
-                    dataFilter.add(
-                        FilterCategory(
-                            it.name.toString(),
-                            it.name.toString(),
-                            "kategori"
+                data.forEach{
+                    it.let {
+                        dataFilter.add(
+                            FilterCategory(
+                                it.name.toString(),
+                                it.name.toString(),
+                                "kategori"
+                            )
                         )
-                    )
+                    }
                 }
+
+
+
 
                 //Add Level
                 dataFilter.add("Level")

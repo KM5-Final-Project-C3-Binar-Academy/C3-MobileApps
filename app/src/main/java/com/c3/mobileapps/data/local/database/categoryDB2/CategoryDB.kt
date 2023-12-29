@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [CategoryEntity::class], version = 4)
+@Database(entities = [CategoryEntity::class], version = 5)
 abstract class CategoryDB: RoomDatabase() {
     abstract val categorydao: Categorydao
     companion object {

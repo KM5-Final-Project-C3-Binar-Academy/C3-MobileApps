@@ -57,7 +57,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutEmail">
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail"
+        app:endIconMode="password_toggle">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
@@ -90,7 +91,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toTopOf="@+id/textView14" />
+        app:layout_constraintTop_toTopOf="@+id/textView14"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/tvBypass"
@@ -118,7 +120,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -140,7 +143,8 @@
         android:textColor="@color/blue"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/layoutPassword"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
+        tools:ignore="TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,10 @@ interface Categorydao {
     @Query("SELECT * FROM table_category ORDER BY itemId ASC")
     fun getAllItem(): List<CategoryEntity>
 
+    @Query("SELECT * FROM table_category ORDER BY id ASC")
+    fun readCategory(): Flow<List<CategoryEntity>>
+
+
     @Delete
     fun delete(categoryEntity: CategoryEntity)
 

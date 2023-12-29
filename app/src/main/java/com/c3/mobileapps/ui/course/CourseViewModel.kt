@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.c3.mobileapps.data.local.database.categoryDB.TbCategory
+import com.c3.mobileapps.data.local.database.categoryDB2.CategoryEntity
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
@@ -71,7 +71,7 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
         }
     }
 
-    val readCategory: LiveData<List<TbCategory>> = repository.local.readCategory().asLiveData()
+    val readCategory: LiveData<List<CategoryEntity>> = repository.local.readCategory2().asLiveData()
 
 
 }

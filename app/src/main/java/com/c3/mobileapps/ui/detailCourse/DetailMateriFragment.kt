@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.CourseMaterialAdapter
@@ -70,10 +69,6 @@ class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
                                 Log.e("check listener", data.toString())
                                 if (data == false) {
                                     clicked.invoke()
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "Silahkan Checkout Terlebih dahulu!", Toast.LENGTH_SHORT
-                                    ).show()
                                 } else {
                                     Log.e("check data material", data.toString())
                                     val bundle = bundleOf("courseMaterial" to data)

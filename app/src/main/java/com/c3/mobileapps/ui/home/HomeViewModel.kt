@@ -4,20 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.c3.mobileapps.data.local.database.categoryDB.TbCategory
 import com.c3.mobileapps.data.local.database.categoryDB2.CategoryEntity
 import com.c3.mobileapps.data.local.database.categoryDB2.Categorydao
 import com.c3.mobileapps.data.local.database.categoryDB2.toDomain
 import com.c3.mobileapps.data.local.model.CategoryLocal
 import com.c3.mobileapps.data.remote.model.response.course.Category
-import com.c3.mobileapps.data.remote.model.response.course.CategoryResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.data.remote.model.response.course.toDomain
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
