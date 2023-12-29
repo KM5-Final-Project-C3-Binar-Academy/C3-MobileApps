@@ -31,6 +31,7 @@ object ApiClient {
 
     fun setApiServiceAuth(retrofit: Retrofit): ApiServiceAuth =
         retrofit.create(ApiServiceAuth::class.java)
+<<<<<<< Updated upstream
 
     fun setApiServicePayment(retrofit: Retrofit): ApiServicePayment =
         retrofit.create(ApiServicePayment::class.java)
@@ -40,4 +41,6 @@ object ApiClient {
 
     fun setApiServiceNotification(retrofit: Retrofit): ApiServiceNotification =
         retrofit.create(ApiServiceNotification::class.java)
+=======
+>>>>>>> Stashed changes
 }

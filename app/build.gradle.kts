@@ -96,6 +96,7 @@ dependencies {
 	// SnackBar
 //	implementation ("com.google.android.material:material:1.3.0")
 
+<<<<<<< Updated upstream
 	//shimmer
 	implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
@@ -103,4 +104,6 @@ dependencies {
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 
+=======
+>>>>>>> Stashed changes
 }
