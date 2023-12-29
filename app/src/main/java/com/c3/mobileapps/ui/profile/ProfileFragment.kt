@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.databinding.FragmentProfileBinding
@@ -45,7 +46,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.tvChangePassword.setOnClickListener {
-
+            findNavController().navigate(R.id.editPasswordFragment)
         }
 
         binding.tvHistoryPayment.setOnClickListener {
@@ -81,6 +82,11 @@ class ProfileFragment : Fragment() {
                     val data = it.data?.data
 
                     binding.tvNama.text = data?.name
+                    data?.image?.let { imageUrl ->
+                        Glide.with(requireContext())
+                            .load(imageUrl)
+                            .into(binding.imgProfile)
+                    }
                 }
 
                 Status.ERROR -> {

@@ -14,6 +14,7 @@ import com.c3.mobileapps.data.repository.UserRepository
 import com.c3.mobileapps.ui.confirm_payment.CfrmPaymentViewModel
 import com.c3.mobileapps.ui.course.CourseViewModel
 import com.c3.mobileapps.ui.detailCourse.DetailCourseViewModel
+import com.c3.mobileapps.ui.editPassword.EditPasswordViewModel
 import com.c3.mobileapps.ui.history.HistoryViewModel
 import com.c3.mobileapps.ui.home.HomeViewModel
 import com.c3.mobileapps.ui.search.SearchViewModel
@@ -87,5 +88,6 @@ object KoinModule {
             viewModel { MainViewModel(get(),get()) }
             viewModel { NotificationViewModel(get(),get()) }
             viewModel { OtpViewModel(get())}
+            viewModel { EditPasswordViewModel(get(), get())}
         }
 }

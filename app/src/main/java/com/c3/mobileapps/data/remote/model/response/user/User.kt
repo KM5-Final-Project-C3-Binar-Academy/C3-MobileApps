@@ -17,6 +17,8 @@ data class User(
     var id: String?,
     @SerializedName("name")
     var name: String?,
+    @SerializedName("image")
+    var image: String?,
     @SerializedName("password")
     var password: String?,
     @SerializedName("phone_number")

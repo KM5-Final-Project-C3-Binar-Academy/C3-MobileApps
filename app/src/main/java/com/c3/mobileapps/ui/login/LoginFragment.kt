@@ -21,6 +21,7 @@ import com.c3.mobileapps.ui.register.RegisterFragment
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import org.koin.android.ext.android.inject
 import java.lang.Exception
 import java.security.MessageDigest
@@ -106,27 +107,37 @@ class LoginFragment : Fragment() {
 				// Intent to Homepage
 				findNavController().navigate(R.id.homeFragment)
 			}
+
+		binding.tvResetPass.setOnClickListener {
+			alertDialog(requireView())
+		}
 	}
 
 	// Additional Function
-	private fun alertDialog(){
-		val builder = AlertDialog.Builder(context)
+	private fun alertDialog(view: View){
+		val builder = AlertDialog.Builder(requireContext())
+		val inflater = layoutInflater
+		val dialogLayout = inflater.inflate(R.layout.alert_reset_password_layout, null)
+		val editText  = dialogLayout.findViewById<TextInputEditText>(R.id.inputResetPass)
 
-		builder.setTitle("Reset Password")
-			.setMessage("Apakah kamu yakin untuk keluar akun?")
-			.setPositiveButton("YA") { dialog, which ->
-				sharedPreferences.setIsLogin(false)
-				findNavController().navigate(R.id.loginFragment)
-				snackbar.showSnackbarUtils("Berhasil Logout!", false, layoutInflater, requireView(), requireContext())
-			}
-			.setNegativeButton("TIDAK") { dialog, which ->
-				dialog.dismiss()
-			}
-
-		// Create and show the AlertDialog
-		val alertDialog: AlertDialog = builder.create()
-		alertDialog.show()
+		builder.setView(dialogLayout)
+		builder.setPositiveButton("Kirim Email") {dialogInterface, i ->
+			snackbar.showSnackbarUtils(editText.text.toString(), false, layoutInflater,requireView(),requireContext())
+		}
+		builder.show()
 	}
+
+//	private fun sendResetPassword(view: View) {
+//		// Starting ProgressBar
+//		binding.constraintLogin.visibility = View.VISIBLE
+//
+//		// Kirim data ke viewModel
+//
+//
+//		// Handle responsenya
+//		// Finish ProgressBar
+//		binding.constraintLogin.visibility = View.INVISIBLE
+//	}
 
 	override fun onAttach(context: Context) {
 		super.onAttach(context)

@@ -1,6 +1,7 @@
 package com.c3.mobileapps.data.remote.service
 
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
+import com.c3.mobileapps.data.remote.model.request.user.EditPassword
 import com.c3.mobileapps.data.remote.model.request.user.EditUser
 import com.c3.mobileapps.data.remote.model.response.user.AuthResponse
 import com.c3.mobileapps.data.remote.model.response.user.User
@@ -23,6 +24,10 @@ interface ApiServiceUser {
         @Body updatedField: EditUser
     ): AuthResponse
 
-    //ubah password belum
+    @PUT("/users/me/password-reset")
+    suspend fun updatePassword(
+        @Header("Authorization") token: String,
+        @Body updatedField: EditPassword
+    ): Response<AuthResponse>
 
 }

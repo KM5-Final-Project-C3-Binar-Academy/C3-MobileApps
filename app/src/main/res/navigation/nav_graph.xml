@@ -92,6 +92,11 @@
         tools:layout="@layout/fragment_view_all_kelas" />
     <fragment
         android:id="@+id/otpFragment"
-        android:name="com.c3.mobileapps.ui.otp.otpFragment"
+        android:name="com.c3.mobileapps.ui.otp.OtpFragment"
         android:label="otpFragment" />
+    <fragment
+        android:id="@+id/editPasswordFragment"
+        android:name="com.c3.mobileapps.ui.editPassword.EditPasswordFragment"
+        android:label="fragment_edit_password"
+        tools:layout="@layout/fragment_edit_password" />
 </navigation>

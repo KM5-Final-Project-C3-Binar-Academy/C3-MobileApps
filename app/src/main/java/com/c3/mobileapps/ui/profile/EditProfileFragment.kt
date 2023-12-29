@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
@@ -49,7 +50,7 @@ class EditProfileFragment : Fragment() {
             // Verified Data
 
             // Wrap to Dataclass
-            val modelData = EditUser(name)
+            val modelData = EditUser(name,email,telp)
 
             // Send Data to API
             editProfileViewModel.setUpdateUser(modelData)
@@ -89,6 +90,12 @@ class EditProfileFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Edit Profile Issues", Gson().toJson(it.data))
                     val data = it.data?.data
+
+                    data?.image?.let { imageUrl ->
+                        Glide.with(requireContext())
+                            .load(imageUrl)
+                            .into(binding.imgProfile)
+                    }
 
                     binding.inputUsername.setText(data?.name)
                     binding.inputEmail.setText(data?.email)
