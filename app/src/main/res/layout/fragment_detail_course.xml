@@ -43,18 +43,9 @@
                 android:layout_marginTop="15dp"
                 android:src="@drawable/ic_back_white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/webView" />
+                app:layout_constraintTop_toTopOf="@+id/webView"
+                android:contentDescription="@string/back" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/btnPlayIntro"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="160dp"-->
-<!--                android:src="@drawable/ic_playvideo"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imageView2"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imageView2"-->
-<!--                app:layout_constraintVertical_bias="0.504" />-->
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMenuItem"
@@ -89,9 +80,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/rating"
                         android:src="@drawable/icon_star"
                         app:layout_constraintEnd_toStartOf="@+id/rating"
-                        app:layout_constraintTop_toTopOf="@+id/tvNamaKelas" />
+                        app:layout_constraintTop_toTopOf="@+id/tvNamaKelas"
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/rating"
@@ -99,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="4.7"
+                        android:text="@string/_4_7"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/icon_star" />
 
@@ -120,62 +113,71 @@
                         android:id="@+id/creator_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="by John Doe"
+                        android:text="@string/by_john_doe"
                         android:textSize="10sp"
                         app:layout_constraintStart_toStartOf="@+id/deskripsi_judul_kelas"
-                        app:layout_constraintTop_toBottomOf="@+id/deskripsi_judul_kelas" />
+                        app:layout_constraintTop_toBottomOf="@+id/deskripsi_judul_kelas"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/level_name_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:text="Advanced Level"
+                        android:text="@string/advanced_level"
                         android:textColor="@color/primary"
                         android:textSize="10sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@id/level_icon_kelas"
                         app:layout_constraintStart_toEndOf="@id/level_icon_kelas"
-                        app:layout_constraintTop_toTopOf="@id/level_icon_kelas" />
+                        app:layout_constraintTop_toTopOf="@id/level_icon_kelas"
+                        tools:ignore="SmallSp" />
 
                     <ImageView
                         android:id="@+id/level_icon_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/logo"
                         app:layout_constraintStart_toStartOf="@id/creator_kelas"
                         app:layout_constraintTop_toBottomOf="@id/creator_kelas"
-                        app:srcCompat="@drawable/advance_icon" />
+                        app:srcCompat="@drawable/advance_icon"
+                        tools:ignore="ImageContrastCheck" />
 
                     <ImageView
                         android:id="@+id/icon_modul_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        android:contentDescription="@string/logo"
                         app:layout_constraintBottom_toBottomOf="@id/level_name_kelas"
                         app:layout_constraintStart_toEndOf="@id/level_name_kelas"
                         app:layout_constraintTop_toTopOf="@id/level_name_kelas"
-                        app:srcCompat="@drawable/modul_icon" />
+                        app:srcCompat="@drawable/modul_icon"
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/jumlah_modul_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="Jumlah Modul"
+                        android:text="@string/jumlah_modul"
                         android:textSize="10sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@id/icon_modul_kelas"
                         app:layout_constraintStart_toEndOf="@id/icon_modul_kelas"
-                        app:layout_constraintTop_toTopOf="@id/icon_modul_kelas" />
+                        app:layout_constraintTop_toTopOf="@id/icon_modul_kelas"
+                        tools:ignore="SmallSp" />
 
                     <ImageView
                         android:id="@+id/icon_durasi_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        android:contentDescription="@string/logo"
                         app:layout_constraintStart_toEndOf="@+id/jumlah_modul_kelas"
                         app:layout_constraintTop_toTopOf="@+id/jumlah_modul_kelas"
-                        app:srcCompat="@drawable/time_icon" />
+                        app:srcCompat="@drawable/time_icon"
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/durasi_kelas"
@@ -188,12 +190,13 @@
                         app:layout_constraintBottom_toBottomOf="@id/icon_durasi_kelas"
                         app:layout_constraintStart_toEndOf="@id/icon_durasi_kelas"
                         app:layout_constraintTop_toTopOf="@id/icon_durasi_kelas"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:ignore="SmallSp" />
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPager"
-                        android:layout_width="409dp"
-                        android:layout_height="624dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="850dp"
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:contentDescription="tab layout"
+                        android:contentDescription="@string/tab_layout"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/jumlah_modul_kelas" />
@@ -226,12 +229,4 @@
                 app:layout_constraintTop_toTopOf="@+id/webView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:contentDescription="Floating Button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.c3.mobileapps.data.local.database.categoryDB2.CategoryEntity
 
 @TypeConverters(ConverterCategory::class)
 @Database(entities = [TbCategory::class], version = 3, exportSchema = false)

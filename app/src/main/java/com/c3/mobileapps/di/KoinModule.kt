@@ -2,7 +2,7 @@ package com.c3.mobileapps.di
 
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.data.local.database.categoryDB.CategoryDatabase
-import com.c3.mobileapps.data.local.database.courseDB.CourseDatabase
+import com.c3.mobileapps.data.local.database.categoryDB2.CategoryDB
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.AuthRepository
 import com.c3.mobileapps.data.repository.CourseRepository
@@ -28,6 +28,7 @@ import com.c3.mobileapps.ui.profile.EditProfileViewModel
 import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
 import com.c3.mobileapps.ui.splash_screen.SplashViewModel
+import com.c3.mobileapps.ui.webView.WebViewViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -35,13 +36,13 @@ object KoinModule {
 
     val dataModule
         get() = module{
-            /*Database offline first list course*/
-            single { CourseDatabase.getInstance(context = get())}
-            factory { get<CourseDatabase>().courseDao }
 
             /*Database offline first category course*/
             single { CategoryDatabase.getInstance(context = get())}
             factory { get<CategoryDatabase>().categoryDao }
+
+            single { CategoryDB.getInstance(get()) }
+            factory { get<CategoryDB>().categorydao }
         }
 
     val apiModule
@@ -58,7 +59,7 @@ object KoinModule {
         get() = module {
             factory { CourseRepository(get()) }
             factory { DataRepository(get(), get()) }
-            factory { RoomRepository(get(), get()) }
+            factory { RoomRepository(get()) }
             factory { AuthRepository(get())}
             factory { PaymentRepository(get()) }
             factory { UserRepository(get()) }
@@ -72,22 +73,23 @@ object KoinModule {
 
     val viewModelModule
         get() = module {
-            viewModel { HomeViewModel(get()) }
+            viewModel { HomeViewModel(get(), get()) }
             viewModel { CourseViewModel(get())}
             viewModel { LoginViewModel(get())}
             viewModel { RegisterViewModel(get())}
             viewModel { DetailCourseViewModel(get(), get())}
             viewModel { SearchViewModel(get()) }
-            viewModel { KelasViewModel(get(),get()) }
+            viewModel { KelasViewModel(get(),get(), get()) }
             viewModel { HistoryViewModel(get(),get()) }
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
             viewModel { ProfileViewModel(get(),get()) }
-            viewModel { EditProfileViewModel(get(), get())}
+            viewModel { EditProfileViewModel(get(), get()) }
             viewModel { SplashViewModel(get(),get()) }
             viewModel { MainViewModel(get(),get()) }
             viewModel { NotificationViewModel(get(),get()) }
-            viewModel { OtpViewModel(get())}
+            viewModel { WebViewViewModel(get(),get()) }
+            viewModel { OtpViewModel(get()) }
             viewModel { EditPasswordViewModel(get(), get())}
         }
 }

@@ -26,17 +26,19 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
+            android:contentDescription="@string/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/oval" />
+            app:srcCompat="@drawable/oval"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/tvMateri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Tujuan Mengikuti Kelas Design System"
+            android:text="@string/tujuan_mengikuti_kelas_design_system"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgListNumber"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,17 +48,19 @@
             android:layout_width="32dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/button2" />
+            app:srcCompat="@drawable/button_play"
+            tools:ignore="RedundantDescriptionCheck" />
 
         <TextView
             android:id="@+id/tvListNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:text="1"
+            android:text="@string/_1"
             app:layout_constraintBottom_toBottomOf="@+id/imgListNumber"
             app:layout_constraintEnd_toEndOf="@+id/imgListNumber"
             app:layout_constraintStart_toStartOf="@+id/imgListNumber"
@@ -71,7 +75,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_lock" />
+            app:srcCompat="@drawable/ic_lock"
+            android:contentDescription="@string/lock" />
+
+        <ImageView
+            android:id="@+id/btnDone"
+            android:layout_width="32dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            app:srcCompat="@drawable/button_done"
+            android:contentDescription="@string/button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

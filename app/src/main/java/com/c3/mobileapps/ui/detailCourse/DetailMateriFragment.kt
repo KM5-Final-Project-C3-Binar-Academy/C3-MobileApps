@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.CourseMaterialAdapter
-import com.c3.mobileapps.data.remote.model.response.courseMe.MateriKursus
+import com.c3.mobileapps.data.remote.model.response.course.MateriKursus
 import com.c3.mobileapps.databinding.FragmentDetailMateriBinding
 import com.c3.mobileapps.ui.webView.WebView
 import com.c3.mobileapps.utils.Status
@@ -19,7 +19,7 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
 
-class DetailMateriFragment : Fragment() {
+class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentDetailMateriBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
@@ -40,17 +40,7 @@ class DetailMateriFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val simpleArgs = arguments?.getString("ARGS_ID")
-
-        detailCourseViewModel.isLogin.observe(viewLifecycleOwner){
-            if (it){
-                getCourseMaterial(simpleArgs)
-                Log.e("cek get api", "ini login")
-
-            }else{
-                getCourseDetail(simpleArgs)
-                Log.e("cek get api", "ini gak login")
-            }
-        }
+        getCourseMaterial(simpleArgs)
     }
 
     private fun getCourseMaterial(id: String?){
@@ -75,28 +65,25 @@ class DetailMateriFragment : Fragment() {
                         }
 
                         courseMaterialAdapter = CourseMaterialAdapter(materiList,
-                            listener  = {data ->
-                                if (data == false){
-                                    Log.e("check listener", data.toString())
-                                }else{
-                                    val bundle = bundleOf("Url" to data)
+                            listener = { data ->
+                                Log.e("check listener", data.toString())
+                                if (data == false) {
+                                    clicked.invoke()
+                                } else {
+                                    Log.e("check data material", data.toString())
+                                    val bundle = bundleOf("courseMaterial" to data)
                                     val intent = Intent(activity, WebView::class.java)
-                                    intent.putExtra("Url", bundle)
+                                    intent.putExtra("courseMaterial", bundle)
                                     startActivity(intent)
                                 }
-
-//                        findNavController().navigate(R.id.webViewFragment,bundle)
                             })
 
                         Log.e("Enrolled",data.totalCompletedMaterial.toString())
-
                         if (data.totalCompletedMaterial == null){
                             courseMaterialAdapter.setEnrolled(false)
                         }else{
                             courseMaterialAdapter.setEnrolled(true)
                         }
-
-
                         binding.rvMateri.adapter = courseMaterialAdapter
                         binding.rvMateri.layoutManager = LinearLayoutManager(
                             requireActivity(),
@@ -121,79 +108,11 @@ class DetailMateriFragment : Fragment() {
 
     }
 
-    private fun getCourseDetail(id: String?){
-        detailCourseViewModel.getCourseById(id)
-        detailCourseViewModel.courseById.observe(viewLifecycleOwner){
-            when(it.status){
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Course", Gson().toJson(it.data))
-
-                    val data = it.data?.data
-
-                    data?.courseChapter?.forEach {chapter ->
-                        if (chapter != null) {
-                            materiList.add(chapter)
-                            chapter.courseMaterial?.forEach {material ->
-                                chapter.orderIndex?.let { it1 ->
-                                    MateriKursus(it1, material) }
-                                    ?.let { it2 -> materiList.add(it2) }
-                            }
-                        }
-                    }
-
-                    courseMaterialAdapter = CourseMaterialAdapter(materiList,
-                        listener  = {url ->
-                            val bundle = bundleOf("Url" to url)
-                            val intent = Intent(activity, WebView::class.java)
-                            intent.putExtra("Url", bundle)
-                            startActivity(intent)
-//                        findNavController().navigate(R.id.webViewFragment,bundle)
-                        })
-
-                    Log.e("Enrolled",data?.totalCompletedMaterial.toString())
-
-                    if (data?.totalCompletedMaterial == null){
-                        courseMaterialAdapter.setEnrolled(false)
-                    }else{
-                        courseMaterialAdapter.setEnrolled(true)
-                    }
-
-                    Log.e("Enrolled",data?.totalCompletedMaterial.toString())
-
-                    if (data?.totalCompletedMaterial == null){
-                        courseMaterialAdapter.setEnrolled(false)
-                    }else{
-                        courseMaterialAdapter.setEnrolled(true)
-                    }
-
-                    binding.rvMateri.adapter = courseMaterialAdapter
-                    binding.rvMateri.layoutManager = LinearLayoutManager(
-                        requireActivity(),
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-
-                    Log.e("ListMateri",materiList.toString())
-
-                }
-                Status.ERROR -> {
-                    Log.e("Cek Data Course", it.message.toString())
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-        }
-    }
-
-
-
     companion object {
-        fun newInstance(simpleArgs: String?): Fragment {
+        fun newInstance(simpleArgs: String?, clicked: ()-> Unit): Fragment {
             val args = Bundle()
             args.putString("ARGS_ID", simpleArgs)
-            val fragment = DetailMateriFragment()
+            val fragment = DetailMateriFragment(clicked)
             fragment.arguments = args
             return fragment
         }

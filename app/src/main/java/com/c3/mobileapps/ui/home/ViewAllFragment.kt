@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -19,6 +18,7 @@ import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentViewAllBinding
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -49,6 +49,7 @@ class ViewAllFragment : Fragment() {
         //check bundle bawa data iscategory/ iskelas favorit
         val isCategory = arguments?.getBoolean("ModeView")
         setupRecyclerView(isCategory!!)
+        getCategory2()
         loadDataCategory()
         populerByCategory("All")
 
@@ -73,10 +74,14 @@ class ViewAllFragment : Fragment() {
                     .build()
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
-        listCourseAdapter = ListCourseAdapter(emptyList(), listener = { pickItem ->
+        listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
             val bundle = bundleOf("pickItem" to pickItem)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
-        })
+        },
+            onBadgelick = { course ->
+                val bottomSheetPayment = BottomSheetPayment(course, R.id.viewAllFragment)
+                bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
+            })
 
         if (isCategory){
             binding.title.text = "List Semua Kategori"
@@ -101,50 +106,38 @@ class ViewAllFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
-            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("data category", "list category view from database")
-                    categoryAdapter.setData(database.first().categoryResponse.data)
-                    categoryFilterAdapter.setData(database.first().categoryResponse.data)
+                    categoryAdapter.setData(database)
+                    categoryFilterAdapter.setData(database)
                     showRvCategory()
-                } else {
-                    getCategory()
+
                 }
             }
         }
     }
 
-    private fun getCategory() {
 
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
+    private fun getCategory2() {
+        homeViewModel.getListCategory2()
+        homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    it.data?.let {
-                        categoryAdapter.setData(it.data)
-                        categoryFilterAdapter.setData(it.data)
-                        showRvCategory()
-
-                    }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
+                    Log.e("Data Category2", it.message.toString())
                 }
 
                 Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
+
                 }
             }
 
         }
     }
+
 
     private fun populerByCategory(cat: String){
         homeViewModel.getListCourse(cat)

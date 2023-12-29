@@ -34,7 +34,7 @@ class KelasFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentKelasBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,7 +43,7 @@ class KelasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etSearch.setOnFocusChangeListener{_, hasFocus ->
+        binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
                 findNavController().navigate(R.id.searchFragment)
@@ -51,13 +51,14 @@ class KelasFragment : Fragment() {
 
         }
 
-        kelasViewModel.isLogin.observe(viewLifecycleOwner){
-            if (it){
+        kelasViewModel.isLogin.observe(viewLifecycleOwner) {
+            if (it) {
 
                 setupRecyclerView()
+                getCategory2()
                 loadDataCategory()
-                kelasViewModel.typeFilter.observe(viewLifecycleOwner){
-                    Log.e("KELAS",it.toString())
+                kelasViewModel.typeFilter.observe(viewLifecycleOwner) {
+                    Log.e("KELAS", it.toString())
                     checkMode()
                     getKelasUser(it)
                 }
@@ -72,7 +73,7 @@ class KelasFragment : Fragment() {
                 binding.expandKursusPopuler.setOnClickListener {
                     findNavController().navigate(R.id.viewAllKelasFragment)
                 }
-            }else{
+            } else {
                 val nonLoginBottomSheet = NonLoginBottomSheet(R.id.kelasFragment)
                 nonLoginBottomSheet.isCancelable = false
                 nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
@@ -99,7 +100,39 @@ class KelasFragment : Fragment() {
             kelasViewModel.setType("completed")
         }
     }
+
     private fun loadDataCategory() {
+        lifecycleScope.launch {
+            kelasViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    Log.d("data category", "list category view from database")
+                    categoryCourseAdapter.setData(database)
+                    showRvCategory()
+                }
+            }
+        }
+    }
+
+
+    private fun getCategory2() {
+        kelasViewModel.getListCategory2()
+        kelasViewModel.listCategory2.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                }
+
+                Status.ERROR -> {
+                    Log.e("Data Category2", it.message.toString())
+                }
+
+                Status.LOADING -> {
+
+                }
+            }
+        }
+    }
+
+ /*   private fun loadDataCategory() {
         lifecycleScope.launch {
             kelasViewModel.readCategory.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
@@ -107,12 +140,12 @@ class KelasFragment : Fragment() {
                     categoryCourseAdapter.setData(database.first().categoryResponse.data)
                     showRvCategory()
                 } else {
-                    getCategory()
+
                 }
             }
         }
-    }
-    private fun getCategory() {
+    }*/
+  /*  private fun getCategory() {
 
         kelasViewModel.getListCategory()
         kelasViewModel.listCategory.observe(viewLifecycleOwner) { it ->
@@ -141,8 +174,8 @@ class KelasFragment : Fragment() {
 
         }
     }
-
-    private fun getKelasUser(type:String?){
+*/
+    private fun getKelasUser(type: String?) {
         kelasViewModel.getListKelas(type)
         kelasViewModel.listKelas.observe(viewLifecycleOwner) { it ->
             when (it.status) {
@@ -151,7 +184,6 @@ class KelasFragment : Fragment() {
                     it.data?.let {
                         showRvCourse()
                         kelasAdapter.setData(it.data)
-
                     }
                 }
 
@@ -188,12 +220,12 @@ class KelasFragment : Fragment() {
     private fun setupRecyclerView() {
         categoryCourseAdapter = CategoryAdapter(
             isAll = false,
-            listener = {category ->
+            listener = { category ->
                 val bundle = bundleOf("CATEGORY" to category)
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.kelasFragment, true)
                     .build()
-                findNavController().navigate(R.id.courseFragment,bundle,navOptions)
+                findNavController().navigate(R.id.courseFragment, bundle, navOptions)
             })
 
         kelasAdapter = KelasAdapter(emptyList(), listener = { pickItem ->
@@ -202,7 +234,8 @@ class KelasFragment : Fragment() {
         }, isFull = false)
 
         binding.rvKelas.adapter = kelasAdapter
-        binding.rvKelas.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvKelas.layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
 
         binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCategoryCourse.adapter = categoryCourseAdapter

@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
+@Suppress("SameParameterValue")
 class RegisterFragment : Fragment() {
 	private lateinit var binding: FragmentRegister1Binding
 	private val registerViewModel: RegisterViewModel by inject()

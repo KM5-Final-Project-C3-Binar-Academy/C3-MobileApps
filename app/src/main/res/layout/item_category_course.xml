@@ -19,7 +19,9 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/ayam_oven"
         android:background="@drawable/rounded_background_image"
-        android:clipToOutline="true"/>
+        android:clipToOutline="true"
+        android:contentDescription="@string/gambar"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/tv_name_category"

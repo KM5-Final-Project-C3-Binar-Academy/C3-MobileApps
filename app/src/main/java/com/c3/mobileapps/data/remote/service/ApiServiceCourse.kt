@@ -3,9 +3,11 @@ package com.c3.mobileapps.data.remote.service
 import com.c3.mobileapps.data.remote.model.response.course.CategoryResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseIdResponse
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
-import com.c3.mobileapps.data.remote.model.response.courseMe.CourseMaterialResponse
+import com.c3.mobileapps.data.remote.model.response.course.CourseMaterialResponse
+import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.MaterialStatusResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -36,4 +38,11 @@ interface ApiServiceCourse {
         @Query("search") search: String?,
         @Query("difficulty") difficulty: String?,
     ): CourseResponse
+
+    @PUT("course-material-status/{id}")
+    suspend fun updateCoursesMaterial(
+        @Header("Authorization") token: String,
+        @Path("id") id: String?,
+//        @Body dataMaterialStatus: DataMaterialStatus
+    ): MaterialStatusResponse
 }

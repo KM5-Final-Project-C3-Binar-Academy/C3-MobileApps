@@ -10,6 +10,7 @@ plugins {
 }
 
 
+
 android {
 	namespace = "com.c3.mobileapps"
 	compileSdk = 34

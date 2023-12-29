@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.c3.mobileapps.data.remote.model.response.course.Category
+import com.c3.mobileapps.data.local.model.CategoryLocal
 import com.c3.mobileapps.databinding.ItemFilterBinding
 import com.c3.mobileapps.utils.DiffUtils
 
 class CategoryFilterAdapter(private var listener: ((String) -> Unit)? = null)  : RecyclerView.Adapter<CategoryFilterAdapter.ViewHolder>()  {
 
-	private var categoryItem = emptyList<Category>()
+	private var categoryItem = emptyList<CategoryLocal>()
 	private var selectedCategory: String? = "All"
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val binding =
@@ -33,8 +33,8 @@ class CategoryFilterAdapter(private var listener: ((String) -> Unit)? = null)  :
 
 	}
 
-	fun setData(newCategory: List<Category>) {
-		val allCategory = Category(id = null, name = "All", image = null,createdAt = null,updatedAt = null)
+	fun setData(newCategory: List<CategoryLocal>) {
+		val allCategory = CategoryLocal(itemId = null, id = null, name = "All", image = null)
 		val updatedList = mutableListOf(allCategory)
 		updatedList.addAll(newCategory)
 
@@ -44,7 +44,7 @@ class CategoryFilterAdapter(private var listener: ((String) -> Unit)? = null)  :
 		diffUtilResult.dispatchUpdatesTo(this)
 	}
 
-	private fun handleSelection(item: Category) {
+	private fun handleSelection(item: CategoryLocal) {
 		if (selectedCategory == item.name) {
 			// Already selected, do nothing
 			selectedCategory = item.name
@@ -65,7 +65,7 @@ class CategoryFilterAdapter(private var listener: ((String) -> Unit)? = null)  :
 	}
 
 	class ViewHolder (private val binding: ItemFilterBinding) : RecyclerView.ViewHolder(binding.root)  {
-		fun onBind(data: Category, selectedCategory: String?){
+		fun onBind(data: CategoryLocal, selectedCategory: String?){
 			binding.chipFilterCategory.text = data.name
 
 			Log.d("cek selected",(data.name == selectedCategory).toString())

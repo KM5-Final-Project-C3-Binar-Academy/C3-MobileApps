@@ -1,24 +1,17 @@
 package com.c3.mobileapps.ui.detailCourse
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.c3.mobileapps.adapters.CourseMaterialAdapter
+import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentDetailTentangBinding
-import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
-import com.c3.mobileapps.ui.webView.WebView
-import com.c3.mobileapps.utils.Status
-import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
+@Suppress("DEPRECATION")
 class DetailTentangFragment : Fragment() {
     private lateinit var binding: FragmentDetailTentangBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
@@ -34,46 +27,27 @@ class DetailTentangFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val simpleArgs = arguments?.getString("ARGS_ID")
-        getCourseDetail(simpleArgs)
+        val data = arguments?.getParcelable<Course>("ARGS_ID")
 
 
-    }
 
-    @SuppressLint("SetTextI18n")
-    private fun getCourseDetail(id: String?){
-        detailCourseViewModel.getCourseById(id)
-        detailCourseViewModel.courseById.observe(viewLifecycleOwner){
-            when(it.status){
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Course", Gson().toJson(it.data))
-
-                    val data = it.data?.data
-
-                    binding.tvTentangkelas.text = data?.description
-                    binding.tvAudience.text = data?.targetAudience.toString()
-                    val telegram = data?.telegram
-                    binding.btnTelegram.setOnClickListener {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(telegram))
-                        startActivity(intent)
-                    }
-
-                }
-                Status.ERROR -> {
-                    Log.e("Cek Data Course", it.message.toString())
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
+        binding.tvTentangkelas.text = data?.description
+        binding.tvAudience.text = data?.targetAudience?.joinToString()
+        val telegram = data?.telegram
+        binding.btnTelegram.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(telegram))
+            startActivity(intent)
         }
+
+
     }
+
+
 
     companion object {
-        fun newInstance(simpleArgs: String?): Fragment {
+        fun newInstance(simpleArgs: Course?): Fragment {
             val args = Bundle()
-            args.putString("ARGS_ID", simpleArgs)
+            args.putParcelable("ARGS_ID", simpleArgs)
             val fragment = DetailTentangFragment()
             fragment.arguments = args
             return fragment

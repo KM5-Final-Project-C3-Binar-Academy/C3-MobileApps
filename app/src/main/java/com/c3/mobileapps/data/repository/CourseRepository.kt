@@ -1,5 +1,6 @@
 package com.c3.mobileapps.data.repository
 
+import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.DataMaterialStatus
 import com.c3.mobileapps.data.remote.service.ApiServiceCourse
 
 class
@@ -21,4 +22,7 @@ CourseRepository(private val apiServiceCourse: ApiServiceCourse) {
         search: String?,
         difficulty: String?
     ) = apiServiceCourse.getCourse(type, filter, category, search, difficulty)
+
+    suspend fun updateCourseMaterial (token: String, id: String?)=
+        apiServiceCourse.updateCoursesMaterial(token, id)
 }

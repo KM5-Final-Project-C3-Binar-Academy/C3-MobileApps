@@ -19,18 +19,19 @@
             android:layout_height="30dp"
             android:layout_margin="16dp"
             android:layout_gravity="center"
-            android:src="@drawable/error_24" />
+            android:src="@drawable/error_24"
+            android:contentDescription="@string/icon" />
 
         <TextView
             android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="#FFFF"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:text="An Error Occured!" />
+            android:text="@string/an_error_occured" />
 
     </LinearLayout>
 
