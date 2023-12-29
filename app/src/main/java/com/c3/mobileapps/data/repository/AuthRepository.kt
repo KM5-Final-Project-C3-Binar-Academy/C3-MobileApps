@@ -1,5 +1,6 @@
 package com.c3.mobileapps.data.repository
 import com.c3.mobileapps.data.remote.model.request.auth.LoginRequest
+import com.c3.mobileapps.data.remote.model.request.auth.OtpRequest
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.data.remote.model.response.user.AuthResponse
 import com.c3.mobileapps.data.remote.service.ApiServiceAuth
@@ -13,5 +14,9 @@ class AuthRepository (private val apiServiceAuth: ApiServiceAuth) {
 
 	suspend fun RegisterRepo(registerRequest: RegisterRequest): Response <AuthResponse> {
 		return apiServiceAuth.sendRegister(registerRequest)
+	}
+
+	suspend fun OTPRepo(otpRequest: OtpRequest): Response <AuthResponse> {
+		return apiServiceAuth.sendOTP(otpRequest)
 	}
 }

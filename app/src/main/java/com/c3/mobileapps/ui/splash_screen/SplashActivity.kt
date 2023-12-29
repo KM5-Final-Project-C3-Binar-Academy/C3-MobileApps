@@ -25,7 +25,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getStatusUser()
-
     }
 
     private fun getStatusUser(){

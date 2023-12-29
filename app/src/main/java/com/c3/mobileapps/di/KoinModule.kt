@@ -2,7 +2,7 @@ package com.c3.mobileapps.di
 
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.data.local.database.categoryDB.CategoryDatabase
-import com.c3.mobileapps.data.local.database.categoryDB2.CategoryDB
+import com.c3.mobileapps.data.local.database.courseDB.CourseDatabase
 import com.c3.mobileapps.data.remote.ApiClient
 import com.c3.mobileapps.data.repository.AuthRepository
 import com.c3.mobileapps.data.repository.CourseRepository
@@ -25,7 +25,6 @@ import com.c3.mobileapps.ui.payment.PaymentViewModel
 import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
 import com.c3.mobileapps.ui.splash_screen.SplashViewModel
-import com.c3.mobileapps.ui.webView.WebViewViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -33,6 +32,10 @@ object KoinModule {
 
     val dataModule
         get() = module{
+            /*Database offline first list course*/
+            single { CourseDatabase.getInstance(context = get())}
+            factory { get<CourseDatabase>().courseDao }
+
             /*Database offline first category course*/
             single { CategoryDatabase.getInstance(context = get())}
             factory { get<CategoryDatabase>().categoryDao }
@@ -80,9 +83,11 @@ object KoinModule {
             viewModel { PaymentViewModel(get(),get())}
             viewModel { CfrmPaymentViewModel(get(),get()) }
             viewModel { ProfileViewModel(get(),get()) }
+            viewModel { EditProfileViewModel(get(), get())}
             viewModel { SplashViewModel(get(),get()) }
             viewModel { MainViewModel(get(),get()) }
             viewModel { NotificationViewModel(get(),get()) }
             viewModel { WebViewViewModel(get(),get()) }
+            viewModel { OtpViewModel(get())}
         }
 }

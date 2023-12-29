@@ -2,25 +2,29 @@ package com.c3.mobileapps.ui.register
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.databinding.FragmentRegister1Binding
+import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
+import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
-//import .RegisterSuccessBottomSheet
 
 @Suppress("SameParameterValue")
 class RegisterFragment : Fragment() {
 	private lateinit var binding: FragmentRegister1Binding
 	private val registerViewModel: RegisterViewModel by inject()
+	private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -48,7 +52,7 @@ class RegisterFragment : Fragment() {
 
 			// Pemeriksaan Panjang Nomor (9-13 Digit)
 			if (noTelp.length < 10 || noTelp.length > 13 ) {
-				showSnackbar("Nomor Telepon Anda tidak sesuai! ", true)
+				snackbar.showSnackbarUtils("Nomor Telepon Anda tidak sesuai!",true, layoutInflater, requireView(), requireContext())
 			} else {
 				val verifiedPhone = checkCharacter(noTelp)
 
@@ -60,35 +64,41 @@ class RegisterFragment : Fragment() {
 					phone_number = verifiedPhone
 				)
 
+				val bundle = Bundle().apply {
+					putParcelable("RegisterModel", modelData)
+				}
+
 				registerViewModel.sendData(modelData)
 				registerViewModel.registerResponse.observe(viewLifecycleOwner, Observer {res ->
 
 					when (res.code()) {
-						200 -> {
+						201 -> {
+							snackbar.showSnackbarUtils("Pendaftaran Berhasil! Silahkan cek kode OTP di Email!", false, layoutInflater, requireView(), requireContext())
 							// Intent to Loginpage
-							findNavController().navigate(R.id.loginFragment)
+							findNavController().navigate(R.id.otpFragment, bundle)
 						}
 
 						400 -> {
-							showSnackbar("Validasi Error", true)
+							snackbar.showSnackbarUtils("Validasi Error", true, layoutInflater, requireView(), requireContext())
 						}
 
 						500 -> {
-							showSnackbar("Aplikasi dalam perbaikan. Mohon Coba Lagi", true)
+							snackbar.showSnackbarUtils("Aplikasi dalam perbaikan. Mohon Coba Lagi", true, layoutInflater, requireView(), requireContext())
 						}
 					}
 
-					binding.constraintRegister.visibility = View.VISIBLE
+					binding.constraintRegister.visibility = View.GONE
 				})
 			}
 		}
 
 		binding.ivBack.setOnClickListener {
-			findNavController().popBackStack()
+			// Gunakan Navigate alih-alih popStackback untuk menghindari tampilnya BottomNavigation
+			findNavController().navigate(R.id.loginFragment)
 		}
 
 		binding.tvToLogin.setOnClickListener {
-			findNavController().popBackStack()
+			findNavController().navigate(R.id.loginFragment)
 		}
 	}
 
@@ -109,19 +119,6 @@ class RegisterFragment : Fragment() {
 		return finalText
 	}
 
-	private fun showSnackbar(message: String?, error: Boolean) {
-		val snackbar = Snackbar.make(requireView(), message.toString(), Snackbar.LENGTH_SHORT)
-
-		// Set Background Snackbar
-		if (error) {
-			snackbar.view.setBackgroundColor(Color.parseColor("#F31559"))
-		} else {
-			snackbar.view.setBackgroundColor(Color.parseColor("#8ADAB2"))
-		}
-
-		snackbar.show()
-	}
-
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
 		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
@@ -134,8 +131,8 @@ class RegisterFragment : Fragment() {
 		bottomNavigationView?.visibility = View.VISIBLE
 	}
 
-//	private fun showBottomSheet() {
-//		val bottomSheet = RegisterSuccessBottomSheet()
-//		bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-//	}
+	private fun showBottomSheet() {
+		val bottomSheet = RegisterSuccessBottomSheet()
+		bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+	}
 }

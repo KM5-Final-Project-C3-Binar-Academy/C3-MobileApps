@@ -1,6 +1,7 @@
 package com.c3.mobileapps.data.remote.service
 
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
+import com.c3.mobileapps.data.remote.model.request.user.EditUser
 import com.c3.mobileapps.data.remote.model.response.user.AuthResponse
 import com.c3.mobileapps.data.remote.model.response.user.User
 import retrofit2.Response
@@ -17,12 +18,11 @@ interface ApiServiceUser {
     ): AuthResponse
 
     @PUT("users/me")
-    suspend fun updateUer(
+    suspend fun updateUser(
         @Header("Authorization") token: String,
-        @Body updated: User
+        @Body updatedField: EditUser
     ): AuthResponse
 
     //ubah password belum
 
-    //logout
 }
