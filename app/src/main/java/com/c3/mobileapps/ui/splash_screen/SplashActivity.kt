@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbLoading.visibility = View.INVISIBLE
-                    startActivity(Intent(this, WelcomeActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
 

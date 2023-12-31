@@ -1,11 +1,14 @@
 package com.c3.mobileapps.ui.profile
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
@@ -14,6 +17,7 @@ import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.data.remote.model.request.user.EditUser
 import com.c3.mobileapps.data.remote.model.response.user.User
 import com.c3.mobileapps.databinding.FragmentEditProfileBinding
+import com.c3.mobileapps.ui.customAlertDialog.ProgressBarDialog
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -42,6 +46,9 @@ class EditProfileFragment : Fragment() {
         getCurrentUser()
 
         binding.btnSimpan.setOnClickListener {
+            // Hilangkan Fokus Keyboard
+            hideKeyboard()
+
             // Get Data from Form Edit Profile
             val name    = binding.inputUsername.text.toString()
             val email   = binding.inputEmail.text.toString()
@@ -57,13 +64,14 @@ class EditProfileFragment : Fragment() {
 
             // Get Response from API
             editProfileViewModel.userResp.observe(viewLifecycleOwner){
-                val res = it.message.toString()
+                val res = it.data?.message.toString()
 
                 // Display to Snackbar or Log
                 when (it.status) {
                     Status.SUCCESS -> {
-                        snackbar.showSnackbarUtils(it.message,false, layoutInflater, requireView(), requireContext())
+                        snackbar.showSnackbarUtils("Data Berhasil diperbarui",false, layoutInflater, requireView(), requireContext())
                         Log.i("Edit Profile Issues", res)
+                        findNavController().popBackStack()
                     }
 
                     Status.ERROR -> {
@@ -84,6 +92,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun getCurrentUser(){
+
         editProfileViewModel.getCurrentUser()
         editProfileViewModel.userResp.observe(viewLifecycleOwner){
             when (it.status) {
@@ -107,9 +116,17 @@ class EditProfileFragment : Fragment() {
                 }
 
                 Status.LOADING -> {
-
                 }
             }
         }
+    }
+
+    private fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

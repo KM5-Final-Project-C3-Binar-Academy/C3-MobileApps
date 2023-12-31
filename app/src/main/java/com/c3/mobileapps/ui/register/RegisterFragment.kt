@@ -1,5 +1,6 @@
 package com.c3.mobileapps.ui.register
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,6 +17,7 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.databinding.FragmentRegister1Binding
 import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
+import com.c3.mobileapps.ui.login.LoginViewModel
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -40,6 +43,9 @@ class RegisterFragment : Fragment() {
 		onAttach(requireContext())
 
 		binding.btnDaftar.setOnClickListener{
+			// Hilangkan fokus keyboard
+			hideKeyboard()
+
 			// Aktifkan ProgressBar
 			binding.constraintRegister.visibility = View.VISIBLE
 
@@ -117,6 +123,15 @@ class RegisterFragment : Fragment() {
 		val finalText = "+62$modifiedText"
 
 		return finalText
+	}
+
+	private fun Fragment.hideKeyboard() {
+		view?.let { activity?.hideKeyboard(it) }
+	}
+
+	private fun Context.hideKeyboard(view: View) {
+		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 	}
 
 	override fun onAttach(context: Context) {

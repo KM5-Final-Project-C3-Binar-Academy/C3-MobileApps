@@ -1,5 +1,6 @@
 package com.c3.mobileapps.ui.editPassword
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
@@ -45,6 +47,9 @@ class EditPasswordFragment : Fragment() {
 
 			// Verification That New Password is Correctly
 			if (newPassword == cekPassword) {
+				// Hilangkan Fokus Keyboard
+				hideKeyboard()
+
 				// Starting Loading...
 				binding.constraintedtPass.visibility = View.VISIBLE
 
@@ -88,6 +93,15 @@ class EditPasswordFragment : Fragment() {
 		binding.ivBack.setOnClickListener {
 			findNavController().popBackStack()
 		}
+	}
+
+	private fun Fragment.hideKeyboard() {
+		view?.let { activity?.hideKeyboard(it) }
+	}
+
+	private fun Context.hideKeyboard(view: View) {
+		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 	}
 
 	override fun onAttach(context: Context) {

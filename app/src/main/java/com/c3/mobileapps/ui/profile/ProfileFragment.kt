@@ -106,7 +106,7 @@ class ProfileFragment : Fragment() {
         builder.setTitle("Konfirmasi")
             .setMessage("Apakah kamu yakin untuk keluar akun?")
             .setPositiveButton("YA") { dialog, which ->
-                sharedPreferences.setIsLogin(false)
+                sharedPreferences.clearPreferences()
                 findNavController().navigate(R.id.loginFragment)
                 snackbar.showSnackbarUtils("Berhasil Logout!", false, layoutInflater, requireView(), requireContext())
             }
