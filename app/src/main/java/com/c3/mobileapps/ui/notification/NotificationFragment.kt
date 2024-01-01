@@ -49,7 +49,6 @@ class NotificationFragment : Fragment() {
 
         setRecyclerView()
         getNotification()
-        readAllNotif()
     }
 
     private fun readAllNotif() {
@@ -102,6 +101,7 @@ class NotificationFragment : Fragment() {
                             notifAdapter.setData(resp.data)
                             swipeToDelete(resp.data)
                             showRecyclerView()
+                            readAllNotif()
                         } else {
                             binding.rvNotif.visibility = View.GONE
                             binding.emptyData.visibility = View.VISIBLE

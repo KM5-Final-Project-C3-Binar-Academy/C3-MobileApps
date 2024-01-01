@@ -17,7 +17,7 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
         MutableLiveData(mutableMapOf())
     val dataFilter: LiveData<MutableMap<String, MutableList<String>>> = _dataFilter
     fun setIsFiltered( data: MutableMap<String, MutableList<String>>) {
-        _dataFilter.value = data
+        _dataFilter.postValue(data)
     }
 
     fun addDataMapping(key: String, value: String?) {
@@ -33,7 +33,7 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
             currentData[key] = mutableListOf(value.toString())
         }
 
-        _dataFilter.value = currentData
+        _dataFilter.postValue(currentData)
     }
 
 

@@ -28,7 +28,7 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
     private suspend fun getAllNotif() {
         try {
 
-            val responses = notificationRepository.readAllNotif(token)
+            val responses = notificationRepository.getNotification(token)
             _notifResp.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {

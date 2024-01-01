@@ -98,6 +98,8 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
                     val onBoardingBottomSheet = OnBoardingBottomSheet(data,currentFragment)
                     onBoardingBottomSheet.show(childFragmentManager, onBoardingBottomSheet.tag)
 
+                    //tambah notif
+
 
                 }
 

@@ -33,11 +33,24 @@ class CourseFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
+        getData()
+        setupRvCourse()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        binding.etSearch.setText("")
+        binding.cpAll.isChecked = true
+        binding.cpKelasPremium.isChecked = false
+        binding.cpKelasGratis.isChecked = false
+        courseViewModel.dataFilter.value?.clear()
+        getData()
+        setupRvCourse()
+
+        super.onResume()
+    }
+
+    private fun getData(){
         val dataCategory = arguments?.getString("CATEGORY")
         if (!dataCategory.isNullOrEmpty()){
             courseViewModel.addDataMapping("kategori",dataCategory)
@@ -84,19 +97,6 @@ class CourseFragment : Fragment() {
                 )
             }
         }
-
-        setupRvCourse()
-    }
-
-
-    override fun onResume() {
-        binding.etSearch.setText("")
-        binding.cpAll.isChecked = true
-        binding.cpKelasPremium.isChecked = false
-        binding.cpKelasGratis.isChecked = false
-        courseViewModel.dataFilter.value?.clear()
-
-        super.onResume()
     }
 
     private fun hideKeyboardAndClearFocus() {
