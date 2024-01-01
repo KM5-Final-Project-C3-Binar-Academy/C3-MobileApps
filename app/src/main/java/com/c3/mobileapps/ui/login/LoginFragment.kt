@@ -4,12 +4,16 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -160,17 +164,5 @@ class LoginFragment : Fragment() {
 	private fun Context.hideKeyboard(view: View) {
 		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-	}
-
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
 	}
 }

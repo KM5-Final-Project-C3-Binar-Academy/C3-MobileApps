@@ -31,16 +31,13 @@ class RegisterFragment : Fragment() {
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-	): View? {
-		onAttach(requireContext())
+	): View {
 		binding = FragmentRegister1Binding.inflate(inflater, container, false)
 		return  binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
-		onAttach(requireContext())
 
 		binding.btnDaftar.setOnClickListener{
 			// Hilangkan fokus keyboard
@@ -52,7 +49,7 @@ class RegisterFragment : Fragment() {
 			val name    = binding.etNama.text.toString()
 			val email   = binding.etEmail.text.toString()
 			val noTelp  = binding.etNoTelp.text.toString()
-			val pass    = binding.etPassword.text.toString()
+			val pass    = binding.etConfirmPassword.text.toString()
 
 			// Adding Some check data (Additional)
 
@@ -132,22 +129,5 @@ class RegisterFragment : Fragment() {
 	private fun Context.hideKeyboard(view: View) {
 		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-	}
-
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
-	}
-
-	private fun showBottomSheet() {
-		val bottomSheet = RegisterSuccessBottomSheet()
-		bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 	}
 }

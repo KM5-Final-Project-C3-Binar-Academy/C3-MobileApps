@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -73,6 +74,7 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
 
                 }
             }else{
+                dismiss()
                 val nonLoginBottomSheet = NonLoginBottomSheet(currentFragment)
                 nonLoginBottomSheet.isCancelable = true
                 nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
@@ -92,7 +94,8 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
             when (it.status) {
                 Status.SUCCESS -> {
                     //onboarding bottom sheet
-                    val onBoardingBottomSheet = OnBoardingBottomSheet(data)
+                    dismiss()
+                    val onBoardingBottomSheet = OnBoardingBottomSheet(data,currentFragment)
                     onBoardingBottomSheet.show(childFragmentManager, onBoardingBottomSheet.tag)
 
 
@@ -101,6 +104,7 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
                 Status.LOADING -> {}
 
                 Status.ERROR -> {
+                    dismiss()
                     Snackbar.make(binding.root, "Anda Sudah Bergabung Dengan Kelas", Snackbar.LENGTH_SHORT)
                         .setBackgroundTint(
                             ContextCompat.getColor(
@@ -123,13 +127,20 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
         paymentViewModel.paymentResp.observe(viewLifecycleOwner){
             when (it.status) {
                 Status.SUCCESS -> {
-                    val bundle = bundleOf("COURSE" to data,"PAYMENT" to it.data?.data)
-                    findNavController().navigate(R.id.paymentFragment, bundle)
+                    dismiss()
+                    val bundle = bundleOf("COURSE" to data,"PAYMENT" to it.data?.data, "CURRID" to currentFragment)
+
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(currentFragment, true)
+                        .build()
+
+                    findNavController().navigate(R.id.paymentFragment, bundle, navOptions)
                 }
 
                 Status.LOADING -> {}
 
                 Status.ERROR -> {
+                    dismiss()
                     Snackbar.make(binding.root, "Anda Sudah Bergabung Dengan Kelas", Snackbar.LENGTH_SHORT)
                         .setBackgroundTint(
                             ContextCompat.getColor(

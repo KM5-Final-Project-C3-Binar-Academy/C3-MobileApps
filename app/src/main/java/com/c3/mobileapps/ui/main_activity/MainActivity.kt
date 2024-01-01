@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity(){
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.loginFragment -> setBottomNav(true)
+                R.id.registerFragment -> setBottomNav(true)
                 R.id.searchFragment -> setBottomNav(true)
                 R.id.detailCourseFragment -> setBottomNav(true)
                 R.id.viewAllFragment -> setBottomNav(true)

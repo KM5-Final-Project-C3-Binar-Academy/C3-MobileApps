@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -29,6 +28,7 @@ class PaymentFragment : Fragment() {
     private lateinit var binding: FragmentPaymentBinding
     private val paymentViewModel: PaymentViewModel by inject()
     private var paymentMethod = "CREDIT_CARD"
+    private var currId: Int? = R.id.paymentFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +44,7 @@ class PaymentFragment : Fragment() {
 
         val course = arguments?.getParcelable<Course>("COURSE")
         val payment = arguments?.getParcelable<Payment>("PAYMENT")
+        currId = arguments?.getInt("CURRID")
 
         setView(course)
 
@@ -137,7 +138,7 @@ class PaymentFragment : Fragment() {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
                         //show success payment
-                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!)
+                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!, currId ?: R.id.paymentFragment)
                         paymentSuccessBottomSheet.isCancelable = false
                         paymentSuccessBottomSheet.show(childFragmentManager, paymentSuccessBottomSheet.tag)
 

@@ -64,10 +64,10 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
                 difficulty = difficulty,
                 search = search
             )
-            _listCourse.value = Resource.success(responses)
+            _listCourse.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _listCourse.value = Resource.error(null, exception.message ?: "Error Occurred!")
+            _listCourse.postValue(Resource.error(null, exception.message ?: "Error Occurred!"))
         }
     }
 
