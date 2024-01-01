@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.c3.mobileapps.data.local.SharedPref
+import com.c3.mobileapps.data.remote.model.response.notification.NotificationIdResponse
 import com.c3.mobileapps.data.remote.model.response.notification.NotificationResponse
 import com.c3.mobileapps.data.repository.NotificationRepository
 import com.c3.mobileapps.utils.Resource
@@ -27,11 +28,11 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
     private suspend fun getAllNotif() {
         try {
 
-            val responses = notificationRepository.getNotification(token)
-            _notifResp.value = Resource.success(responses)
+            val responses = notificationRepository.readAllNotif(token)
+            _notifResp.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _notifResp.postValue(Resource.error( null,  exception.message ?: "Error Occurred!"))
         }
     }
 
@@ -43,12 +44,15 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
         try {
 
             val responses = notificationRepository.readAllNotif(token)
-            _notifResp.value = Resource.success(responses)
+            _notifResp.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _notifResp.postValue(Resource.error( null,  exception.message ?: "Error Occurred!"))
         }
     }
+
+    private val _notifByIdResp = MutableLiveData<Resource<NotificationIdResponse>>()
+    val notifIdResp: LiveData<Resource<NotificationIdResponse>> get() = _notifByIdResp
 
     fun readNotif(id:String) = viewModelScope.launch {
         updateNotif(id)
@@ -58,10 +62,10 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
         try {
 
             val responses = notificationRepository.updateNotif(token, idNotif)
-            _notifResp.value = Resource.success(responses)
+            _notifByIdResp.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _notifByIdResp.postValue(Resource.error( null,  exception.message ?: "Error Occurred!"))
         }
     }
 
@@ -73,10 +77,10 @@ class NotificationViewModel(private val notificationRepository: NotificationRepo
         try {
 
             val responses = notificationRepository.deleteNotif(token, idNotif)
-            _notifResp.value = Resource.success(responses)
+            _notifByIdResp.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _notifResp.value = Resource.error( null,  exception.message ?: "Error Occurred!")
+            _notifByIdResp.postValue(Resource.error( null,  exception.message ?: "Error Occurred!"))
         }
     }
 }
