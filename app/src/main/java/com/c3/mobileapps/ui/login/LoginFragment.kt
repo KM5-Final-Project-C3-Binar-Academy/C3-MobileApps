@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,9 @@ class LoginFragment : Fragment() {
 			val email  = binding.etEmail.text
 			val pass   = binding.etPassword.text
 
+			// Tambah pengecekan (dia email atau nomor telepon)
+			// Patterns.EMAIL_ADDRESS.matcher(text).matches()
+
 			try {
 				// Mengaktifkan ProgressBar
 				binding.constraintLogin.visibility = View.VISIBLE
@@ -76,21 +80,26 @@ class LoginFragment : Fragment() {
 							sharedPreferences.setToken("Bearer ${data?.token}")
 							// Intent to Homepage
 							findNavController().navigate(R.id.homeFragment)
+							binding.constraintLogin.visibility = View.INVISIBLE
 						}
 
 						400 -> {
 							snackbar.showSnackbarUtils("Email dan Password diperlukan!", true, layoutInflater, requireView(), requireContext())
+							binding.constraintLogin.visibility = View.INVISIBLE
 						}
 
 						401 -> {
 							snackbar.showSnackbarUtils("Email atau Password salah!",true, layoutInflater,requireView(),requireContext())
+							binding.constraintLogin.visibility = View.INVISIBLE
 						}
 						404 -> {
 							snackbar.showSnackbarUtils("Akun Tidak Ditemukan!", true, layoutInflater,requireView(),requireContext())
+							binding.constraintLogin.visibility = View.INVISIBLE
 						}
 
 						500 -> {
 							snackbar.showSnackbarUtils("Aplikasi dalam perbaikan. Mohon Coba Lagi!", true, layoutInflater, requireView(), requireContext())
+							binding.constraintLogin.visibility = View.INVISIBLE
 						}
 					}
 					binding.constraintLogin.visibility = View.INVISIBLE

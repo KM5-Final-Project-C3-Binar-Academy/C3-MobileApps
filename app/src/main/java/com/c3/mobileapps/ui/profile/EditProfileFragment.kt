@@ -2,34 +2,42 @@ package com.c3.mobileapps.ui.profile
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
-import com.c3.mobileapps.data.local.SharedPref
-import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.data.remote.model.request.user.EditUser
-import com.c3.mobileapps.data.remote.model.response.user.User
 import com.c3.mobileapps.databinding.FragmentEditProfileBinding
-import com.c3.mobileapps.ui.customAlertDialog.ProgressBarDialog
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
-import javax.inject.Inject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class EditProfileFragment : Fragment() {
     private lateinit var binding: FragmentEditProfileBinding
     private val editProfileViewModel: EditProfileViewModel by inject()
-    private val sharedPreferences: SharedPref by inject()
     private val snackbar = CustomSnackbar()
+    private val PICK_IMAGE_REQUEST = 1
+    private lateinit var image_value: File
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,11 +61,12 @@ class EditProfileFragment : Fragment() {
             val name    = binding.inputUsername.text.toString()
             val email   = binding.inputEmail.text.toString()
             val telp    = binding.inputTlp.text.toString()
+            // Image Values has declared in Top of Initiliazer
 
             // Verified Data
 
             // Wrap to Dataclass
-            val modelData = EditUser(name,email,telp)
+            val modelData = EditUser(name,email,telp,image_value)
 
             // Send Data to API
             editProfileViewModel.setUpdateUser(modelData)
@@ -71,7 +80,7 @@ class EditProfileFragment : Fragment() {
                     Status.SUCCESS -> {
                         snackbar.showSnackbarUtils("Data Berhasil diperbarui",false, layoutInflater, requireView(), requireContext())
                         Log.i("Edit Profile Issues", res)
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.profileFragment)
                     }
 
                     Status.ERROR -> {
@@ -89,10 +98,13 @@ class EditProfileFragment : Fragment() {
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.materialCardView.setOnClickListener {
+            pickImageFromGallery()
+        }
     }
 
     private fun getCurrentUser(){
-
         editProfileViewModel.getCurrentUser()
         editProfileViewModel.userResp.observe(viewLifecycleOwner){
             when (it.status) {
@@ -116,8 +128,86 @@ class EditProfileFragment : Fragment() {
                 }
 
                 Status.LOADING -> {
+
                 }
             }
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    private fun saveImageToInternalStorage(selectedImageUri: Uri): File? {
+        val imageStream = activity?.contentResolver?.openInputStream(selectedImageUri)
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "LEARNIFY_PROFILE_" + timeStamp + "_"
+        val storageDir = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        try {
+            val imageFile = File.createTempFile(
+                imageFileName, ".jpg", storageDir
+            )
+
+            val outStream: OutputStream = FileOutputStream(imageFile)
+            val buffer = ByteArray(4 * 1024) // or other buffer size
+            var bytesRead: Int
+            while (imageStream?.read(buffer).also { bytesRead = it!! } != -1) {
+                outStream.write(buffer, 0, bytesRead)
+            }
+            outStream.flush()
+            outStream.close()
+            imageStream?.close()
+
+            return imageFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    private fun saveImageFromUrlToInternalStorage(imageUrl: String): File? {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "LEARNIFY_PROFILE_" + timeStamp + "_"
+        val storageDir = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        try {
+            val imageFile = File.createTempFile(
+                imageFileName, ".jpg", storageDir
+            )
+
+            val url = URL(imageUrl)
+            val connection = url.openConnection()
+            connection.connect()
+
+            val inputStream = connection.getInputStream()
+            val outputStream: OutputStream = FileOutputStream(imageFile)
+            val buffer = ByteArray(4 * 1024)
+            var bytesRead: Int
+            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            outputStream.flush()
+            outputStream.close()
+            inputStream.close()
+
+            return imageFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri = data.data
+            binding.imgProfile.setImageURI(selectedImageUri)
+            image_value = selectedImageUri?.let { saveImageToInternalStorage(it) }!!
         }
     }
 

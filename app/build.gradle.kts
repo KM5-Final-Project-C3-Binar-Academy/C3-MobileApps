@@ -78,6 +78,8 @@ dependencies {
 	/* koin */
 	implementation ("io.insert-koin:koin-android:3.5.0")
 	implementation ("io.insert-koin:koin-android-compat:3.5.0")
+	testImplementation ("io.insert-koin:koin-test:3.5.0")
+	testImplementation("io.insert-koin:koin-test-junit4:3.5.0")
 
 	
 	/* Room */
@@ -103,4 +105,8 @@ dependencies {
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 
+	// Testing
+	testImplementation("org.mockito:mockito-core:3.12.4")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+	testImplementation("io.mockk:mockk:1.12.0")
 }
