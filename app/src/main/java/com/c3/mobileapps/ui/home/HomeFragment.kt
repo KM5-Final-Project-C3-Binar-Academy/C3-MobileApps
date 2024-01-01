@@ -62,7 +62,8 @@ class HomeFragment : Fragment() {
         binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
-                findNavController().navigate(R.id.searchFragment)
+                val bundle = bundleOf( "CURRID" to R.id.homeFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
             }
 
         }

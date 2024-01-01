@@ -143,6 +143,20 @@
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textSize="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Belum ada data..."
+            app:layout_constraintTop_toTopOf="@id/shimmerFrameLayout"
+            app:layout_constraintStart_toStartOf="@id/shimmerFrameLayout"
+            app:layout_constraintEnd_toEndOf="@id/shimmerFrameLayout"
+            app:layout_constraintBottom_toBottomOf="@id/shimmerFrameLayout"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_kelas"

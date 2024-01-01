@@ -104,7 +104,7 @@ class KelasViewModel(private val repository: DataRepository, private val sharedP
 
     }
 
-    private fun getLocalItem() {
+    fun getLocalItem() {
         val localData = categorydao.getAllItem()
         Log.e("cekdb", localData.toString())
         val category = arrayListOf<CategoryLocal>()
