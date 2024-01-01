@@ -179,11 +179,8 @@ class CourseFragment : Fragment() {
 
     private fun setupRvCourse() {
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.courseFragment, true)
-                .build()
-            findNavController().navigate(R.id.detailCourseFragment, bundle, navOptions)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.courseFragment)
+            findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
                 val bottomSheetPayment = BottomSheetPayment(course,R.id.courseFragment)

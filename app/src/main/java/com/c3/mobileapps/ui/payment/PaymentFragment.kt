@@ -28,7 +28,7 @@ class PaymentFragment : Fragment() {
     private lateinit var binding: FragmentPaymentBinding
     private val paymentViewModel: PaymentViewModel by inject()
     private var paymentMethod = "CREDIT_CARD"
-    private var currId: Int? = R.id.paymentFragment
+    private var currId: Int? = R.id.courseFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,7 +138,7 @@ class PaymentFragment : Fragment() {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
                         //show success payment
-                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!, currId ?: R.id.paymentFragment)
+                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!, currId ?: R.id.courseFragment)
                         paymentSuccessBottomSheet.isCancelable = false
                         paymentSuccessBottomSheet.show(childFragmentManager, paymentSuccessBottomSheet.tag)
 

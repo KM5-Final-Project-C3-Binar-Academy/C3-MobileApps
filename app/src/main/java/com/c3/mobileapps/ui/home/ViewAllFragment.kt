@@ -75,7 +75,7 @@ class ViewAllFragment : Fragment() {
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.viewAllFragment)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->

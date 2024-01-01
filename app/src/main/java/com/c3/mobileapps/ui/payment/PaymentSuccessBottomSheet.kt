@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.response.course.Course
@@ -34,7 +35,10 @@ class PaymentSuccessBottomSheet(private val course: Course, private val currentF
         }
 
         binding.btnKembaliKeberanda.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(currentFragment, true)
+                .build()
+            findNavController().navigate(R.id.homeFragment, null, navOptions)
         }
     }
 
