@@ -210,4 +210,5 @@ class RegisterFragment : Fragment() {
         val phoneRegex = "^[0-9]{10,12}$"
         return email.matches(emailRegex.toRegex()) || email.matches(phoneRegex.toRegex())
     }
+
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="soft_black">3D3B40</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#6148FF</color>
     <color name="secondary">#489CFF</color>
@@ -9,6 +10,7 @@
     <color name="red">#FF0000</color>
     <color name="background">#EBF3FC</color>
     <color name="soft_blue">#5FBDFF</color>
+    <color name="grey">#B6BBC4</color>
     <color name="shimmerColorBase">#F2F9F9F9</color>
     <color name="shimmerColor">#D1D1D1</color>
 </resources>
