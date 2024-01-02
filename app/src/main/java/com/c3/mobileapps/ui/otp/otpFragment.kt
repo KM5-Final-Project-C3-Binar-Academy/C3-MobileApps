@@ -72,7 +72,7 @@ class OtpFragment : Fragment() {
 								snackbar.showSnackbarUtils("Verifikasi Berhasil! Sedang Mengarahkanmu ke Beranda..", false, layoutInflater, requireView(), requireContext())
 
 								// Logging new User
-								loginViewModel.login(email,pass)
+								loginViewModel.login(email,null,pass)
 
 								// Handle Login Response
 								loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->

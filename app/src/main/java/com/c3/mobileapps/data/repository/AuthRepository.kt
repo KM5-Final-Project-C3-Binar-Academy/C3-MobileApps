@@ -8,8 +8,8 @@ import com.c3.mobileapps.data.remote.service.ApiServiceAuth
 import retrofit2.Response
 
 class AuthRepository (private val apiServiceAuth: ApiServiceAuth) {
-	suspend fun LoginRepo(username: String, password: String): Response <AuthResponse> {
-		val loginRequest = LoginRequest(username, password)
+	suspend fun LoginRepo(username: String?, phoneNumber:String?, password: String): Response <AuthResponse> {
+		val loginRequest = LoginRequest(username, phoneNumber, password)
 		return apiServiceAuth.sendLogin(loginRequest)
 	}
 
