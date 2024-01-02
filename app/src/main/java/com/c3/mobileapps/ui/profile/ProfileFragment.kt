@@ -3,12 +3,14 @@ package com.c3.mobileapps.ui.profile
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
@@ -82,6 +84,7 @@ class ProfileFragment : Fragment() {
                     val data = it.data?.data
 
                     binding.tvNama.text = data?.name
+
                     data?.image?.let { imageUrl ->
                         Glide.with(requireContext())
                             .load(imageUrl)
