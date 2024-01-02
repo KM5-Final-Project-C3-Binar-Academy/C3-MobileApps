@@ -96,9 +96,10 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
             when (it.status) {
                 Status.SUCCESS -> {
                     //onboarding bottom sheet
-                    dismiss()
                     val onBoardingBottomSheet = OnBoardingBottomSheet(data,currentFragment)
                     onBoardingBottomSheet.show(childFragmentManager, onBoardingBottomSheet.tag)
+                    dismiss()
+
 
                     //tambah notif
                     NotificationHelper.makeStatusNotification(data.name.toString(), requireContext())

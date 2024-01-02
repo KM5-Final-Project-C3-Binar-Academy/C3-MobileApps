@@ -131,16 +131,4 @@ class OtpFragment : Fragment() {
 		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 	}
 
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
-	}
-
 }

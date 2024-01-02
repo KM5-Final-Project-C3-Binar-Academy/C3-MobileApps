@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.historyPaymentFragment -> setBottomNav(true)
                 R.id.editProfileFragment -> setBottomNav(true)
                 R.id.editPasswordFragment -> setBottomNav(true)
+                R.id.otpFragment -> setBottomNav(true)
                 else -> setBottomNav(false)
             }
         }
