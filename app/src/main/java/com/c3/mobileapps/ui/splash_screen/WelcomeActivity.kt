@@ -21,16 +21,19 @@ class WelcomeActivity : AppCompatActivity() {
     private val welcomeSlideAdapter = WelcomeSlideAdapter(
         listOf(
             IntroSlide(
+                R.drawable.icon_learnify,
                 "LEARNIFY",
                 "dari Pengalaman Terbaik!",
                 R.drawable.welcome1
             ),
             IntroSlide(
+                R.drawable.icon_learnify,
                 "LEARNIFY",
                 "dari Praktisi Terbaik!",
                 R.drawable.welcome2
             ),
             IntroSlide(
+                R.drawable.icon_learnify,
                 "LEARNIFY",
                 "darimana saja!",
                 R.drawable.welcome3
@@ -40,14 +43,15 @@ class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.welcomePager.adapter = welcomeSlideAdapter
         setUpIndicator()
         setCurrentIndicator(0)
-        binding.welcomePager.unregisterOnPageChangeCallback(object:
-        ViewPager2.OnPageChangeCallback(){
+        binding.welcomePager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 setCurrentIndicator(position)
@@ -55,13 +59,14 @@ class WelcomeActivity : AppCompatActivity() {
         })
         val pager = binding.welcomePager
         binding.btnNext.setOnClickListener {
-            if(pager.currentItem+1 <  welcomeSlideAdapter.itemCount){
+            if (pager.currentItem + 1 < welcomeSlideAdapter.itemCount) {
                 pager.currentItem += 1
-            }else{
-                Intent(applicationContext, MainActivity::class.java).also {
-                    startActivity(it)
+            } else {
+
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.putExtra("onboarding", "onboarding")
+                    startActivity(intent)
                     finish()
-                }
             }
         }
 
@@ -74,12 +79,12 @@ class WelcomeActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpIndicator(){
+    private fun setUpIndicator() {
         val indicators = arrayOfNulls<ImageView>(welcomeSlideAdapter.itemCount)
         val layoutParams: LinearLayout.LayoutParams =
             LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-        layoutParams.setMargins(8,0,8,0)
-        for(i in indicators.indices){
+        layoutParams.setMargins(8, 0, 8, 0)
+        for (i in indicators.indices) {
             indicators[i] = ImageView(applicationContext)
             indicators[i].apply {
                 this?.setImageDrawable(
@@ -94,18 +99,18 @@ class WelcomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentIndicator(index: Int){
+    private fun setCurrentIndicator(index: Int) {
         val childCount = binding.indicator.childCount
-        for(i in 0 until childCount){
+        for (i in 0 until childCount) {
             val imageView = binding.indicator[i] as ImageView
-            if (i == index){
+            if (i == index) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
                         R.drawable.indicat_active
                     )
                 )
-            }else{
+            } else {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,

@@ -41,7 +41,14 @@ class MainActivity : AppCompatActivity(){
                 getNotif()
                 graph.setStartDestination(R.id.homeFragment)
             } else {
-                graph.setStartDestination(R.id.loginFragment)
+                val bundle = intent.getStringExtra("onboarding").toString()
+                val onboard = "onboarding"
+                if (bundle == onboard){
+                    graph.setStartDestination(R.id.registerFragment)
+                }else{
+                    graph.setStartDestination(R.id.loginFragment)
+                }
+
             }
             navController.setGraph(graph, startDestinationArgs = null)
         }
