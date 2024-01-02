@@ -2,25 +2,19 @@ package com.c3.mobileapps.ui.register
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.databinding.FragmentRegister1Binding
-import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
-import com.c3.mobileapps.ui.login.LoginViewModel
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
 @Suppress("SameParameterValue")
@@ -53,6 +47,7 @@ class RegisterFragment : Fragment() {
             val email = binding.etEmail.text.toString()
             val noTelp = binding.etNoTelp.text.toString()
             val pass = binding.etPassword.text.toString()
+            val confirmpass = binding.etConfirmPassword.text.toString()
 
             // Adding Some check data (Additional)
             if (email.isEmpty() == true) {
@@ -63,7 +58,7 @@ class RegisterFragment : Fragment() {
                     requireView(),
                     requireContext()
                 )
-                binding.constraintRegister.visibility = View.INVISIBLE
+                binding.constraintRegister.visibility = View.GONE
             } else if (email.let { !isRegistValidation(it) } == true) {
                 snackbar.showSnackbarUtils(
                     "Format Email atau Nomor Telepon Tidak Valid",
@@ -72,7 +67,17 @@ class RegisterFragment : Fragment() {
                     requireView(),
                     requireContext()
                 )
-                binding.constraintRegister.visibility = View.INVISIBLE
+                binding.constraintRegister.visibility = View.GONE
+
+            } else if (pass != confirmpass){
+                snackbar.showSnackbarUtils(
+                    "Confirm Password dan Password Tidak Sesuai",
+                    true,
+                    layoutInflater,
+                    requireView(),
+                    requireContext()
+                )
+                binding.constraintRegister.visibility = View.GONE
             } else
 
             // Pemeriksaan Panjang Nomor (9-13 Digit)

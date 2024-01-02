@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -179,6 +180,22 @@ class LoginFragment : Fragment() {
 
         binding.tvResetPass.setOnClickListener {
             alertDialog(requireView())
+        }
+
+        binding.etEmail.setOnEditorActionListener{ _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT){
+                binding.etEmail.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        binding.etPassword.setOnEditorActionListener{ _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT){
+                binding.etPassword.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
         }
 
 
