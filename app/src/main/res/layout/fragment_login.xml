@@ -45,7 +45,8 @@
             android:layout_height="match_parent"
             android:hint="@string/email"
             android:textColorHint="#8D6E63"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck"
+            android:imeOptions="actionNext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -66,7 +67,8 @@
             android:ems="10"
             android:inputType="textPassword"
             android:hint="@string/password"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck"
+            android:imeOptions="actionNext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

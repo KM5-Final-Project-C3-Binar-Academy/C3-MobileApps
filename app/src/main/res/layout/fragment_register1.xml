@@ -55,6 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/nama"
+            android:inputType="text"
+            android:ems="10"
             android:textColorHint="#8D6E63"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -74,6 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:ems="10"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 

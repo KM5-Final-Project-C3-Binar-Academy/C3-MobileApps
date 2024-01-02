@@ -3,12 +3,15 @@ package com.c3.mobileapps.ui.profile
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.c3.mobileapps.R
@@ -41,10 +44,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvProfil.setOnClickListener {
-            findNavController().navigate(R.id.editProfileFragment)
-        }
-
         binding.tvChangePassword.setOnClickListener {
             findNavController().navigate(R.id.editPasswordFragment)
         }
@@ -60,6 +59,11 @@ class ProfileFragment : Fragment() {
         checkIsLogin()
 
 
+    }
+
+    override fun onResume() {
+        checkIsLogin()
+        super.onResume()
     }
     private fun checkIsLogin() {
         profileViewModel.isLogin.observe(viewLifecycleOwner){isLogin ->
@@ -82,10 +86,16 @@ class ProfileFragment : Fragment() {
                     val data = it.data?.data
 
                     binding.tvNama.text = data?.name
+
                     data?.image?.let { imageUrl ->
                         Glide.with(requireContext())
                             .load(imageUrl)
                             .into(binding.imgProfile)
+                    }
+
+                    binding.tvProfil.setOnClickListener {
+                        val bundle = bundleOf("PROFILE" to data)
+                        findNavController().navigate(R.id.editProfileFragment, bundle)
                     }
                 }
 

@@ -70,6 +70,8 @@ dependencies {
 	/* koin */
 	implementation ("io.insert-koin:koin-android:3.5.0")
 	implementation ("io.insert-koin:koin-android-compat:3.5.0")
+	testImplementation ("io.insert-koin:koin-test:3.5.0")
+	testImplementation("io.insert-koin:koin-test-junit4:3.5.0")
 
 	
 	/* Room */
@@ -94,7 +96,6 @@ dependencies {
 	//youtubePlayer
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
-
 
 	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.1.5")
