@@ -10,11 +10,12 @@ import com.c3.mobileapps.data.remote.model.response.notification.Notification
 import com.c3.mobileapps.databinding.ItemNotificationBinding
 import com.c3.mobileapps.databinding.SlideItemPagerBinding
 
-class WelcomeSlideAdapter(private val introSlide: List<IntroSlide>): RecyclerView.Adapter<WelcomeSlideAdapter.WelcomeSlideViewHolder>(){
+class WelcomeSlideAdapter(private val introSlide: List<IntroSlide>)
+    : RecyclerView.Adapter<WelcomeSlideAdapter.WelcomeSlideViewHolder>(){
     inner class WelcomeSlideViewHolder(private val binding: SlideItemPagerBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bindContent(data: IntroSlide) {
-//            binding.icLogo.setImageResource(data.logo)
+            binding.icLogo.setImageResource(data.logo)
             binding.icWelcome.setImageResource(data.gambar)
             binding.learnify.text = data.nama
             binding.text.text = data.desc
