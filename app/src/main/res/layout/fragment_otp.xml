@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="MASUKKAN OTP"
+            android:text="VERIFIKASI KODE OTP"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -66,14 +66,48 @@
             android:text="Ketik 6 Digit kode yang dikirimkan ke email"
             android:textAlignment="center" />
 
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="learnify@learnify.co.id"
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/etOTP"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Masukkan Kode OTP"
             android:inputType="number"
             android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/ResendOTP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvResend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/grey"
+                android:text="Kirim Ulang Kode OTP " />
+            <TextView
+                android:id="@+id/tvCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@color/grey"
+                android:text="(60)" />
+        </LinearLayout>
 
     </LinearLayout>
 
