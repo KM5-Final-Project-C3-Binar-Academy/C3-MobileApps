@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:backgroundTint="@color/shimmerColorBase"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/IconNotif"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/shimmerColor"
+        android:contentDescription="@string/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/tvTitleNotif"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@color/shimmerColor"
+        app:layout_constraintBottom_toBottomOf="@+id/IconNotif"
+        app:layout_constraintStart_toEndOf="@+id/IconNotif"
+        app:layout_constraintTop_toTopOf="@+id/IconNotif" />
+
+    <TextView
+        android:id="@+id/DescNotif"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginTop="4dp"
+        android:background="@color/shimmerColor"
+        app:layout_constraintStart_toStartOf="@id/tvTitleNotif"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleNotif"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/HintSnK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@color/shimmerColor"
+        android:hint="@string/syarat_dan_ketentuan_berlaku"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/DescNotif"
+        app:layout_constraintTop_toBottomOf="@id/DescNotif"
+        tools:ignore="SmallSp,TextContrastCheck" />
+
+    <TextClock
+        android:id="@+id/TextClockNotif"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@color/shimmerColor"
+        android:format24Hour="EEEE MMMM, HH:mm"
+        android:text="@string/_2_maret_12_00"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitleNotif"
+        app:layout_constraintEnd_toStartOf="@+id/StatusBarGreen"
+        app:layout_constraintTop_toTopOf="@+id/tvTitleNotif"
+        tools:ignore="SmallSp,TextSizeCheck" />
+
+    <ImageView
+        android:id="@+id/StatusBarGreen"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/shimmerColor"
+        android:contentDescription="@string/notif"
+        app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/TextClockNotif"
+        tools:ignore="ImageContrastCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

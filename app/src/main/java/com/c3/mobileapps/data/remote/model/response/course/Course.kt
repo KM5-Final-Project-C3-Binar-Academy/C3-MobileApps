@@ -16,7 +16,9 @@ data class Course(
     var courseCategory: Category?,
     @SerializedName("course_category_id")
     var courseCategoryId: String?,
-    @SerializedName("createdAt")
+    @SerializedName("course_chapter")
+    var courseChapter: List<CourseChapter?>?,
+    @SerializedName("created_at")
     var createdAt: String?,
     @SerializedName("description")
     var description: String?,
@@ -42,10 +44,16 @@ data class Course(
     var targetAudience: List<String?>?,
     @SerializedName("telegram")
     var telegram: String?,
-    @SerializedName("updatedAt")
+    @SerializedName("total_duration")
+    var totalDuration: Int?,
+    @SerializedName("total_materials")
+    var totalMaterials: Int?,
+    @SerializedName("updated_at")
     var updatedAt: String?,
     @SerializedName("user")
     var user: User?,
     @SerializedName("user_id")
-    var userId: String?
+    var userId: String?,
+    @SerializedName("total_completed_materials")
+    var totalCompletedMaterial: Int?
 ): Parcelable

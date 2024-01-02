@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "500703575740",
+    "project_id": "learnify-22f7f",
+    "storage_bucket": "learnify-22f7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500703575740:android:1f95c16883bbc1cd1c9ab9",
+        "android_client_info": {
+          "package_name": "com.c3.mobileapps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBncJIS25dGYelZeRE2IZ7Xw2OT_JlQRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

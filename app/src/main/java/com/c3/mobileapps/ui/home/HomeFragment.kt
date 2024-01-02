@@ -1,33 +1,35 @@
 package com.c3.mobileapps.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
-import com.c3.mobileapps.adapters.CategoryCourseAdapter
-import com.c3.mobileapps.adapters.PopulerCourseAdapter
-import com.c3.mobileapps.data.remote.model.response.course.Category
-import com.c3.mobileapps.data.remote.model.response.course.Course
+import com.c3.mobileapps.adapters.CategoryAdapter
+import com.c3.mobileapps.adapters.CategoryFilterAdapter
+import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentHomeBinding
+import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by inject()
-    private lateinit var listCourse: List<Course>
-//    private lateinit var categoryCourseAdapter: CategoryCourseAdapter
+
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var categoryFilterAdapter: CategoryFilterAdapter
+    private lateinit var listCourseAdapter: ListCourseAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,154 +42,132 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        getCourse()
-        getCategory()
-//        loadDataCategory()
-//        setupRvCategory()
+        setupRecyclerView()
+        loadDataCategory()
+        populerByCategory("All")
 
         binding.lihatSemuaKategori.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_viewAllCategoryFragment)
+            val bundle = Bundle()
+            bundle.putBoolean("ModeView", true)
+            findNavController().navigate(R.id.viewAllFragment, bundle)
         }
 
         binding.expandKursusPopuler.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_viewAllCourseFragment)
+            val bundle = Bundle()
+            bundle.putBoolean("ModeView", false)
+
+            findNavController().navigate(R.id.viewAllFragment, bundle)
+        }
+
+        binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // Do something when the EditText is focused
+                val bundle = bundleOf( "CURRID" to R.id.homeFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
+            }
+
         }
 
     }
-    private fun getCourse(){
-        homeViewModel.getAllCourse().observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data", Gson().toJson(it.data))
-                    val response = it.data?.data
 
-                    listCourse = response.orEmpty()
-                    val adapter = PopulerCourseAdapter(listCourse)
-                    binding.rvPopulerCourse.adapter = adapter
-                    binding.rvPopulerCourse.layoutManager = LinearLayoutManager(
-                        requireActivity(),
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-                }
+    private fun setupRecyclerView() {
 
-                Status.ERROR -> {
+        categoryFilterAdapter = CategoryFilterAdapter {
+            populerByCategory(it)
+        }
+        categoryAdapter = CategoryAdapter(
+            isAll = false,
+            listener = { category ->
+                val bundle = bundleOf("CATEGORY" to category)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.homeFragment, true)
+                    .build()
+                findNavController().navigate(R.id.courseFragment, bundle, navOptions)
+            })
+        listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.homeFragment)
 
-                }
+            findNavController().navigate(R.id.detailCourseFragment, bundle)
+        },
+            onBadgelick = { course ->
+                val bottomSheetPayment = BottomSheetPayment(course, R.id.homeFragment)
+                bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
+            })
 
-                Status.LOADING -> {
+        binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
+        binding.rvCategoryCourse.adapter = categoryAdapter
 
+        binding.rvFilter.layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFilter.adapter = categoryFilterAdapter
+
+        binding.rvKelas.layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvKelas.adapter = listCourseAdapter
+
+    }
+
+   private fun loadDataCategory() {
+        lifecycleScope.launch {
+            homeViewModel.getLocalItem()
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
+                    Log.d("data category", "list category view from database")
+                        categoryAdapter.setData(database)
+                        categoryFilterAdapter.setData(database)
+                        showRvCategory()
+                }else{
+                    homeViewModel.getListCategory2()
                 }
             }
         }
     }
 
-//    private fun loadDataCategory() {
-//
-//        lifecycleScope.launch {
-//            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
-//                if (database.isNotEmpty()) {
-//                    Log.d("data category", "list category view from database")
-//                    categoryCourseAdapter.setData(database.first().categoryResponse.data)
-//                } else {
-//                    getCategory()
-//                }
-//            }
-//        }
-//    }
-
-    private fun getCategory(){
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) {
+    private fun populerByCategory(cat: String) {
+        homeViewModel.getListCourse(cat)
+        homeViewModel.listCourse.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
-//                    it.data?.let { categoryCourseAdapter.setData(it.data) }
 
-                    val response = it.data?.data
-                    val listCategory: List<Category> = response.orEmpty()
-                    val adapter = CategoryCourseAdapter(listCategory)
-                    binding.rvCategoryCourse.adapter = adapter
-                    binding.rvCategoryCourse.layoutManager = GridLayoutManager(requireActivity(), 2)
+                    it.data?.let {
+                        showRvCourse()
+                        listCourseAdapter.setData(it.data)
 
-
-                    binding.categoryChipGroup.addChip(requireContext(), "All")
-                    for (category in listCategory) {
-                        binding.categoryChipGroup.addChip(requireContext(), "${category.name}")
-                    }
-
-                    // Set up OnClickListener for each chip to prevent deselection on double-click
-                    for (i in 0 until binding.categoryChipGroup.childCount) {
-                        if (i == 0) {
-                            val allChip = binding.categoryChipGroup.getChildAt(0) as? Chip
-                            allChip?.isChecked = true
-                        }
-                        val chip = binding.categoryChipGroup.getChildAt(i) as? Chip
-                        chip?.setOnClickListener { handleChipClick(chip) }
                     }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-//                    loadDataCategory()
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-        }
-    }
-
-
-
-//    private fun setupRvCategory(){
-//        categoryCourseAdapter = CategoryCourseAdapter(emptyList())
-//        binding.rvCategoryCourse.setHasFixedSize(true)
-//        binding.rvCategoryCourse.layoutManager = GridLayoutManager(context, 2)
-//        binding.rvCategoryCourse.adapter = categoryCourseAdapter
-//    }
-
-
-    private fun handleChipClick(clickedChip: Chip?) {
-        for (i in 0 until binding.categoryChipGroup.childCount) {
-            val chip = binding.categoryChipGroup.getChildAt(i) as? Chip
-
-            if (chip == clickedChip) {
-                chip?.isChecked = true
-                Toast.makeText(requireContext(), "Selected: ${chip?.text}", Toast.LENGTH_SHORT).show()
-                // Perform actions related to the selected chip (if needed)
-                // ...
-                var filteredList: List<Course>
-                listCourse.forEach {
-                    val categoryName = it.courseCategory?.name ?: "All"
-                    if (categoryName == chip?.text){
-                        filteredList = listCourse.filter { item ->
-                            item.courseCategoryId == it.courseCategoryId
-                        }
-                        Log.e("Cek Item Perkagegori",filteredList.size.toString())
-
+                    binding.shimmerFrameLayout.apply {
+                        stopShimmer()
+                        visibility = View.GONE
                     }
                 }
 
-            } else {
-                chip?.isChecked = false
-            }
-        }
+                Status.LOADING -> {
+                    binding.shimmerFrameLayout.startShimmer()
 
+                }
+            }
+
+        }
     }
 
-    private fun ChipGroup.addChip(context: Context, label: String) {
-        Chip(context).apply {
-            id = View.generateViewId()
-            text = label
-            isClickable = true
-            isCheckable = true
-            isFocusable = true
-            addView(this)
+    private fun showRvCourse() {
+        binding.shimmerFrameLayout.apply {
+            stopShimmer()
+            visibility = View.INVISIBLE
         }
+        binding.rvKelas.visibility = View.VISIBLE
+    }
 
+    private fun showRvCategory() {
+        binding.shimmerCategory.apply {
+            stopShimmer()
+            visibility = View.INVISIBLE
+        }
+        binding.rvCategoryCourse.visibility = View.VISIBLE
     }
 
 }

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
+    android:layout_marginBottom="70dp"
     tools:context=".ui.kelas.KelasFragment"
     android:elevation="4dp">
 
@@ -21,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:hint="Cari kursus terbaik..."
+            android:hint="@string/cari_kursus_terbaik"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             app:boxBackgroundColor="@android:color/white"
@@ -37,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="80dp"
-                android:background="@null"/>
+                android:background="@null"
+                tools:ignore="RtlSymmetry,VisualLintTextFieldSize" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -53,12 +55,12 @@
             app:layout_constraintEnd_toEndOf="@id/searchLayout"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
-            />
+            android:contentDescription="@string/search"/>
 
 
 
         <TextView
-            android:id="@+id/labelKategori"
+            android:id="@+id/labelKelasBerjalan"
             style="@style/text_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,33 +76,95 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lihatSemua"
-            app:layout_constraintTop_toTopOf="@id/labelKategori"
-            app:layout_constraintBottom_toBottomOf="@id/labelKategori"
+            app:layout_constraintTop_toTopOf="@id/labelKelasBerjalan"
+            app:layout_constraintBottom_toBottomOf="@id/labelKelasBerjalan"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_filter"
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cpAll"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            app:layout_constraintTop_toBottomOf="@id/labelKategori"
+            android:checkable="true"
+            android:checked="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/all"
+            app:layout_constraintEnd_toStartOf="@id/cpInProgress"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelKelasBerjalan"
+            tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/cpInProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
+            android:text="@string/in_progress"
+            app:layout_constraintStart_toEndOf="@+id/cpAll"
+            app:layout_constraintTop_toTopOf="@+id/cpAll"
+            app:layout_constraintEnd_toStartOf="@id/cpSelesai"
+            android:focusable="true" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/cpSelesai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/selesai"
+            android:checkable="true"
+            android:clickable="true"
+            app:layout_constraintStart_toEndOf="@+id/cpInProgress"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_filter"
-            tools:itemCount="4"
-            android:orientation="horizontal"
-            />
+            app:layout_constraintTop_toTopOf="@+id/cpInProgress"
+            android:focusable="true" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cpAll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <include layout="@layout/shimmer_half" />
+                <include layout="@layout/shimmer_half" />
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:textSize="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Belum ada data..."
+            app:layout_constraintTop_toTopOf="@id/shimmerFrameLayout"
+            app:layout_constraintStart_toStartOf="@id/shimmerFrameLayout"
+            app:layout_constraintEnd_toEndOf="@id/shimmerFrameLayout"
+            app:layout_constraintBottom_toBottomOf="@id/shimmerFrameLayout"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_kelas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_filter"
+            app:layout_constraintTop_toBottomOf="@id/cpAll"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/item_course"
@@ -110,14 +174,14 @@
             />
 
         <TextView
-            android:id="@+id/labelKelasBerjalan"
+            android:id="@+id/labelKategori"
             style="@style/text_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kategori"
+            android:text="@string/kategori"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_kelas"
+            app:layout_constraintTop_toBottomOf="@id/shimmerFrameLayout"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -126,10 +190,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lihatSemua"
-            app:layout_constraintTop_toTopOf="@id/labelKelasBerjalan"
-            app:layout_constraintBottom_toBottomOf="@id/labelKelasBerjalan"
+            app:layout_constraintTop_toTopOf="@id/labelKategori"
+            app:layout_constraintBottom_toBottomOf="@id/labelKategori"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKategori">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/shimmer_category" />
+                <include layout="@layout/shimmer_category" />
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_category_course"
@@ -137,8 +223,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            app:layout_constraintTop_toBottomOf="@id/labelKelasBerjalan"
-            tools:listitem="@layout/category_course_item"
+            app:layout_constraintTop_toBottomOf="@id/labelKategori"
+            tools:listitem="@layout/item_category_course"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:itemCount="4"
