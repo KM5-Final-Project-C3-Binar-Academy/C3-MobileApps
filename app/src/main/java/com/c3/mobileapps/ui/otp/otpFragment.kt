@@ -99,7 +99,7 @@ class OtpFragment : Fragment() {
 								snackbar.showSnackbarUtils("Verifikasi Berhasil! Sedang Mengarahkanmu ke Beranda..", false, layoutInflater, requireView(), requireContext())
 
 								// Logging new User
-								loginViewModel.login(email,pass)
+								loginViewModel.login(email,null,pass)
 
 								// Handle Login Response
 								loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
@@ -201,23 +201,4 @@ class OtpFragment : Fragment() {
 		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 	}
-
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
-	}
-
-	override fun onDestroy() {
-		super.onDestroy()
-		// Cancel the timer to prevent memory leaks
-		timer.cancel()
-	}
-
 }

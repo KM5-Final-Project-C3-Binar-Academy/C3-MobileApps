@@ -14,6 +14,8 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.auth.RegisterRequest
 import com.c3.mobileapps.databinding.FragmentRegister1Binding
 import com.c3.mobileapps.utils.CustomSnackbar
+import com.c3.mobileapps.utils.ValidasiHelper
+import com.c3.mobileapps.utils.ValidasiHelper.checkCharacter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.ext.android.inject
 
@@ -40,113 +42,100 @@ class RegisterFragment : Fragment() {
             // Hilangkan fokus keyboard
             hideKeyboard()
 
-            // Aktifkan ProgressBar
-            binding.constraintRegister.visibility = View.VISIBLE
-
-            val name = binding.etNama.text.toString()
-            val email = binding.etEmail.text.toString()
-            val noTelp = binding.etNoTelp.text.toString()
-            val pass = binding.etPassword.text.toString()
-            val confirmpass = binding.etConfirmPassword.text.toString()
+            val name = binding.etNama.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val noTelp = binding.etNoTelp.text.toString().trim()
+            val pass = binding.etPassword.text.toString().trim()
+            val confirmpass = binding.etConfirmPassword.text.toString().trim()
 
             // Adding Some check data (Additional)
-            if (email.isEmpty() == true) {
-                snackbar.showSnackbarUtils(
-                    "Email atau Nomor Telepon Diperlukan",
-                    true,
-                    layoutInflater,
-                    requireView(),
-                    requireContext()
-                )
-                binding.constraintRegister.visibility = View.GONE
-            } else if (email.let { !isRegistValidation(it) } == true) {
-                snackbar.showSnackbarUtils(
-                    "Format Email atau Nomor Telepon Tidak Valid",
-                    true,
-                    layoutInflater,
-                    requireView(),
-                    requireContext()
-                )
-                binding.constraintRegister.visibility = View.GONE
+            if (name.isEmpty()) {
+                binding.layoutUsername.error = "Nama Diperlukan"
+                binding.etNama.requestFocus()
 
-            } else if (pass != confirmpass){
-                snackbar.showSnackbarUtils(
-                    "Confirm Password dan Password Tidak Sesuai",
-                    true,
-                    layoutInflater,
-                    requireView(),
-                    requireContext()
-                )
-                binding.constraintRegister.visibility = View.GONE
-            } else
+            } else if (email.isEmpty()) {
+                binding.layoutEmail.error = "Email Diperlukan"
+                binding.etEmail.requestFocus()
 
-            // Pemeriksaan Panjang Nomor (9-13 Digit)
-                if (noTelp.length < 10 || noTelp.length > 13) {
-                    snackbar.showSnackbarUtils(
-                        "Nomor Telepon Anda tidak sesuai!",
-                        true,
-                        layoutInflater,
-                        requireView(),
-                        requireContext()
-                    )
-                } else {
-                    val verifiedPhone = checkCharacter(noTelp)
+            } else if (!ValidasiHelper.isValidInput(email)) {
+                binding.layoutEmail.error = "Format Email Tidak Valid!"
+                binding.etEmail.requestFocus()
+            } else if (noTelp.isEmpty()) {
+                binding.layoutTlp.error = "Email Diperlukan"
+                binding.etNoTelp.requestFocus()
+
+            } else if (!ValidasiHelper.isValidInput(noTelp)) {
+                binding.layoutTlp.error = "Format Nomor Telepon Tidak Valid!"
+                binding.etNoTelp.requestFocus()
+            } else if (pass.isEmpty()) {
+                binding.layoutPassword.error = "Password Diperlukan!"
+                binding.etPassword.requestFocus()
+            } else if (pass.length < 8) {
+                binding.layoutPassword.error = "Password minimal 8 Karakter!"
+                binding.etPassword.requestFocus()
+            } else if (pass != confirmpass) {
+                binding.layoutPassword.error = "Confirm Password dan Password Tidak Sesuai"
+                binding.etPassword.requestFocus()
+            } else {
+                // Aktifkan ProgressBar
+                binding.constraintRegister.visibility = View.VISIBLE
+                val verifiedPhone = checkCharacter(noTelp)
 
 //			    Wrap to Dataclass
-                    val modelData = RegisterRequest(
-                        email = email,
-                        name = name,
-                        password = pass,
-                        phone_number = verifiedPhone
-                    )
+                val modelData = RegisterRequest(
+                    email = email,
+                    name = name,
+                    password = confirmpass,
+                    phone_number = verifiedPhone
+                )
 
-                    val bundle = Bundle().apply {
-                        putParcelable("RegisterModel", modelData)
-                    }
+                val bundle = Bundle().apply {
+                    putParcelable("RegisterModel", modelData)
+                }
 
 
-                    registerViewModel.sendData(modelData)
-                    registerViewModel.registerResponse.observe(viewLifecycleOwner, Observer { res ->
+                registerViewModel.sendData(modelData)
+                registerViewModel.registerResponse.observe(viewLifecycleOwner, Observer { res ->
 
-                        when (res.code()) {
-                            201 -> {
-                                snackbar.showSnackbarUtils(
-                                    "Pendaftaran Berhasil! Silahkan cek kode OTP di Email!",
-                                    false,
-                                    layoutInflater,
-                                    requireView(),
-                                    requireContext()
-                                )
-                                // Intent to Loginpage
-                                findNavController().navigate(R.id.otpFragment, bundle)
-                            }
-
-                            400 -> {
-                                snackbar.showSnackbarUtils(
-                                    "Validasi Error",
-                                    true,
-                                    layoutInflater,
-                                    requireView(),
-                                    requireContext()
-                                )
-                            }
-
-                            500 -> {
-                                snackbar.showSnackbarUtils(
-                                    "Aplikasi dalam perbaikan. Mohon Coba Lagi",
-                                    true,
-                                    layoutInflater,
-                                    requireView(),
-                                    requireContext()
-                                )
-                            }
+                    when (res.code()) {
+                        201 -> {
+                            snackbar.showSnackbarUtils(
+                                "Pendaftaran Berhasil! Silahkan cek kode OTP di Email!",
+                                false,
+                                layoutInflater,
+                                requireView(),
+                                requireContext()
+                            )
+                            // Intent to Loginpage
+                            findNavController().navigate(R.id.otpFragment, bundle)
                         }
 
-                        binding.constraintRegister.visibility = View.GONE
-                    })
+                        400 -> {
+                            snackbar.showSnackbarUtils(
+                                "Validasi Error",
+                                true,
+                                layoutInflater,
+                                requireView(),
+                                requireContext()
+                            )
+                        }
 
-                    //tempat menyimpan tutup kurung
-                }
+                        500 -> {
+                            snackbar.showSnackbarUtils(
+                                "Aplikasi dalam perbaikan. Mohon Coba Lagi",
+                                true,
+                                layoutInflater,
+                                requireView(),
+                                requireContext()
+                            )
+                        }
+                    }
+
+                    binding.constraintRegister.visibility = View.GONE
+                })
+
+                //tempat menyimpan tutup kurung
+            }
         }
 
         binding.ivBack.setOnClickListener {
@@ -160,21 +149,6 @@ class RegisterFragment : Fragment() {
     }
 
     // Additional Function
-    private fun checkCharacter(number: String): String {
-        val firstChar = number[0]
-        var modifiedText = number
-
-        // Mengecek apakah karakter pertama adalah "0"
-        if (firstChar == '0') {
-            // Menghapus karakter pertama
-            modifiedText = number.substring(1)
-        }
-
-        // Menambahkan "+62" di awal
-        val finalText = "+62$modifiedText"
-
-        return finalText
-    }
 
     private fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
@@ -185,30 +159,4 @@ class RegisterFragment : Fragment() {
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        val bottomNavigationView: BottomNavigationView? =
-            activity?.findViewById(R.id.bottom_navigation)
-        bottomNavigationView?.visibility = View.GONE
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        val bottomNavigationView: BottomNavigationView? =
-            activity?.findViewById(R.id.bottom_navigation)
-        bottomNavigationView?.visibility = View.VISIBLE
-    }
-
-    private fun showBottomSheet() {
-        val bottomSheet = RegisterSuccessBottomSheet()
-        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
-    }
-
-    private fun isRegistValidation(email: String): Boolean {
-        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
-        val phoneRegex = "^[0-9]{10,12}$"
-        return email.matches(emailRegex.toRegex()) || email.matches(phoneRegex.toRegex())
-    }
-
 }
