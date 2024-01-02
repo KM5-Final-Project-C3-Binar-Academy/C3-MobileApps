@@ -174,6 +174,8 @@ class EditProfileFragment : Fragment() {
             if (result != null) {
                 Glide.with(requireContext()).load(result)
                     .into(binding.imgProfile)
+
+                currentUri = result
             }
         }
 

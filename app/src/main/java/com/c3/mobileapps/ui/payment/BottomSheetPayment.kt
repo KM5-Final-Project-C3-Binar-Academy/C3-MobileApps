@@ -15,6 +15,7 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.FragmentBottomSheetPaymentBinding
 import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
+import com.c3.mobileapps.utils.NotificationHelper
 import com.c3.mobileapps.utils.Status
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -99,6 +100,7 @@ class BottomSheetPayment(private val dataCourse: Course,private val currentFragm
                     onBoardingBottomSheet.show(childFragmentManager, onBoardingBottomSheet.tag)
 
                     //tambah notif
+                    NotificationHelper.makeStatusNotification(data.name.toString(), requireContext())
 
 
                 }
