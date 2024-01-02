@@ -5,11 +5,7 @@ plugins {
 	id ("kotlin-parcelize")
 	id ("kotlin-kapt")
 	id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
-
-
 
 android {
 	namespace = "com.c3.mobileapps"
@@ -111,4 +107,6 @@ dependencies {
 	testImplementation ("io.mockk:mockk:1.12.4")
 	testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
+	//ViewPager
+	implementation ("androidx.viewpager2:viewpager2:1.0.0")
 }
