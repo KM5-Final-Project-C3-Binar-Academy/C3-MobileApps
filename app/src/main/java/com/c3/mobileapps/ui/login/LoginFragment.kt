@@ -4,15 +4,14 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
@@ -21,165 +20,249 @@ import com.c3.mobileapps.ui.customAlertDialog.ProgressBarDialog
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import java.lang.Exception
 
 class LoginFragment : Fragment() {
-	private lateinit var binding: FragmentLoginBinding
-	private val loginViewModel: LoginViewModel by inject()
-	private val sharedPreferences: SharedPref by inject()
-	private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
+    private lateinit var binding: FragmentLoginBinding
+    private val loginViewModel: LoginViewModel by inject()
+    private val sharedPreferences: SharedPref by inject()
+    private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
 
-	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-	): View? {
-		onAttach(requireContext())
-		binding = FragmentLoginBinding.inflate(inflater,container,false)
-		return binding.root
-	}
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+    ): View? {
+        onAttach(requireContext())
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		onAttach(requireContext())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onAttach(requireContext())
 
-		binding.constraintLogin.visibility = View.INVISIBLE
-		val isLogin = sharedPreferences.getIsLogin()
+        binding.constraintLogin.visibility = View.INVISIBLE
+        val isLogin = sharedPreferences.getIsLogin()
 
-		if (isLogin){
-			findNavController().navigate(R.id.homeFragment)
-		}
+        if (isLogin) {
+            findNavController().navigate(R.id.homeFragment)
+        }
 
-		// Some Logic Login Here
-		binding.btnLogin.setOnClickListener {
-			// Hilangkan Fokus keyboard setelah tekan tombol
-			hideKeyboard()
+        // Some Logic Login Here
+        binding.btnLogin.setOnClickListener {
+            // Hilangkan Fokus keyboard setelah tekan tombol
+            hideKeyboard()
 
-			// Ambil nilai dari Form
-			val email  = binding.etEmail.text
-			val pass   = binding.etPassword.text
+            // Ambil nilai dari Form
+            val email = binding.etEmail.text
+            val pass = binding.etPassword.text
 
-			// Tambah pengecekan (dia email atau nomor telepon)
-			// Patterns.EMAIL_ADDRESS.matcher(text).matches()
+            // Tambah pengecekan (dia email atau nomor telepon)
+            // Patterns.EMAIL_ADDRESS.matcher(text).matches()
 
-			try {
-				// Mengaktifkan ProgressBar
-				binding.constraintLogin.visibility = View.VISIBLE
-				loginViewModel.login(email.toString(),pass.toString())
+            try {
+                // Mengaktifkan ProgressBar
+                binding.constraintLogin.visibility = View.VISIBLE
+                loginViewModel.login(email.toString(), pass.toString())
 
-				loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
-					when (res.code()) {
-						200 -> {
-							snackbar.showSnackbarUtils("Login Berhasil!", false, layoutInflater, requireView(), requireContext())
+                // Cek email or phone number is empty
+                if (email?.isEmpty() == true) {
+                    snackbar.showSnackbarUtils(
+                        "Email atau Nomor Telepon Diperlukan",
+                        true,
+                        layoutInflater,
+                        requireView(),
+                        requireContext()
+                    )
+                    binding.constraintLogin.visibility = View.INVISIBLE
+                } else if (email?.let { !isEmailPhoneValid(it) } == true) {
+                    snackbar.showSnackbarUtils(
+                        "Format Email atau Nomor Telepon Tidak Valid!",
+                        true,
+                        layoutInflater,
+                        requireView(),
+                        requireContext()
+                    )
+                    binding.constraintLogin.visibility = View.INVISIBLE
+                } else if (pass?.length!! < 8) {
+                    snackbar.showSnackbarUtils(
+                        "Password minimal 8 Karakter!",
+                        true,
+                        layoutInflater,
+                        requireView(),
+                        requireContext()
+                    )
+                    binding.constraintLogin.visibility = View.INVISIBLE
+                } else {
 
-							val data = res.body()?.data
+                    loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
+                        when (res.code()) {
+                            200 -> {
+                                snackbar.showSnackbarUtils(
+                                    "Login Berhasil!",
+                                    false,
+                                    layoutInflater,
+                                    requireView(),
+                                    requireContext()
+                                )
 
-							sharedPreferences.setIsLogin(true)
-							sharedPreferences.setToken("Bearer ${data?.token}")
-							// Intent to Homepage
-							findNavController().navigate(R.id.homeFragment)
-							binding.constraintLogin.visibility = View.INVISIBLE
-						}
+                                val data = res.body()?.data
 
-						400 -> {
-							snackbar.showSnackbarUtils("Email dan Password diperlukan!", true, layoutInflater, requireView(), requireContext())
-							binding.constraintLogin.visibility = View.INVISIBLE
-						}
+                                sharedPreferences.setIsLogin(true)
+                                sharedPreferences.setToken("Bearer ${data?.token}")
+                                // Intent to Homepage
+                                findNavController().navigate(R.id.homeFragment)
+                                binding.constraintLogin.visibility = View.INVISIBLE
+                            }
 
-						401 -> {
-							snackbar.showSnackbarUtils("Email atau Password salah!",true, layoutInflater,requireView(),requireContext())
-							binding.constraintLogin.visibility = View.INVISIBLE
-						}
-						404 -> {
-							snackbar.showSnackbarUtils("Akun Tidak Ditemukan!", true, layoutInflater,requireView(),requireContext())
-							binding.constraintLogin.visibility = View.INVISIBLE
-						}
+                            400 -> {
+                                snackbar.showSnackbarUtils(
+                                    "Email dan Password diperlukan!",
+                                    true,
+                                    layoutInflater,
+                                    requireView(),
+                                    requireContext()
+                                )
+                                binding.constraintLogin.visibility = View.INVISIBLE
+                            }
 
-						500 -> {
-							snackbar.showSnackbarUtils("Aplikasi dalam perbaikan. Mohon Coba Lagi!", true, layoutInflater, requireView(), requireContext())
-							binding.constraintLogin.visibility = View.INVISIBLE
-						}
-					}
-					binding.constraintLogin.visibility = View.INVISIBLE
-				})
-			} catch (e: Exception) {
-				Log.e("Auth Issues", e.toString())
-			}
-		}
+                            401 -> {
+                                snackbar.showSnackbarUtils(
+                                    "Email atau Password salah!",
+                                    true,
+                                    layoutInflater,
+                                    requireView(),
+                                    requireContext()
+                                )
+                                binding.constraintLogin.visibility = View.INVISIBLE
+                            }
 
-			binding.tvToRegister.setOnClickListener{
-				findNavController().navigate(R.id.registerFragment)
-			}
+                            404 -> {
+                                snackbar.showSnackbarUtils(
+                                    "Akun Tidak Ditemukan!",
+                                    true,
+                                    layoutInflater,
+                                    requireView(),
+                                    requireContext()
+                                )
+                                binding.constraintLogin.visibility = View.INVISIBLE
+                            }
 
-			binding.tvBypass.setOnClickListener {
-				// Intent to Homepage
-				findNavController().navigate(R.id.homeFragment)
-			}
+                            500 -> {
+                                snackbar.showSnackbarUtils(
+                                    "Aplikasi dalam perbaikan. Mohon Coba Lagi!",
+                                    true,
+                                    layoutInflater,
+                                    requireView(),
+                                    requireContext()
+                                )
+                                binding.constraintLogin.visibility = View.INVISIBLE
+                            }
+                        }
+                        binding.constraintLogin.visibility = View.INVISIBLE
+                    })
+                }
+            } catch (e: Exception) {
+                Log.e("Auth Issues", e.toString())
+            }
+        }
 
-		binding.tvResetPass.setOnClickListener {
-			alertDialog(requireView())
-		}
-	}
 
-	// Additional Function
-	private fun alertDialog(view: View){
-		val builder      = AlertDialog.Builder(requireContext())
-		val inflater     = layoutInflater
-		val dialogLayout = inflater.inflate(R.layout.alert_reset_password_layout, null)
-		val editText     = dialogLayout.findViewById<TextInputEditText>(R.id.inputResetPass)
+        binding.tvToRegister.setOnClickListener {
+            findNavController().navigate(R.id.registerFragment)
+        }
 
-		builder.setView(dialogLayout)
-		builder.setPositiveButton("Kirim Email") {dialogInterface, i ->
-			sendResetPassword(requireView(), editText.text.toString())
-		}
-		builder.show()
-	}
+        binding.tvBypass.setOnClickListener {
+            // Intent to Homepage
+            findNavController().navigate(R.id.homeFragment)
+        }
 
-	private fun sendResetPassword(view: View, email: String) {
-		val progressBarDialog = ProgressBarDialog(requireContext())
+        binding.tvResetPass.setOnClickListener {
+            alertDialog(requireView())
+        }
 
-		// Kirim data ke viewModel
-		loginViewModel.resetPassword(email)
-		progressBarDialog.show()
 
-		// Handle responsenya
-		loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
+    }
 
-			when(res.code()) {
-				200 -> {
-					snackbar.showSnackbarUtils("Link Reset Password telah dikirim! Cek Email, ya?", false, layoutInflater,requireView(),requireContext())
-				}
+    // Additional Function
+    private fun alertDialog(view: View) {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.alert_reset_password_layout, null)
+        val editText = dialogLayout.findViewById<TextInputEditText>(R.id.inputResetPass)
 
-				404 -> {
-					snackbar.showSnackbarUtils("Akun tidak ditemukan. Coba Lagi!", true, layoutInflater, requireView(),requireContext())
-				}
-			}
+        builder.setView(dialogLayout)
+        builder.setPositiveButton("Kirim Email") { dialogInterface, i ->
+            sendResetPassword(requireView(), editText.text.toString())
+        }
+        builder.show()
+    }
 
-			// Finish ProgressBar
-			progressBarDialog.dismiss()
-		})
-	}
+    private fun sendResetPassword(view: View, email: String) {
+        val progressBarDialog = ProgressBarDialog(requireContext())
 
-	private fun Fragment.hideKeyboard() {
-		view?.let { activity?.hideKeyboard(it) }
-	}
+        // Kirim data ke viewModel
+        loginViewModel.resetPassword(email)
+        progressBarDialog.show()
 
-	private fun Context.hideKeyboard(view: View) {
-		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-	}
+        // Handle responsenya
+        loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
 
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
+            when (res.code()) {
+                200 -> {
+                    snackbar.showSnackbarUtils(
+                        "Link Reset Password telah dikirim! Cek Email, ya?",
+                        false,
+                        layoutInflater,
+                        requireView(),
+                        requireContext()
+                    )
+                }
 
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
-	}
+                404 -> {
+                    snackbar.showSnackbarUtils(
+                        "Akun tidak ditemukan. Coba Lagi!",
+                        true,
+                        layoutInflater,
+                        requireView(),
+                        requireContext()
+                    )
+                }
+            }
+
+            // Finish ProgressBar
+            progressBarDialog.dismiss()
+        })
+    }
+
+    private fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val bottomNavigationView: BottomNavigationView? =
+            activity?.findViewById(R.id.bottom_navigation)
+        bottomNavigationView?.visibility = View.GONE
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        val bottomNavigationView: BottomNavigationView? =
+            activity?.findViewById(R.id.bottom_navigation)
+        bottomNavigationView?.visibility = View.VISIBLE
+    }
+
+    private fun isEmailPhoneValid(email: Editable): Boolean {
+        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        val phoneRegex = "^[0-9]{10,12}$"
+        return email.matches(emailRegex.toRegex()) || email.matches(phoneRegex.toRegex())
+    }
+
 }
