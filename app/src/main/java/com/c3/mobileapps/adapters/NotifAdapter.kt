@@ -1,14 +1,20 @@
 package com.c3.mobileapps.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.remote.model.response.notification.Notification
 import com.c3.mobileapps.databinding.ItemNotificationBinding
 import com.c3.mobileapps.utils.DiffUtils
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 class NotifAdapter(private var data:List<Notification>,
                    private var listener: ((Notification) -> Unit)?
 )
@@ -46,6 +52,7 @@ class NotifAdapter(private var data:List<Notification>,
 
             binding.tvTitleNotif.text = data.name
             binding.DescNotif.text = data.description
+            binding.TextClockNotif.text = convertDateFormat(data.createdAt!!)
 
             if (data.viewed == true){
                 binding.StatusBarGreen.visibility = View.VISIBLE
@@ -55,6 +62,13 @@ class NotifAdapter(private var data:List<Notification>,
                 binding.StatusBarRed.visibility = View.VISIBLE
             }
 
+        }
+
+
+        private fun convertDateFormat(dateTime: String): String {
+            val formatter = DateTimeFormatter.ofPattern("dd MMM, HH:mm", Locale.getDefault())
+            val zonedDateTime = ZonedDateTime.parse(dateTime)
+            return formatter.format(zonedDateTime)
         }
 
     }

@@ -66,13 +66,13 @@ class DetailMateriFragment : Fragment() {
                         }
 
                         courseMaterialAdapter = CourseMaterialAdapter(materiList,
-                            listener = { data ->
+                            listener = { materi ->
                                 Log.e("check listener", data.toString())
-                                if (data == false) {
+                                if (materi == false) {
                                     clicked.invoke()
                                 } else {
-                                    Log.e("check data material", data.toString())
-                                    val bundle = bundleOf("courseMaterial" to data)
+                                    Log.e("check data material", materi.toString())
+                                    val bundle = bundleOf("courseMaterial" to materi)
                                     val intent = Intent(activity, WebView::class.java)
                                     intent.putExtra("courseMaterial", bundle)
                                     startActivity(intent)

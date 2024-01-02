@@ -54,8 +54,8 @@ class FilterAdapter(
 
             // Handle checkbox click
 
-            binding.cbItem.setOnCheckedChangeListener { _, isChecked ->
-                data.isChecked = isChecked
+            binding.cbItem.setOnCheckedChangeListener { _, checked ->
+                data.isChecked = checked
                 Log.d("Filter ClickedA", "Name: ${data.name}, isChecked: ${data.isChecked}")
                 filterItemClickListener?.invoke(data, data.type)
             }

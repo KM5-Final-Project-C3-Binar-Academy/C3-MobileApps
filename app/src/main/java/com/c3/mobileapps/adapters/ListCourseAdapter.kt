@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.databinding.ItemKelasFullBinding
 import com.c3.mobileapps.utils.DiffUtils
+import com.c3.mobileapps.utils.formatAsPrice
 
 
 class ListCourseAdapter(private var data :List<Course>,
@@ -72,8 +73,7 @@ class ListCourseAdapter(private var data :List<Course>,
                 .into(binding.imageView)
 
             if (data.premium == true){
-                val price = "Beli Rp.${data.price}"
-                binding.btnPremium.text = price
+                binding.btnPremium.text = data.price?.formatAsPrice()
                 binding.btnPremium.visibility = View.VISIBLE
                 binding.btnMulaiKelas.visibility = View.GONE
                 binding.btnPremium.setOnClickListener {
