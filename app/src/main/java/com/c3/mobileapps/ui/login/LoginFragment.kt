@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
                 binding.constraintLogin.visibility = View.VISIBLE
                 loginViewModel.login(email.toString(), pass.toString())
 
-                // Cek email or phone number is empty
+                // Cek email or phone number is empty or not
                 if (email?.isEmpty() == true) {
                     snackbar.showSnackbarUtils(
                         "Email atau Nomor Telepon Diperlukan",
@@ -264,5 +264,4 @@ class LoginFragment : Fragment() {
         val phoneRegex = "^[0-9]{10,12}$"
         return email.matches(emailRegex.toRegex()) || email.matches(phoneRegex.toRegex())
     }
-
 }
