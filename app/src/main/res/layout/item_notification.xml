@@ -19,7 +19,8 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_notif"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:id="@+id/tvTitleNotif"
@@ -75,7 +76,8 @@
             android:src="@drawable/ic_status_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/TextClockNotif"
-            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"/>
+            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"
+            android:contentDescription="@string/notif" />
 
         <ImageView
             android:id="@+id/StatusBarRed"
@@ -85,7 +87,8 @@
             android:src="@drawable/ic_status_red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/TextClockNotif"
-            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"/>
+            app:layout_constraintBottom_toBottomOf="@id/TextClockNotif"
+            android:contentDescription="@string/notif" />
 
 
 

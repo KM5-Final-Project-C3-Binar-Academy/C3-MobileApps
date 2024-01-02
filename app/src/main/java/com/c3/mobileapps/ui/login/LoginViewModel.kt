@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.c3.mobileapps.data.remote.model.request.auth.resetPassRequest
 import com.c3.mobileapps.data.remote.model.response.user.AuthResponse
 import com.c3.mobileapps.data.repository.AuthRepository
 import kotlinx.coroutines.launch
@@ -16,6 +17,13 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
 	fun login(username: String, password: String) {
 		viewModelScope.launch {
 			_loginResponse.value = authRepository.LoginRepo(username, password)
+		}
+	}
+
+	fun resetPassword(email: String){
+		viewModelScope.launch {
+			val modelData = resetPassRequest(email)
+			_loginResponse.value = authRepository.ResetRepo(modelData)
 		}
 	}
 }

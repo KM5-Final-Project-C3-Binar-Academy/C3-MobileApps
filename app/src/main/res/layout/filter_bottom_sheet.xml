@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -26,30 +27,37 @@
                     android:id="@+id/rv_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <ImageView
                     android:id="@+id/btnTerapkanFilter"
-                    android:layout_width="275dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="@color/blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/button"
                     android:text="@string/terapkan_filter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_filter" />
+                    app:layout_constraintTop_toBottomOf="@+id/rv_filter"
+                    app:srcCompat="@drawable/button_filter"
+                    tools:ignore="RedundantDescriptionCheck" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnHapusFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/red"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_bold"
                     android:text="@string/hapus_filter"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="#FF0000"
+                    app:layout_constraintEnd_toEndOf="@+id/btnTerapkanFilter"
+                    app:layout_constraintStart_toStartOf="@+id/btnTerapkanFilter"
                     app:layout_constraintTop_toBottomOf="@+id/btnTerapkanFilter" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

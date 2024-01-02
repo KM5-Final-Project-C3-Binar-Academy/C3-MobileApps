@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardMenuItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -46,10 +47,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
+            android:contentDescription="@string/star"
             android:src="@drawable/icon_star"
             app:layout_constraintBottom_toBottomOf="@id/rating"
             app:layout_constraintEnd_toStartOf="@id/rating"
-            app:layout_constraintTop_toTopOf="@id/rating" />
+            app:layout_constraintTop_toTopOf="@id/rating"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/rating"
@@ -58,7 +61,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="4.7"
+            android:text="@string/_4_7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView" />
 
@@ -81,74 +84,84 @@
             android:id="@+id/creator_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="by John Doe"
+            android:text="@string/by_john_doe"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@id/deskripsi_judul_kelas"
-            app:layout_constraintTop_toBottomOf="@id/deskripsi_judul_kelas" />
+            app:layout_constraintTop_toBottomOf="@id/deskripsi_judul_kelas"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/level_name_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:text="Advanced Level"
+            android:text="@string/advanced_level"
             android:textColor="@color/primary"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/level_icon_kelas"
             app:layout_constraintStart_toEndOf="@id/level_icon_kelas"
-            app:layout_constraintTop_toTopOf="@id/level_icon_kelas" />
+            app:layout_constraintTop_toTopOf="@id/level_icon_kelas"
+            tools:ignore="SmallSp" />
 
         <ImageView
             android:id="@+id/level_icon_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/logo"
             app:layout_constraintStart_toStartOf="@id/creator_kelas"
             app:layout_constraintTop_toBottomOf="@id/creator_kelas"
-            app:srcCompat="@drawable/advance_icon" />
+            app:srcCompat="@drawable/advance_icon"
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/icon_modul_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:contentDescription="@string/logo"
             app:layout_constraintBottom_toBottomOf="@id/level_name_kelas"
             app:layout_constraintStart_toEndOf="@id/level_name_kelas"
             app:layout_constraintTop_toTopOf="@id/level_name_kelas"
-            app:srcCompat="@drawable/modul_icon" />
+            app:srcCompat="@drawable/modul_icon"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/jumlah_modul_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Jumlah Modul"
+            android:text="@string/jumlah_modul"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/icon_modul_kelas"
             app:layout_constraintStart_toEndOf="@id/icon_modul_kelas"
-            app:layout_constraintTop_toTopOf="@id/icon_modul_kelas" />
+            app:layout_constraintTop_toTopOf="@id/icon_modul_kelas"
+            tools:ignore="SmallSp" />
 
         <ImageView
             android:id="@+id/icon_durasi_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:contentDescription="@string/logo"
             app:layout_constraintStart_toEndOf="@+id/jumlah_modul_kelas"
             app:layout_constraintTop_toTopOf="@+id/jumlah_modul_kelas"
-            app:srcCompat="@drawable/time_icon" />
+            app:srcCompat="@drawable/time_icon"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/durasi_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="60 Menit"
+            android:text="@string/_60_menit"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/icon_durasi_kelas"
             app:layout_constraintStart_toEndOf="@id/icon_durasi_kelas"
-            app:layout_constraintTop_toTopOf="@id/icon_durasi_kelas" />
+            app:layout_constraintTop_toTopOf="@id/icon_durasi_kelas"
+            tools:ignore="SmallSp" />
 
         <Button
             android:id="@+id/btnPremium"
@@ -159,14 +172,15 @@
             android:backgroundTint="@color/secondary"
             android:drawableLeft="@drawable/icon_diamond"
             android:paddingHorizontal="25dp"
-            android:text="Premium"
+            android:text="@string/premium"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
 
             app:layout_constraintTop_toBottomOf="@+id/level_name_kelas"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="RtlHardcoded,SmallSp,TouchTargetSizeCheck,VisualLintOverlap" />
 
         <Button
             android:id="@+id/btn_mulaiKelas"
@@ -176,13 +190,14 @@
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/primary"
             android:paddingHorizontal="25dp"
-            android:text="Mulai Kelas"
+            android:text="@string/mulai_kelas"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/level_icon_kelas"
             app:layout_constraintTop_toBottomOf="@+id/level_name_kelas"
-            app:layout_constraintVertical_bias="0.687" />
+            app:layout_constraintVertical_bias="0.687"
+            tools:ignore="SmallSp,TouchTargetSizeCheck" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

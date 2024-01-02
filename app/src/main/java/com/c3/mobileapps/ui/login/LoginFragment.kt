@@ -1,33 +1,40 @@
 package com.c3.mobileapps.ui.login
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.databinding.FragmentLoginBinding
-import com.c3.mobileapps.databinding.ItemCustomSnackbarBinding
-import com.c3.mobileapps.ui.home.HomeFragment
-import com.c3.mobileapps.ui.register.RegisterFragment
+import com.c3.mobileapps.ui.customAlertDialog.ProgressBarDialog
+import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import java.lang.Exception
-import java.security.MessageDigest
 
 class LoginFragment : Fragment() {
 	private lateinit var binding: FragmentLoginBinding
-	private lateinit var customSnackbarBinding: ItemCustomSnackbarBinding
 	private val loginViewModel: LoginViewModel by inject()
 	private val sharedPreferences: SharedPref by inject()
+	private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,6 +48,7 @@ class LoginFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		onAttach(requireContext())
 
+		binding.constraintLogin.visibility = View.INVISIBLE
 		val isLogin = sharedPreferences.getIsLogin()
 
 		if (isLogin){
@@ -49,20 +57,22 @@ class LoginFragment : Fragment() {
 
 		// Some Logic Login Here
 		binding.btnLogin.setOnClickListener {
-			// Mengaktifkan ProgressBar
-			binding.constraintLogin.visibility = View.VISIBLE
+			// Hilangkan Fokus keyboard setelah tekan tombol
+			hideKeyboard()
 
 			// Ambil nilai dari Form
 			val email  = binding.etEmail.text
 			val pass   = binding.etPassword.text
 
 			try {
+				// Mengaktifkan ProgressBar
+				binding.constraintLogin.visibility = View.VISIBLE
 				loginViewModel.login(email.toString(),pass.toString())
-				loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
 
+				loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer {res ->
 					when (res.code()) {
 						200 -> {
-							showSnackbar("Login Berhasil!", false)
+							snackbar.showSnackbarUtils("Login Berhasil!", false, layoutInflater, requireView(), requireContext())
 
 							val data = res.body()?.data
 
@@ -73,19 +83,21 @@ class LoginFragment : Fragment() {
 						}
 
 						400 -> {
-							showSnackbar("Email dan Password diperlukan!", true)
+							snackbar.showSnackbarUtils("Email dan Password diperlukan!", true, layoutInflater, requireView(), requireContext())
 						}
 
 						401 -> {
-							showSnackbar("Email atau Password salah!", true)
+							snackbar.showSnackbarUtils("Email atau Password salah!",true, layoutInflater,requireView(),requireContext())
+						}
+						404 -> {
+							snackbar.showSnackbarUtils("Akun Tidak Ditemukan!", true, layoutInflater,requireView(),requireContext())
 						}
 
 						500 -> {
-							showSnackbar("Aplikasi dalam perbaikan. Mohon Coba Lagi", true)
+							snackbar.showSnackbarUtils("Aplikasi dalam perbaikan. Mohon Coba Lagi!", true, layoutInflater, requireView(), requireContext())
 						}
 					}
-
-					binding.constraintLogin.visibility = View.GONE
+					binding.constraintLogin.visibility = View.INVISIBLE
 				})
 			} catch (e: Exception) {
 				Log.e("Auth Issues", e.toString())
@@ -100,43 +112,57 @@ class LoginFragment : Fragment() {
 				// Intent to Homepage
 				findNavController().navigate(R.id.homeFragment)
 			}
+
+		binding.tvResetPass.setOnClickListener {
+			alertDialog(requireView())
+		}
 	}
 
 	// Additional Function
-	private fun showSnackbar(message: String?, error: Boolean) {
-		val customSnackbarBinding = ItemCustomSnackbarBinding.inflate(layoutInflater)
-		val customSnackbarView = customSnackbarBinding.root
+	private fun alertDialog(view: View){
+		val builder      = AlertDialog.Builder(requireContext())
+		val inflater     = layoutInflater
+		val dialogLayout = inflater.inflate(R.layout.alert_reset_password_layout, null)
+		val editText     = dialogLayout.findViewById<TextInputEditText>(R.id.inputResetPass)
 
-		// Set teks pada Snackbar kustom
-		customSnackbarBinding.tvMessage.text = message.toString()
-
-		// Create a Snackbar with the root view of the fragment
-		val snackbar = Snackbar.make(requireView(), "", Snackbar.LENGTH_SHORT)
-		val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-
-		// Set warna latar belakang Snackbar
-		if (error) {
-			customSnackbarBinding.layoutSnackbar.background = ColorDrawable(Color.parseColor("#F31559"))
-		} else {
-			customSnackbarBinding.ivLogo.setImageDrawable(resources.getDrawable(R.drawable.check_circle_24, requireContext().theme))
-			customSnackbarBinding.layoutSnackbar.background = ColorDrawable(Color.parseColor("#8ADAB2"))
+		builder.setView(dialogLayout)
+		builder.setPositiveButton("Kirim Email") {dialogInterface, i ->
+			sendResetPassword(requireView(), editText.text.toString())
 		}
-		snackbarLayout.setPadding(0,0,0,0)
-
-		// Add the custom view to SnackbarLayout
-		snackbarLayout.addView(customSnackbarView, 0)
-		snackbar.show()
+		builder.show()
 	}
 
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
+	private fun sendResetPassword(view: View, email: String) {
+		val progressBarDialog = ProgressBarDialog(requireContext())
+
+		// Kirim data ke viewModel
+		loginViewModel.resetPassword(email)
+		progressBarDialog.show()
+
+		// Handle responsenya
+		loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
+
+			when(res.code()) {
+				200 -> {
+					snackbar.showSnackbarUtils("Link Reset Password telah dikirim! Cek Email, ya?", false, layoutInflater,requireView(),requireContext())
+				}
+
+				404 -> {
+					snackbar.showSnackbarUtils("Akun tidak ditemukan. Coba Lagi!", true, layoutInflater, requireView(),requireContext())
+				}
+			}
+
+			// Finish ProgressBar
+			progressBarDialog.dismiss()
+		})
 	}
 
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
+	private fun Fragment.hideKeyboard() {
+		view?.let { activity?.hideKeyboard(it) }
+	}
+
+	private fun Context.hideKeyboard(view: View) {
+		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 	}
 }

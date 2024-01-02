@@ -17,7 +17,6 @@ import com.c3.mobileapps.adapters.CategoryAdapter
 import com.c3.mobileapps.adapters.CategoryFilterAdapter
 import com.c3.mobileapps.adapters.ListCourseAdapter
 import com.c3.mobileapps.databinding.FragmentHomeBinding
-import com.c3.mobileapps.ui.nonlogin.NonLoginBottomSheet
 import com.c3.mobileapps.ui.payment.BottomSheetPayment
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
@@ -44,7 +43,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        getCategory()
+        loadDataCategory()
         populerByCategory("All")
 
         binding.lihatSemuaKategori.setOnClickListener {
@@ -63,7 +62,8 @@ class HomeFragment : Fragment() {
         binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
-                findNavController().navigate(R.id.searchFragment)
+                val bundle = bundleOf( "CURRID" to R.id.homeFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
             }
 
         }
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.courseFragment, bundle, navOptions)
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.homeFragment)
 
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
@@ -107,48 +107,20 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun loadDataCategory() {
+   private fun loadDataCategory() {
         lifecycleScope.launch {
-            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+            homeViewModel.getLocalItem()
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
                     Log.d("data category", "list category view from database")
-                    categoryAdapter.setData(database.first().categoryResponse.data)
-                    categoryFilterAdapter.setData(database.first().categoryResponse.data)
-                    showRvCategory()
-                } else {
-                    getCategory()
+                        categoryAdapter.setData(database)
+                        categoryFilterAdapter.setData(database)
+                        showRvCategory()
+                }else{
+                    homeViewModel.getListCategory2()
                 }
             }
-        }
-    }
-
-    private fun getCategory() {
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    showRvCategory()
-                    it.data?.let {
-                        categoryAdapter.setData(it.data)
-                        categoryFilterAdapter.setData(it.data)
-                    }
-                }
-
-                Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
-                }
-
-                Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
-                }
-            }
-
         }
     }
 

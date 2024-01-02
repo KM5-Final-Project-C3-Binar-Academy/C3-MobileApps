@@ -74,7 +74,7 @@ class ViewAllFragment : Fragment() {
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.viewAllFragment)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
@@ -105,50 +105,21 @@ class ViewAllFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
-            homeViewModel.readCategory.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+            homeViewModel.getLocalItem()
+            homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
                     Log.d("data category", "list category view from database")
-                    categoryAdapter.setData(database.first().categoryResponse.data)
-                    categoryFilterAdapter.setData(database.first().categoryResponse.data)
+                    categoryAdapter.setData(database)
+                    categoryFilterAdapter.setData(database)
                     showRvCategory()
-                } else {
-                    getCategory()
+                }else{
+                    homeViewModel.getListCategory2()
                 }
             }
         }
     }
 
-    private fun getCategory() {
-
-        homeViewModel.getListCategory()
-        homeViewModel.listCategory.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    it.data?.let {
-                        categoryAdapter.setData(it.data)
-                        categoryFilterAdapter.setData(it.data)
-                        showRvCategory()
-
-                    }
-                }
-
-                Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
-                }
-
-                Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
-                }
-            }
-
-        }
-    }
 
     private fun populerByCategory(cat: String){
         homeViewModel.getListCourse(cat)

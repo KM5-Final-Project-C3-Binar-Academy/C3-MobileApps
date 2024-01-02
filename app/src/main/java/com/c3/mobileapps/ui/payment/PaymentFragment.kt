@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -17,8 +16,10 @@ import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentPaymentBinding
+import com.c3.mobileapps.utils.NotificationHelper
 import com.c3.mobileapps.utils.Status
 import com.c3.mobileapps.utils.formatAsPrice
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -29,6 +30,7 @@ class PaymentFragment : Fragment() {
     private lateinit var binding: FragmentPaymentBinding
     private val paymentViewModel: PaymentViewModel by inject()
     private var paymentMethod = "CREDIT_CARD"
+    private var currId: Int? = R.id.courseFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +46,7 @@ class PaymentFragment : Fragment() {
 
         val course = arguments?.getParcelable<Course>("COURSE")
         val payment = arguments?.getParcelable<Payment>("PAYMENT")
+        currId = arguments?.getInt("CURRID")
 
         setView(course)
 
@@ -137,10 +140,17 @@ class PaymentFragment : Fragment() {
                     Status.SUCCESS -> {
                         binding.pbLoading.visibility = View.GONE
                         //show success payment
-                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!)
+                        val paymentSuccessBottomSheet = PaymentSuccessBottomSheet(course!!, currId ?: R.id.courseFragment)
                         paymentSuccessBottomSheet.isCancelable = false
                         paymentSuccessBottomSheet.show(childFragmentManager, paymentSuccessBottomSheet.tag)
 
+                        //tambah notif
+                        NotificationHelper.makeStatusNotification(course.name.toString(), requireContext())
+                        val bottomNavigationView: BottomNavigationView? =
+                            activity?.findViewById(R.id.bottom_navigation)
+                        val badge = bottomNavigationView?.getOrCreateBadge(R.id.notificationFragment)
+
+                        badge?.number = badge?.number?.plus(1)!!
                     }
 
                     Status.LOADING -> {

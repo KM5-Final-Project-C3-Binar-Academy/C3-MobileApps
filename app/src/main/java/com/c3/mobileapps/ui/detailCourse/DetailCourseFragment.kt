@@ -47,6 +47,7 @@ class DetailCourseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val dataDetail = arguments?.getParcelable<Course?>("pickItem")
+        val currId = arguments?.getInt("CURRID")
         dataDetail?.let {
             //get id to retrieve courseId API
             val idCourse = dataDetail.id
@@ -66,7 +67,7 @@ class DetailCourseFragment : Fragment() {
             DetailMateriFragment.newInstance(idcourse, clicked = {
                 detailCourseViewModel.isLogin.observe(viewLifecycleOwner) {
                     if (it) {
-                        val bottomSheetPayment = BottomSheetPayment(dataDetail!!,R.id.detailCourseFragment)
+                        val bottomSheetPayment = BottomSheetPayment(dataDetail!!, currentFragment = currId!!)
                         bottomSheetPayment.show(childFragmentManager, bottomSheetPayment.tag)
                     } else {
                         val nonLoginBottomSheet = NonLoginBottomSheet(R.id.detailCourseFragment)

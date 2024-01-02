@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.adapters.CourseMaterialAdapter
@@ -20,13 +19,14 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
 
-class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
+class DetailMateriFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailMateriBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
 
     private var materiList: MutableList<Any> = mutableListOf()
     private lateinit var courseMaterialAdapter: CourseMaterialAdapter
+    private lateinit var clicked: () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,10 +70,6 @@ class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
                                 Log.e("check listener", data.toString())
                                 if (data == false) {
                                     clicked.invoke()
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "Silahkan Checkout Terlebih dahulu!", Toast.LENGTH_SHORT
-                                    ).show()
                                 } else {
                                     Log.e("check data material", data.toString())
                                     val bundle = bundleOf("courseMaterial" to data)
@@ -117,7 +113,8 @@ class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
         fun newInstance(simpleArgs: String?, clicked: ()-> Unit): Fragment {
             val args = Bundle()
             args.putString("ARGS_ID", simpleArgs)
-            val fragment = DetailMateriFragment(clicked)
+            val fragment = DetailMateriFragment()
+            fragment.clicked = clicked
             fragment.arguments = args
             return fragment
         }

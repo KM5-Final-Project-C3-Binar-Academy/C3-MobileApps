@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c3.mobileapps.R
@@ -32,7 +33,24 @@ class CourseFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCourseBinding.inflate(inflater, container, false)
+        getData()
+        setupRvCourse()
+        return binding.root
+    }
 
+    override fun onResume() {
+        binding.etSearch.setText("")
+        binding.cpAll.isChecked = true
+        binding.cpKelasPremium.isChecked = false
+        binding.cpKelasGratis.isChecked = false
+        courseViewModel.dataFilter.value?.clear()
+        getData()
+        setupRvCourse()
+
+        super.onResume()
+    }
+
+    private fun getData(){
         val dataCategory = arguments?.getString("CATEGORY")
         if (!dataCategory.isNullOrEmpty()){
             courseViewModel.addDataMapping("kategori",dataCategory)
@@ -79,21 +97,6 @@ class CourseFragment : Fragment() {
                 )
             }
         }
-
-        setupRvCourse()
-
-        return binding.root
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-
-        binding.etSearch.setText("")
-        binding.cpAll.isChecked = true
-        binding.cpKelasPremium.isChecked = false
-        binding.cpKelasGratis.isChecked = false
-        courseViewModel.dataFilter.value?.clear()
     }
 
     private fun hideKeyboardAndClearFocus() {
@@ -115,6 +118,7 @@ class CourseFragment : Fragment() {
 
 
             binding.cpAll.setOnClickListener {
+                binding.cpAll.isChecked = true
                 binding.cpKelasPremium.isChecked = false
                 binding.cpKelasGratis.isChecked = false
                 courseViewModel.addDataMapping("type", null)
@@ -175,8 +179,8 @@ class CourseFragment : Fragment() {
 
     private fun setupRvCourse() {
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
-            findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.courseFragment)
+            findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
                 val bottomSheetPayment = BottomSheetPayment(course,R.id.courseFragment)

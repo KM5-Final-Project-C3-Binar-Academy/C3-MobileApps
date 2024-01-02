@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.c3.mobileapps.data.local.database.categoryDB.TbCategory
+import com.c3.mobileapps.data.local.database.categoryDB2.CategoryEntity
 import com.c3.mobileapps.data.remote.model.response.course.CourseResponse
 import com.c3.mobileapps.data.repository.DataRepository
 import com.c3.mobileapps.utils.Resource
@@ -17,7 +17,7 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
         MutableLiveData(mutableMapOf())
     val dataFilter: LiveData<MutableMap<String, MutableList<String>>> = _dataFilter
     fun setIsFiltered( data: MutableMap<String, MutableList<String>>) {
-        _dataFilter.value = data
+        _dataFilter.postValue(data)
     }
 
     fun addDataMapping(key: String, value: String?) {
@@ -33,7 +33,7 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
             currentData[key] = mutableListOf(value.toString())
         }
 
-        _dataFilter.value = currentData
+        _dataFilter.postValue(currentData)
     }
 
 
@@ -64,14 +64,14 @@ class CourseViewModel(private val repository: DataRepository) : ViewModel() {
                 difficulty = difficulty,
                 search = search
             )
-            _listCourse.value = Resource.success(responses)
+            _listCourse.postValue(Resource.success(responses))
 
         } catch (exception: Exception) {
-            _listCourse.value = Resource.error(null, exception.message ?: "Error Occurred!")
+            _listCourse.postValue(Resource.error(null, exception.message ?: "Error Occurred!"))
         }
     }
 
-    val readCategory: LiveData<List<TbCategory>> = repository.local.readCategory().asLiveData()
+    val readCategory: LiveData<List<CategoryEntity>> = repository.local.readCategory2().asLiveData()
 
 
 }
