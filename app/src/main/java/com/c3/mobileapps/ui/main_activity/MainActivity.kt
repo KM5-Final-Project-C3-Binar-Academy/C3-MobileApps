@@ -10,7 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.ActivityMainBinding
-import com.c3.mobileapps.utils.NotifHelper
+import com.c3.mobileapps.utils.NotificationHelper
 import com.c3.mobileapps.utils.Status
 import org.koin.android.ext.android.inject
 

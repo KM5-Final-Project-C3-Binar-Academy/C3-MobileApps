@@ -16,8 +16,10 @@ import com.c3.mobileapps.data.remote.model.request.payment.StatusRequest
 import com.c3.mobileapps.data.remote.model.response.course.Course
 import com.c3.mobileapps.data.remote.model.response.payment.Payment
 import com.c3.mobileapps.databinding.FragmentPaymentBinding
+import com.c3.mobileapps.utils.NotificationHelper
 import com.c3.mobileapps.utils.Status
 import com.c3.mobileapps.utils.formatAsPrice
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -143,7 +145,12 @@ class PaymentFragment : Fragment() {
                         paymentSuccessBottomSheet.show(childFragmentManager, paymentSuccessBottomSheet.tag)
 
                         //tambah notif
+                        NotificationHelper.makeStatusNotification(course.name.toString(), requireContext())
+                        val bottomNavigationView: BottomNavigationView? =
+                            activity?.findViewById(R.id.bottom_navigation)
+                        val badge = bottomNavigationView?.getOrCreateBadge(R.id.notificationFragment)
 
+                        badge?.number = badge?.number?.plus(1)!!
                     }
 
                     Status.LOADING -> {
