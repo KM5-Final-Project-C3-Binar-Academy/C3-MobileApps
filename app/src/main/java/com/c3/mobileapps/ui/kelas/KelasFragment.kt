@@ -46,16 +46,15 @@ class KelasFragment : Fragment() {
         binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
-                findNavController().navigate(R.id.searchFragment)
+                val bundle = bundleOf( "CURRID" to R.id.kelasFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
             }
 
         }
 
         kelasViewModel.isLogin.observe(viewLifecycleOwner) {
             if (it) {
-
                 setupRecyclerView()
-                getCategory2()
                 loadDataCategory()
                 kelasViewModel.typeFilter.observe(viewLifecycleOwner) {
                     Log.e("KELAS", it.toString())
@@ -103,78 +102,20 @@ class KelasFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
+            kelasViewModel.getLocalItem()
             kelasViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
                     Log.d("data category", "list category view from database")
                     categoryCourseAdapter.setData(database)
                     showRvCategory()
+                }else{
+                    kelasViewModel.getListCategory2()
                 }
             }
         }
     }
 
-
-    private fun getCategory2() {
-        kelasViewModel.getListCategory2()
-        kelasViewModel.listCategory2.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
-                }
-
-                Status.ERROR -> {
-                    Log.e("Data Category2", it.message.toString())
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-        }
-    }
-
- /*   private fun loadDataCategory() {
-        lifecycleScope.launch {
-            kelasViewModel.readCategory.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
-                    Log.d("data category", "list category view from database")
-                    categoryCourseAdapter.setData(database.first().categoryResponse.data)
-                    showRvCategory()
-                } else {
-
-                }
-            }
-        }
-    }*/
-  /*  private fun getCategory() {
-
-        kelasViewModel.getListCategory()
-        kelasViewModel.listCategory.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Log.e("Cek Data Category", Gson().toJson(it.data))
-                    it.data?.let {
-                        showRvCategory()
-                        categoryCourseAdapter.setData(it.data)
-                    }
-                }
-
-                Status.ERROR -> {
-                    Log.e("Cek Data Category", it.message.toString())
-                    binding.shimmerCategory.apply {
-                        stopShimmer()
-                        visibility = View.INVISIBLE
-                    }
-                    loadDataCategory()
-                }
-
-                Status.LOADING -> {
-                    binding.shimmerCategory.startShimmer()
-                }
-            }
-
-        }
-    }
-*/
     private fun getKelasUser(type: String?) {
         kelasViewModel.getListKelas(type)
         kelasViewModel.listKelas.observe(viewLifecycleOwner) { it ->
@@ -182,8 +123,16 @@ class KelasFragment : Fragment() {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
                     it.data?.let {
-                        showRvCourse()
-                        kelasAdapter.setData(it.data)
+                        if (it.data.isNotEmpty()){
+                            showRvCourse()
+                            kelasAdapter.setData(it.data)
+                            binding.noData.visibility= View.INVISIBLE
+                        }else{
+                            showRvCourse()
+                            kelasAdapter.setData(it.data)
+                            binding.noData.visibility= View.VISIBLE
+                        }
+
                     }
                 }
 
@@ -192,6 +141,7 @@ class KelasFragment : Fragment() {
                         stopShimmer()
                         visibility = View.INVISIBLE
                     }
+                    binding.noData.visibility= View.VISIBLE
                 }
 
                 Status.LOADING -> {

@@ -92,7 +92,7 @@ class HistoryPaymentFragment : Fragment() {
 
             Log.e("History",pickItem.status.toString())
             if (pickItem.status != "COMPLETED"){
-                val bundle = bundleOf("COURSE" to pickItem.course,"PAYMENT" to pickItem)
+                val bundle = bundleOf("COURSE" to pickItem.course,"PAYMENT" to pickItem, "CURRID" to R.id.profileFragment)
                 findNavController().navigate(R.id.paymentFragment, bundle)
             }
 

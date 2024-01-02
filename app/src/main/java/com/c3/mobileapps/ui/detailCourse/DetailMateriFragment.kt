@@ -19,13 +19,14 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
 
-class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
+class DetailMateriFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailMateriBinding
     private val detailCourseViewModel:DetailCourseViewModel by inject()
 
     private var materiList: MutableList<Any> = mutableListOf()
     private lateinit var courseMaterialAdapter: CourseMaterialAdapter
+    private lateinit var clicked: () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -112,7 +113,8 @@ class DetailMateriFragment(private var clicked: () -> Unit) : Fragment() {
         fun newInstance(simpleArgs: String?, clicked: ()-> Unit): Fragment {
             val args = Bundle()
             args.putString("ARGS_ID", simpleArgs)
-            val fragment = DetailMateriFragment(clicked)
+            val fragment = DetailMateriFragment()
+            fragment.clicked = clicked
             fragment.arguments = args
             return fragment
         }

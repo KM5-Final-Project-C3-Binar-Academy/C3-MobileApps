@@ -62,7 +62,8 @@ class HomeFragment : Fragment() {
         binding.etSearch.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // Do something when the EditText is focused
-                findNavController().navigate(R.id.searchFragment)
+                val bundle = bundleOf( "CURRID" to R.id.homeFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
             }
 
         }
@@ -84,7 +85,7 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.courseFragment, bundle, navOptions)
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.homeFragment)
 
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
