@@ -62,10 +62,11 @@ class WelcomeActivity : AppCompatActivity() {
             if (pager.currentItem + 1 < welcomeSlideAdapter.itemCount) {
                 pager.currentItem += 1
             } else {
-                Intent(applicationContext, MainActivity::class.java).also {
-                    startActivity(it)
+
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.putExtra("onboarding", "onboarding")
+                    startActivity(intent)
                     finish()
-                }
             }
         }
 
