@@ -12,18 +12,21 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
+import java.io.File
 
 class UserRepository(private val apiServiceUser: ApiServiceUser) {
 
     suspend fun getUser(token:String) = apiServiceUser.getUser(token)
-    suspend fun updateUser(token: String, updatedField:EditUser): AuthResponse {
-        val nameRequestBody  = updatedField.name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val emailRequestBody = updatedField.email.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val phoneRequestBody = updatedField.phone_number.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val imageRequestBody = updatedField.image.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val imagePart = MultipartBody.Part.createFormData("image", updatedField.image.name, imageRequestBody)
+    suspend fun updateUser(token: String, updatedField:EditUser, image: File): AuthResponse {
+        val nameRequestBody  = updatedField.name?.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val emailRequestBody = updatedField.email?.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val phoneRequestBody = updatedField.phone_number?.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val imageRequestBody = image.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val imagePart = MultipartBody.Part.createFormData("image", image.name, imageRequestBody)
 
         return apiServiceUser.updateUser(token,nameRequestBody, emailRequestBody, phoneRequestBody, imagePart)
     }
+
+    suspend fun updateUserWithoutImage(token: String, updatedField: EditUser): AuthResponse = apiServiceUser.updateUserWithoutImage(token,updatedField)
     suspend fun editPass(token: String, updateField: EditPassword) : Response<AuthResponse> = apiServiceUser.updatePassword(token,updateField)
 }

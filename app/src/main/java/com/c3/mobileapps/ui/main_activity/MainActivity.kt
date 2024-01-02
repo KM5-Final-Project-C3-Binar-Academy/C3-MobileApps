@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity(){
                 R.id.confirmPaymentFragment -> setBottomNav(true)
                 R.id.viewAllKelasFragment -> setBottomNav(true)
                 R.id.historyPaymentFragment -> setBottomNav(true)
+                R.id.editProfileFragment -> setBottomNav(true)
+                R.id.editPasswordFragment -> setBottomNav(true)
                 else -> setBottomNav(false)
             }
         }
