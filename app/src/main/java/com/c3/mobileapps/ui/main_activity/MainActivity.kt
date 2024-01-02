@@ -10,7 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.databinding.ActivityMainBinding
-import com.c3.mobileapps.utils.NotifHelper
+import com.c3.mobileapps.utils.NotificationHelper
 import com.c3.mobileapps.utils.Status
 import org.koin.android.ext.android.inject
 
@@ -41,7 +41,14 @@ class MainActivity : AppCompatActivity(){
                 getNotif()
                 graph.setStartDestination(R.id.homeFragment)
             } else {
-                graph.setStartDestination(R.id.loginFragment)
+                val bundle = intent.getStringExtra("onboarding").toString()
+                val onboard = "onboarding"
+                if (bundle == onboard){
+                    graph.setStartDestination(R.id.registerFragment)
+                }else{
+                    graph.setStartDestination(R.id.loginFragment)
+                }
+
             }
             navController.setGraph(graph, startDestinationArgs = null)
         }
@@ -51,6 +58,8 @@ class MainActivity : AppCompatActivity(){
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.loginFragment -> setBottomNav(true)
+                R.id.registerFragment -> setBottomNav(true)
                 R.id.searchFragment -> setBottomNav(true)
                 R.id.detailCourseFragment -> setBottomNav(true)
                 R.id.viewAllFragment -> setBottomNav(true)

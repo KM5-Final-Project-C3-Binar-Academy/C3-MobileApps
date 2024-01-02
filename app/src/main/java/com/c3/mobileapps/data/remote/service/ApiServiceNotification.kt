@@ -1,5 +1,6 @@
 package com.c3.mobileapps.data.remote.service
 
+import com.c3.mobileapps.data.remote.model.response.notification.NotificationIdResponse
 import com.c3.mobileapps.data.remote.model.response.notification.NotificationResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -24,11 +25,11 @@ interface ApiServiceNotification {
     suspend fun updateNotification(
         @Header("Authorization") token: String,
         @Path("id") id: String?
-    ): NotificationResponse
+    ): NotificationIdResponse
 
     @DELETE("user-notifications/{id}")
     suspend fun deleteNotification(
         @Header("Authorization") token: String,
         @Path("id") id: String?
-    ): NotificationResponse
+    ): NotificationIdResponse
 }

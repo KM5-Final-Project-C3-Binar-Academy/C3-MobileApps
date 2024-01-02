@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/viewAllKelasFragment">
+    app:startDestination="@id/registerFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.c3.mobileapps.ui.home.HomeFragment"
@@ -37,7 +37,11 @@
         android:id="@+id/detailCourseFragment"
         android:name="com.c3.mobileapps.ui.detailCourse.DetailCourseFragment"
         android:label="fragment_detail_course"
-        tools:layout="@layout/fragment_detail_course" />
+        tools:layout="@layout/fragment_detail_course" >
+        <action
+            android:id="@+id/action_detailCourseFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.c3.mobileapps.ui.search.SearchFragment"
@@ -99,4 +103,14 @@
         android:name="com.c3.mobileapps.ui.editPassword.EditPasswordFragment"
         android:label="fragment_edit_password"
         tools:layout="@layout/fragment_edit_password" />
+    <fragment
+        android:id="@+id/detailMateriFragment"
+        android:name="com.c3.mobileapps.ui.detailCourse.DetailMateriFragment"
+        android:label="fragment_detail_materi"
+        tools:layout="@layout/fragment_detail_materi" />
+    <fragment
+        android:id="@+id/detailTentangFragment"
+        android:name="com.c3.mobileapps.ui.detailCourse.DetailTentangFragment"
+        android:label="fragment_detail_tentang"
+        tools:layout="@layout/fragment_detail_tentang" />
 </navigation>

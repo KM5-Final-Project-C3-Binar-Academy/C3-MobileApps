@@ -49,7 +49,6 @@ class ViewAllFragment : Fragment() {
         //check bundle bawa data iscategory/ iskelas favorit
         val isCategory = arguments?.getBoolean("ModeView")
         setupRecyclerView(isCategory!!)
-        getCategory2()
         loadDataCategory()
         populerByCategory("All")
 
@@ -75,7 +74,7 @@ class ViewAllFragment : Fragment() {
                 findNavController().navigate(R.id.courseFragment,bundle,navOptions)
             })
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to R.id.viewAllFragment)
             findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
             onBadgelick = { course ->
@@ -106,35 +105,18 @@ class ViewAllFragment : Fragment() {
 
     private fun loadDataCategory() {
         lifecycleScope.launch {
+            homeViewModel.getLocalItem()
             homeViewModel.lisCategoryLocal.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+                Log.e("NEWLOCAL", "FROMDATABASE")
+                if (!database.isNullOrEmpty()) {
                     Log.d("data category", "list category view from database")
                     categoryAdapter.setData(database)
                     categoryFilterAdapter.setData(database)
                     showRvCategory()
-
+                }else{
+                    homeViewModel.getListCategory2()
                 }
             }
-        }
-    }
-
-
-    private fun getCategory2() {
-        homeViewModel.getListCategory2()
-        homeViewModel.listCategory2.observe(viewLifecycleOwner) { it ->
-            when (it.status) {
-                Status.SUCCESS -> {
-                }
-
-                Status.ERROR -> {
-                    Log.e("Data Category2", it.message.toString())
-                }
-
-                Status.LOADING -> {
-
-                }
-            }
-
         }
     }
 

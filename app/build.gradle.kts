@@ -5,11 +5,7 @@ plugins {
 	id ("kotlin-parcelize")
 	id ("kotlin-kapt")
 	id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
-
-
 
 android {
 	namespace = "com.c3.mobileapps"
@@ -56,10 +52,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:21.5.0")
 	implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
-	testImplementation("junit:junit:4.13.2")
-	androidTestImplementation("androidx.test.ext:junit:1.1.5")
-	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
 	/* Navigation */
 	implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
 	implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
@@ -105,8 +97,17 @@ dependencies {
 	implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 	implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 
-	// Testing
-	testImplementation("org.mockito:mockito-core:3.12.4")
-	testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-	testImplementation("io.mockk:mockk:1.12.0")
+	testImplementation("junit:junit:4.13.2")
+	androidTestImplementation("androidx.test.ext:junit:1.1.5")
+	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+	testImplementation ("androidx.test:core-ktx:1.5.0")
+	testImplementation ("androidx.arch.core:core-testing:2.1.0")
+	testImplementation ("org.mockito:mockito-core:4.6.0")
+	testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+	testImplementation ("org.mockito:mockito-inline:2.8.47")
+	testImplementation ("io.mockk:mockk:1.12.4")
+	testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+
+	//ViewPager
+	implementation ("androidx.viewpager2:viewpager2:1.0.0")
 }

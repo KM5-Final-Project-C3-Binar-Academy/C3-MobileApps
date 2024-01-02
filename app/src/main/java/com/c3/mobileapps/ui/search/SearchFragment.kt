@@ -26,6 +26,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchViewModel: SearchViewModel by inject()
     private lateinit var listCourseAdapter: ListCourseAdapter
+    private var currId: Int? = R.id.searchFragment
 
 
     override fun onCreateView(
@@ -34,6 +35,9 @@ class SearchFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        currId = arguments?.getInt("CURRID")
+
         setupRvCourse()
         binding.etSearch.requestFocus()
         binding.btnSearch.setOnClickListener {
@@ -94,8 +98,8 @@ class SearchFragment : Fragment() {
 
     private fun setupRvCourse() {
         listCourseAdapter = ListCourseAdapter(emptyList(), onItemClick = { pickItem ->
-            val bundle = bundleOf("pickItem" to pickItem)
-            findNavController().navigate(R.id.action_courseFragment_to_detailCourseFragment, bundle)
+            val bundle = bundleOf("pickItem" to pickItem, "CURRID" to currId)
+            findNavController().navigate(R.id.detailCourseFragment, bundle)
         },
                 onBadgelick = { course ->
             val bottomSheetPayment = BottomSheetPayment(course, R.id.searchFragment)

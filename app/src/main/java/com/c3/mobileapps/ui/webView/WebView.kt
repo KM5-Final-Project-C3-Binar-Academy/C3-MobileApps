@@ -1,8 +1,6 @@
 package com.c3.mobileapps.ui.webView
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -10,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.response.course.CourseMaterial
-import com.c3.mobileapps.data.remote.model.response.updateCourseMaterial.DataMaterialStatus
 import com.c3.mobileapps.databinding.ActivityWebViewBinding
 import com.c3.mobileapps.utils.Status
 import com.google.gson.Gson
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import org.koin.android.ext.android.inject
 
 

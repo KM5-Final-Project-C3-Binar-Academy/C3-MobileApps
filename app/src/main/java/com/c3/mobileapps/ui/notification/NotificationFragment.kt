@@ -32,6 +32,7 @@ class NotificationFragment : Fragment() {
     private val notificationViewModel: NotificationViewModel by inject()
     private val mainViewModel: MainViewModel by inject()
     private lateinit var notifAdapter: NotifAdapter
+    private var isDataLoading = false
 
 
     override fun onCreateView(
@@ -48,31 +49,42 @@ class NotificationFragment : Fragment() {
 
         setRecyclerView()
         getNotification()
-        readAllNotif()
     }
 
     private fun readAllNotif() {
         binding.readAll.setOnClickListener {
-            notificationViewModel.readAllNotif()
-            notificationViewModel.notifResp.observe(viewLifecycleOwner) {
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        val bottomNavigationView: BottomNavigationView? =
-                            activity?.findViewById(R.id.bottom_navigation)
-                        bottomNavigationView?.removeBadge(R.id.notificationFragment)
-                        showRecyclerView()
-                    }
+            if (!isDataLoading) {
+                isDataLoading = true
+                notificationViewModel.readAllNotif()
+                notificationViewModel.notifResp.observe(viewLifecycleOwner) {
 
-                    Status.LOADING -> {
-                        binding.shimmerFrameLayout.startShimmer()
-                    }
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            notificationViewModel.notifResp.removeObservers(viewLifecycleOwner)
+                            getNotification()
 
-                    Status.ERROR -> {
-                        binding.shimmerFrameLayout.apply {
-                            stopShimmer()
-                            visibility = View.GONE
+                            val bottomNavigationView: BottomNavigationView? =
+                                activity?.findViewById(R.id.bottom_navigation)
+                            bottomNavigationView?.removeBadge(R.id.notificationFragment)
+
+                            Log.e("Notif", it.data?.data?.size.toString())
+                            isDataLoading = false
+
                         }
-                        binding.emptyData.visibility = View.VISIBLE
+
+                        Status.LOADING -> {
+                            binding.shimmerFrameLayout.startShimmer()
+                            isDataLoading = false
+                        }
+
+                        Status.ERROR -> {
+                            binding.shimmerFrameLayout.apply {
+                                stopShimmer()
+                                visibility = View.GONE
+                            }
+                            binding.emptyData.visibility = View.VISIBLE
+                            isDataLoading = false
+                        }
                     }
                 }
             }
@@ -86,10 +98,10 @@ class NotificationFragment : Fragment() {
                 Status.SUCCESS -> {
                     it.data?.let { resp ->
                         if (resp.data.isNotEmpty()) {
-                            binding.emptyData.visibility = View.GONE
                             notifAdapter.setData(resp.data)
                             swipeToDelete(resp.data)
                             showRecyclerView()
+                            readAllNotif()
                         } else {
                             binding.rvNotif.visibility = View.GONE
                             binding.emptyData.visibility = View.VISIBLE
@@ -99,6 +111,7 @@ class NotificationFragment : Fragment() {
                             }
                         }
                     }
+
                 }
 
                 Status.LOADING -> {
@@ -127,21 +140,42 @@ class NotificationFragment : Fragment() {
 
     private fun setRecyclerView() {
         notifAdapter = NotifAdapter(emptyList(), listener = {
-            Log.e("Clicked", it.toString())
-            notificationViewModel.readNotif(it.id!!)
-            notificationViewModel.notifResp.observe(viewLifecycleOwner) { it1 ->
-                when (it1.status) {
-                    Status.SUCCESS -> {
-                        Log.e("Clicked", it1.status.toString())
-                        Toast.makeText(requireContext(),"Dibaca",Toast.LENGTH_SHORT).show()
-                    }
+            if (!isDataLoading) {
+                isDataLoading = true
+                Log.e("Clicked", it.toString())
+                notificationViewModel.readNotif(it.id!!)
+                notificationViewModel.notifIdResp.observe(viewLifecycleOwner) { readNotifResponse ->
+                    when (readNotifResponse.status) {
+                        Status.SUCCESS -> {
+                            val bottomNavigationView: BottomNavigationView? =
+                                activity?.findViewById(R.id.bottom_navigation)
+                            val badge = bottomNavigationView?.getBadge(R.id.notificationFragment)
 
-                    Status.LOADING -> {
-                        Log.e("Clicked", it1.status.toString())
-                    }
+                            Log.e("Clicked", readNotifResponse.toString())
+                            getNotification()
+                            isDataLoading = false
+                            notificationViewModel.notifIdResp.removeObservers(viewLifecycleOwner)
+                            if (badge?.number != 0){
+                                badge?.number = badge?.number?.minus(1)!!
+                            }else{
+                                bottomNavigationView.removeBadge(R.id.notificationFragment)
+                            }
 
-                    Status.ERROR -> {
-                        Log.e("Clicked", it1.message.toString())
+                        }
+
+                        Status.LOADING -> {
+                            binding.shimmerFrameLayout.startShimmer()
+                            isDataLoading = false
+                        }
+
+                        Status.ERROR -> {
+                            binding.shimmerFrameLayout.apply {
+                                stopShimmer()
+                                visibility = View.GONE
+                            }
+                            binding.emptyData.visibility = View.VISIBLE
+                            isDataLoading = false
+                        }
                     }
                 }
             }
@@ -177,18 +211,30 @@ class NotificationFragment : Fragment() {
                 notifAdapter.setData(afterDeletedList)
 
                 notificationViewModel.deleteNotif(deletedData.id!!)
-                notificationViewModel.notifResp.observe(viewLifecycleOwner){
+                notificationViewModel.notifIdResp.observe(viewLifecycleOwner) {
                     when (it.status) {
                         Status.SUCCESS -> {
-                            Snackbar.make(binding.root, "Notifikasi Berhasil DIhapus", Snackbar.LENGTH_SHORT)
+                            Snackbar.make(
+                                binding.root,
+                                "Notifikasi Berhasil DIhapus",
+                                Snackbar.LENGTH_SHORT
+                            )
                                 .setBackgroundTint(
                                     ContextCompat.getColor(
                                         requireContext(),
                                         R.color.primary
                                     )
                                 )
-                                .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                                .setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.white
+                                    )
+                                )
                                 .show()
+                            getNotification()
+                            notificationViewModel.notifIdResp.removeObservers(viewLifecycleOwner)
+
 
                         }
 
@@ -197,7 +243,6 @@ class NotificationFragment : Fragment() {
 
                         Status.ERROR -> {
                             notifAdapter.setData(originalData)
-
                             // Handle error state if needed
                             Snackbar.make(
                                 binding.root,
@@ -210,7 +255,12 @@ class NotificationFragment : Fragment() {
                                         R.color.red
                                     )
                                 )
-                                .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                                .setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.white
+                                    )
+                                )
                                 .show()
 
                         }

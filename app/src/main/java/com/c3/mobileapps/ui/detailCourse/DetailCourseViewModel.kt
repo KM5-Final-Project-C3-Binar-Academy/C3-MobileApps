@@ -20,22 +20,22 @@ class DetailCourseViewModel(private val repository: DataRepository, private val 
 
 
 
-    private var _courseById: MutableLiveData<Resource<CourseIdResponse>> = MutableLiveData()
-    val courseById: LiveData<Resource<CourseIdResponse>> get() = _courseById
-
-    fun getCourseById(id: String?) = viewModelScope.launch {
-        getCourse(id)
-    }
-
-    private suspend fun getCourse(id: String? = null) {
-        try {
-            val responses = repository.remote.getCourseId(id = id)
-            _courseById.value = Resource.success(responses)
-
-        } catch (exception: Exception) {
-            _courseById.value = Resource.error(null, exception.message ?: "Error Occurred!")
-        }
-    }
+//    private var _courseById: MutableLiveData<Resource<CourseIdResponse>> = MutableLiveData()
+//    val courseById: LiveData<Resource<CourseIdResponse>> get() = _courseById
+//
+//    fun getCourseById(id: String?) = viewModelScope.launch {
+//        getCourse(id)
+//    }
+//
+//    private suspend fun getCourse(id: String? = null) {
+//        try {
+//            val responses = repository.remote.getCourseId(id = id)
+//            _courseById.value = Resource.success(responses)
+//
+//        } catch (exception: Exception) {
+//            _courseById.value = Resource.error(null, exception.message ?: "Error Occurred!")
+//        }
+//    }
 
     private var _listKelas: MutableLiveData<Resource<CourseMaterialResponse>> = MutableLiveData()
     val listKelas: LiveData<Resource<CourseMaterialResponse>> get() = _listKelas
