@@ -133,6 +133,8 @@ class LoginFragment : Fragment() {
 		builder.setView(dialogLayout)
 		builder.setPositiveButton("Kirim Email") {dialogInterface, i ->
 			sendResetPassword(requireView(), editText.text.toString())
+			// Hilangkan Fokus keyboard setelah tekan tombol
+			hideKeyboard()
 		}
 		builder.show()
 	}
@@ -148,7 +150,7 @@ class LoginFragment : Fragment() {
 		loginViewModel.loginResponse.observe(viewLifecycleOwner, Observer { res ->
 
 			when(res.code()) {
-				200 -> {
+				201 -> {
 					snackbar.showSnackbarUtils("Link Reset Password telah dikirim! Cek Email, ya?", false, layoutInflater,requireView(),requireContext())
 				}
 
