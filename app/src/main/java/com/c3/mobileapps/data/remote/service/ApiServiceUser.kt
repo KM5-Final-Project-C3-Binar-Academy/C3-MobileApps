@@ -26,10 +26,17 @@ interface ApiServiceUser {
     @PUT("users/me")
     suspend fun updateUser(
         @Header("Authorization") token: String,
-        @Part("name") name: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("phone_number") phone_number: RequestBody,
-        @Part image: MultipartBody.Part
+        @Part("name") name: RequestBody?,
+        @Part("email") email: RequestBody?,
+        @Part("phone_number") phoneNumber: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ): AuthResponse
+
+
+    @PUT("users/me")
+    suspend fun updateUserWithoutImage(
+        @Header("Authorization") token: String,
+        @Body updatedUser: EditUser
     ): AuthResponse
 
     @PUT("/users/me/password-reset")

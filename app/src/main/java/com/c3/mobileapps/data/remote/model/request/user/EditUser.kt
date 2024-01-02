@@ -6,8 +6,8 @@ import okhttp3.RequestBody
 import java.io.File
 
 data class EditUser(
-	val name: String,
-	val email: String,
-	val phone_number: String,
-	val image: File
+	val name: String?,
+	val email: String?,
+	val phone_number: String?,
+	val image: String?
 )

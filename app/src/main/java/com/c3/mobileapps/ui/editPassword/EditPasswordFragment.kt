@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.c3.mobileapps.R
 import com.c3.mobileapps.data.remote.model.request.user.EditPassword
+import com.c3.mobileapps.data.remote.model.response.user.User
 import com.c3.mobileapps.databinding.FragmentEditPasswordBinding
 import com.c3.mobileapps.utils.CustomSnackbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,63 +36,72 @@ class EditPasswordFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		onAttach(requireContext())
 
 		binding.constraintedtPass.visibility = View.INVISIBLE
 
-		binding.btnUbahPassword.setOnClickListener{
-			// Get Data from EditText
-			val oldPassword = binding.inputOldPassword.text.toString()
-			val newPassword = binding.inputNewPassword.text.toString()
-			val cekPassword = binding.inputConfirmPassword.text.toString()
-
-			// Verification That New Password is Correctly
-			if (newPassword == cekPassword) {
-				// Hilangkan Fokus Keyboard
-				hideKeyboard()
-
-				// Starting Loading...
-				binding.constraintedtPass.visibility = View.VISIBLE
-
-				// Wrap into Dataclass
-				val modelData = EditPassword(oldPassword,newPassword)
-
-				// send data into ViewModel
-				editPasswordViewModel.editPass(modelData)
-
-				// Handle response in API Server
-				editPasswordViewModel.edtPassResp.observe(viewLifecycleOwner, Observer {res ->
-					when (res.code()) {
-						200 -> {
-							snackbar.showSnackbarUtils("Berhasil Mengganti Password", false, layoutInflater, requireView(), requireContext())
-							findNavController().popBackStack()
-						}
-
-						400 -> {
-							snackbar.showSnackbarUtils("Terjadi Kesalahan. Coba Lagi!", true , layoutInflater, requireView(), requireContext())
-						}
-
-						401 -> {
-							snackbar.showSnackbarUtils("Password Lama tidak sesuai!", true , layoutInflater, requireView(), requireContext())
-						}
-
-						419 -> {
-							snackbar.showSnackbarUtils("Password baru tidak boleh sama!", true , layoutInflater, requireView(), requireContext())
-						}
-					}
-
-					// Finish Loading..
-					binding.constraintedtPass.visibility = View.INVISIBLE
-				})
-
-			} else {
-				// Not Correct, Notice User with snackbar
-				snackbar.showSnackbarUtils("Password Baru tidak cocok dengan konfirmasi. Coba Lagi!", true, layoutInflater, requireView(), requireContext())
-			}
-		}
+		editPassword()
 
 		binding.ivBack.setOnClickListener {
 			findNavController().popBackStack()
+		}
+	}
+
+	private fun editPassword() {
+		binding.apply {
+			btnUbahPassword.setOnClickListener{
+				// Get Data from EditText
+				val oldPassword = binding.inputOldPassword.text.toString()
+				val newPassword = binding.inputNewPassword.text.toString()
+				val cekPassword = binding.inputConfirmPassword.text.toString()
+
+				if(inputOldPassword.text.isNullOrEmpty()){
+					inputOldPassword.error = "Data Tidak Boleh Kosong"
+					inputOldPassword.requestFocus()
+				} else if(inputNewPassword.text.isNullOrEmpty()){
+					inputNewPassword.error = "Data Tidak Boleh Kosong"
+					inputNewPassword.requestFocus()
+				} else if(inputConfirmPassword.text.isNullOrEmpty()){
+					inputConfirmPassword.error = "Data Tidak Boleh Kosong"
+					inputConfirmPassword.requestFocus()
+				} else if(newPassword != cekPassword){
+					inputConfirmPassword.error = "Password Baru Tidak Sesuai"
+					inputConfirmPassword.requestFocus()
+				}else{
+					// Verification That New Password is Correctly
+					hideKeyboard()
+					// Starting Loading...
+					binding.constraintedtPass.visibility = View.VISIBLE
+					// Wrap into Dataclass
+					val modelData = EditPassword(oldPassword,newPassword)
+					// send data into ViewModel
+					editPasswordViewModel.editPass(modelData)
+					// Handle response in API Server
+					editPasswordViewModel.edtPassResp.observe(viewLifecycleOwner, Observer {res ->
+						when (res.code()) {
+							200 -> {
+								snackbar.showSnackbarUtils("Berhasil Mengganti Password", false, layoutInflater, requireView(), requireContext())
+								findNavController().navigate(R.id.loginFragment)
+							}
+
+							400 -> {
+								snackbar.showSnackbarUtils("Terjadi Kesalahan. Coba Lagi!", true , layoutInflater, requireView(), requireContext())
+							}
+
+							401 -> {
+								snackbar.showSnackbarUtils("Password Lama tidak sesuai!", true , layoutInflater, requireView(), requireContext())
+							}
+
+							419 -> {
+								snackbar.showSnackbarUtils("Password baru tidak boleh sama!", true , layoutInflater, requireView(), requireContext())
+							}
+						}
+
+						// Finish Loading..
+						binding.constraintedtPass.visibility = View.INVISIBLE
+					})
+				}
+
+			}
 		}
 	}
 
@@ -102,18 +112,6 @@ class EditPasswordFragment : Fragment() {
 	private fun Context.hideKeyboard(view: View) {
 		val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-	}
-
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.GONE
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottom_navigation)
-		bottomNavigationView?.visibility = View.VISIBLE
 	}
 
 }

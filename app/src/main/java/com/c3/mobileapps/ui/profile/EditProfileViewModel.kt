@@ -11,6 +11,7 @@ import com.c3.mobileapps.data.remote.model.response.user.User
 import com.c3.mobileapps.data.repository.UserRepository
 import com.c3.mobileapps.utils.Resource
 import kotlinx.coroutines.launch
+import java.io.File
 
 class EditProfileViewModel(private val userRepo: UserRepository, private val sharedPref: SharedPref) : ViewModel() {
 	private val token: String =  sharedPref.getToken()
@@ -18,17 +19,17 @@ class EditProfileViewModel(private val userRepo: UserRepository, private val sha
 	private var _userResp: MutableLiveData<Resource<AuthResponse>> = MutableLiveData()
 	val userResp: LiveData<Resource<AuthResponse>> get() = _userResp
 
-	fun getCurrentUser() = viewModelScope.launch {
-		getUser()
+	fun updateUser(user: EditUser, image: File) = viewModelScope.launch {
+		setUser(user, image)
 	}
 
-	fun setUpdateUser(user: EditUser) = viewModelScope.launch {
-		setUser(user)
+	fun updateUserWithoutImage(user: EditUser) = viewModelScope.launch {
+		setUserWithoutImage(user)
 	}
 
-	private suspend fun getUser() {
+	private suspend fun setUser(user: EditUser, image:File){
 		try {
-			val responses = userRepo.getUser(token)
+			val responses = userRepo.updateUser(token,user,image)
 			_userResp.value = Resource.success(responses)
 
 		} catch (exception: Exception) {
@@ -36,9 +37,9 @@ class EditProfileViewModel(private val userRepo: UserRepository, private val sha
 		}
 	}
 
-	private suspend fun setUser(user: EditUser){
+	private suspend fun setUserWithoutImage(user: EditUser){
 		try {
-			val responses = userRepo.updateUser(token,user)
+			val responses = userRepo.updateUserWithoutImage(token,user)
 			_userResp.value = Resource.success(responses)
 
 		} catch (exception: Exception) {
