@@ -24,6 +24,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="#7D6AF4"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:menu="@menu/bottom_nav_menu"
         tools:ignore="VisualLintBottomNav" />
 

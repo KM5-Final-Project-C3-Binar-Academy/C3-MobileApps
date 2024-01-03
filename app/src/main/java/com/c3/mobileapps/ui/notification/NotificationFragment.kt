@@ -102,6 +102,20 @@ class NotificationFragment : Fragment() {
                             swipeToDelete(resp.data)
                             showRecyclerView()
                             readAllNotif()
+
+                            val unViewed = resp.data.count {notif ->
+                                notif.viewed == false
+                            }
+                            val bottomNavigationView: BottomNavigationView? =
+                                activity?.findViewById(R.id.bottom_navigation)
+                            val badge = bottomNavigationView?.getOrCreateBadge(R.id.notificationFragment)
+
+                            if (unViewed != 0){
+                                badge?.number = unViewed
+                            }else{
+                                bottomNavigationView?.removeBadge(R.id.notificationFragment)
+
+                            }
                         } else {
                             binding.rvNotif.visibility = View.GONE
                             binding.emptyData.visibility = View.VISIBLE

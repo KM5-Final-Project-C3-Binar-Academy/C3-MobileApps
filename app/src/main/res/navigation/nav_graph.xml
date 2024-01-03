@@ -54,7 +54,7 @@
         tools:layout="@layout/fragment_view_all" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.c3.mobileapps.ui.profile.EditProfileFragment"
+        android:name="com.c3.mobileapps.ui.editProfile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment

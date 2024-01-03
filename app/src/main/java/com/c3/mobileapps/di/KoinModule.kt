@@ -24,7 +24,7 @@ import com.c3.mobileapps.ui.main_activity.MainViewModel
 import com.c3.mobileapps.ui.notification.NotificationViewModel
 import com.c3.mobileapps.ui.otp.OtpViewModel
 import com.c3.mobileapps.ui.payment.PaymentViewModel
-import com.c3.mobileapps.ui.profile.EditProfileViewModel
+import com.c3.mobileapps.ui.editProfile.EditProfileViewModel
 import com.c3.mobileapps.ui.profile.ProfileViewModel
 import com.c3.mobileapps.ui.register.RegisterViewModel
 import com.c3.mobileapps.ui.splash_screen.SplashViewModel

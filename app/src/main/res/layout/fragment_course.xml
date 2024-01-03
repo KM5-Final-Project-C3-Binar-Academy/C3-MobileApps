@@ -87,53 +87,49 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/cpAll"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/ChipTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+
             android:checkable="true"
-            android:checked="true"
             android:clickable="true"
-            android:focusable="true"
-            android:text="All"
+            android:layout_marginTop="10dp"
+            android:text="@string/all"
             app:layout_constraintEnd_toStartOf="@id/cpKelasPremium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelKelasBerjalan"
-            tools:ignore="HardcodedText,TextContrastCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/labelKelasBerjalan"/>
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/ChipTheme"
             android:id="@+id/cpKelasPremium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
             android:clickable="true"
-            android:text="premium"
+            android:text="@string/premium"
             app:layout_constraintStart_toEndOf="@+id/cpAll"
             app:layout_constraintTop_toTopOf="@+id/cpAll"
             app:layout_constraintEnd_toStartOf="@id/cpKelasGratis"
-            android:focusable="true"
-            tools:ignore="HardcodedText" />
+            android:focusable="true" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/ChipTheme"
             android:id="@+id/cpKelasGratis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="gratis"
             android:checkable="true"
             android:clickable="true"
+            android:text="@string/gratis"
             app:layout_constraintStart_toEndOf="@+id/cpKelasPremium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cpKelasPremium"
-            android:focusable="true"
-            tools:ignore="HardcodedText" />
+            android:focusable="true" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerFrameLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"
@@ -154,6 +150,7 @@
             android:id="@+id/rvCourse"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cpKelasPremium"

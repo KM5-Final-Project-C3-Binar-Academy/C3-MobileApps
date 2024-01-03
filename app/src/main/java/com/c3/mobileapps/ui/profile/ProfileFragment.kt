@@ -37,13 +37,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-       binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
-       return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         binding.tvChangePassword.setOnClickListener {
             findNavController().navigate(R.id.editPasswordFragment)
         }
@@ -57,19 +51,19 @@ class ProfileFragment : Fragment() {
         }
 
         checkIsLogin()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
     }
 
-    override fun onResume() {
-        checkIsLogin()
-        super.onResume()
-    }
     private fun checkIsLogin() {
-        profileViewModel.isLogin.observe(viewLifecycleOwner){isLogin ->
-            if (isLogin){
+        profileViewModel.isLogin.observe(viewLifecycleOwner) { isLogin ->
+            if (isLogin) {
                 getCurrentUser()
-            }else{
+            } else {
                 val nonLoginBottomSheet = NonLoginBottomSheet(R.id.profileFragment)
                 nonLoginBottomSheet.isCancelable = false
                 nonLoginBottomSheet.show(childFragmentManager, nonLoginBottomSheet.tag)
@@ -77,9 +71,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun getCurrentUser(){
+    private fun getCurrentUser() {
         profileViewModel.getCurrentUser()
-        profileViewModel.userResp.observe(viewLifecycleOwner){
+        profileViewModel.userResp.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     Log.e("Cek Data Category", Gson().toJson(it.data))
@@ -110,7 +104,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun alertDialog(){
+    private fun alertDialog() {
         val builder = AlertDialog.Builder(context)
 
         builder.setTitle("Konfirmasi")
@@ -118,7 +112,13 @@ class ProfileFragment : Fragment() {
             .setPositiveButton("YA") { dialog, which ->
                 sharedPreferences.clearPreferences()
                 findNavController().navigate(R.id.loginFragment)
-                snackbar.showSnackbarUtils("Berhasil Logout!", false, layoutInflater, requireView(), requireContext())
+                snackbar.showSnackbarUtils(
+                    "Berhasil Logout!",
+                    false,
+                    layoutInflater,
+                    requireView(),
+                    requireContext()
+                )
             }
             .setNegativeButton("TIDAK") { dialog, which ->
                 dialog.dismiss()
