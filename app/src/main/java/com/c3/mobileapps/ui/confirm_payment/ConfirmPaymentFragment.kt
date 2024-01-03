@@ -1,6 +1,5 @@
 package com.c3.mobileapps.ui.confirm_payment
 
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -16,6 +15,7 @@ import com.c3.mobileapps.ui.payment.OnBoardingBottomSheet
 import com.c3.mobileapps.utils.Status
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 

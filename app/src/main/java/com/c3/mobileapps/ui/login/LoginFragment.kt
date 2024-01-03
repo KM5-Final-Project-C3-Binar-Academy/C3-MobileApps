@@ -21,7 +21,9 @@ import com.c3.mobileapps.R
 import com.c3.mobileapps.data.local.SharedPref
 import com.c3.mobileapps.databinding.FragmentLoginBinding
 import com.c3.mobileapps.ui.customAlertDialog.ProgressBarDialog
+import com.c3.mobileapps.ui.main_activity.MainViewModel
 import com.c3.mobileapps.utils.CustomSnackbar
+import com.c3.mobileapps.utils.Status
 import com.c3.mobileapps.utils.ValidasiHelper.checkCharacter
 import com.c3.mobileapps.utils.ValidasiHelper.isValidInput
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -32,6 +34,7 @@ import java.lang.Exception
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val loginViewModel: LoginViewModel by inject()
+    private val mainViewModel: MainViewModel by inject()
     private val sharedPreferences: SharedPref by inject()
     private val snackbar = CustomSnackbar() // Custom Snackbar Object Class
 
@@ -110,6 +113,7 @@ class LoginFragment : Fragment() {
 
                         sharedPreferences.setIsLogin(true)
                         sharedPreferences.setToken("Bearer ${data?.token}")
+                        getNotif()
                         // Intent to Homepage
                         findNavController().navigate(R.id.homeFragment)
                         binding.constraintLogin.visibility = View.INVISIBLE
@@ -258,6 +262,35 @@ class LoginFragment : Fragment() {
             override fun afterTextChanged(text: Editable) {}
         })
 
+    }
+
+    private fun getNotif() {
+        mainViewModel.getListNotif()
+        mainViewModel.notifResp.observe(viewLifecycleOwner) { res ->
+            when (res.status) {
+                Status.SUCCESS -> {
+
+                    val unViewed = res.data?.data?.count {
+                        it.viewed == false
+                    }
+
+                    if (unViewed != 0){
+                        val bottomNavigationView: BottomNavigationView? =
+                            activity?.findViewById(R.id.bottom_navigation)
+                        val badge = bottomNavigationView?.getOrCreateBadge(R.id.notificationFragment)
+                        badge?.number = unViewed!!
+                    }
+
+
+                }
+
+                Status.LOADING -> {
+                }
+
+                Status.ERROR -> {
+                }
+            }
+        }
     }
 
 

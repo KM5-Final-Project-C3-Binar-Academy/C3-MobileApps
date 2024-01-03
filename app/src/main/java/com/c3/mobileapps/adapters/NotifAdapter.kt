@@ -1,20 +1,21 @@
 package com.c3.mobileapps.adapters
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.c3.mobileapps.data.remote.model.response.notification.Notification
 import com.c3.mobileapps.databinding.ItemNotificationBinding
 import com.c3.mobileapps.utils.DiffUtils
-import java.time.ZonedDateTime
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 class NotifAdapter(private var data:List<Notification>,
                    private var listener: ((Notification) -> Unit)?
 )
@@ -52,7 +53,20 @@ class NotifAdapter(private var data:List<Notification>,
 
             binding.tvTitleNotif.text = data.name
             binding.DescNotif.text = data.description
-            binding.TextClockNotif.text = convertDateFormat(data.createdAt!!)
+
+
+
+            val originalDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            val targetDateFormat = SimpleDateFormat("dd MMM, HH.mm", Locale("id", "ID"))
+
+            originalDateFormat.timeZone = TimeZone.getTimeZone("WIB")
+
+            val createdTimestamp = data.createdAt!!
+            val parsedDate: Date = originalDateFormat.parse(createdTimestamp)!!
+
+            val formattedDate: String = targetDateFormat.format(parsedDate)
+
+            binding.TextClockNotif.text = formattedDate
 
             if (data.viewed == true){
                 binding.StatusBarGreen.visibility = View.VISIBLE
@@ -63,13 +77,5 @@ class NotifAdapter(private var data:List<Notification>,
             }
 
         }
-
-
-        private fun convertDateFormat(dateTime: String): String {
-            val formatter = DateTimeFormatter.ofPattern("dd MMM, HH:mm", Locale.getDefault())
-            val zonedDateTime = ZonedDateTime.parse(dateTime)
-            return formatter.format(zonedDateTime)
-        }
-
     }
 }
