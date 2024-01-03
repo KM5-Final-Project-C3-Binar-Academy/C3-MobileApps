@@ -1,4 +1,4 @@
-package com.c3.mobileapps.ui.profile
+package com.c3.mobileapps.ui.editProfile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
